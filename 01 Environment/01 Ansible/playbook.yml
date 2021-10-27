@@ -54,14 +54,15 @@
       group: "{{ group }}"
       mode: 0640
 
-  - name: 
-  replace:
+  - name: uncomment wheel for no password
+    replace:
       path: /etc/sudoers
       regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
       replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
     become: yes
 
-  - replace:
+  - name: comment out users in wheel to run all commands
+    replace:
       path: /etc/sudoers
       regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
       replace: '# %wheel  ALL=(ALL)       ALL'
