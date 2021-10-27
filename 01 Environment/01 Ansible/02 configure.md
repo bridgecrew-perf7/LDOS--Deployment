@@ -7,6 +7,8 @@ In this lab we're going to:
 * configure ansible Nodes
 
 * create SSH-keys
+* update Inventory hosts
+* set host_key_checking
 
 ---
 
@@ -77,22 +79,22 @@ add the node IPs:
 node1 ansible_host=10.0.0.2
 node2 ansible_host=10.0.0.3
 node3 ansible_host=10.0.0.4
+```
+and save..  
+Ctrl o
+Return 
+Ctrl x
 
-```
-check the inventory hosts file has been modified:
-```
-cat hosts | head -20
-```
-check connectivity:
-```
-ansible all -m ping
-```
-look for ping pong..  & check for python ..  should be 2.7 for the moment.
+</br>
 
-for a specfic node(s):
+**set host_key_checking**   
+you will need to disable SSH key host checking.
+
+edit the ansible.cfg file:
 ```
-ansible 10.0.0.2 -m ping
+sudo nano ansible.cfg
 ```
+uncomment the line (71): host_key_checking = False
 
 
 ---
