@@ -3,31 +3,28 @@
 Ansible playbook to configure prerequisites for Kubespray on CentOS7
 
 Prerequisites for the CentOS7 machines:
-* SSH access using password with a user who has root permissions (centos in example)
-* A public key generated on your local machine
+* SSH access using password with a user who has root permissions
+* A public key generated on your Ansible Controller
 
 This playbook will:
 * Update packages
 * Install network tools
 * Install and configure ntpd
-* disable firewall
-* disable swap
-* enable passwordless sudo
-* enable passwordless SSH
-* set hostname
-
-
-```
+* Disable firewall
+* Disable swap
+* Enable passwordless sudo
+* Enable passwordless SSH
+* Set hostname
 
 Run the playbook. 
-Define variables:
+Define extra variables:
 root user: centos
 root password: centos
 group: centos
 path to public key: ~/.ssh/id_rsa.pub 
 
 ```
-$ ansible-playbook -i hosts.ini -u centos -k playbook.yml --extra-vars "ansible_sudo_pass=centos  user=centos group=centos pubkeypath=~/.ssh/id_rsa.pub"
+ansible-playbook -u centos -k /etc/ansible/playbooks/playbook.yml --extra-vars "ansible_sudo_pass=centos  user=centos group=centos pubkeypath=~/.ssh/id_rsa.pub"
 ```
 
 check you can ssh into the Nodes:
