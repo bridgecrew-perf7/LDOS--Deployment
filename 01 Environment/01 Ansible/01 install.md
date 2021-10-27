@@ -1,4 +1,4 @@
-## <font color='red'>1.1 Installation of Ansible</font>
+## <font color='red'>Installation of Ansible</font>
 Ansible is an open source IT Configuration Management, Deployment & Orchestration tool. It aims to provide large productivity gains to a wide variety of automation challenges. This tool is very simple to use yet powerful enough to automate complex multi-tier IT application environments. 
 
 
@@ -7,6 +7,8 @@ In this lab we're going to:
 
 #### Note: Yum doesn't support Python3
 #### You are also going to find some minor differences between the videos and the Lab due to updates being released. Usually some patch or Firefox..!
+
+If you're new to Ansible you may want to take the course: LDS3013S - Introduction to Ansible.
 ---
 
 #### <font color='red'>Pre-requisties</font> 
