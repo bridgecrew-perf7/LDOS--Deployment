@@ -128,7 +128,7 @@ install Ansible :
 yum install ansible
 ```
 Note: you will get a keyboard error if you have set Python 3.5+ as default. Switch back to Python 2 - see section 'Python 3' 
-(alternatives --config python).1
+(alternatives --config python)
 
 verify ansible:
 ```
