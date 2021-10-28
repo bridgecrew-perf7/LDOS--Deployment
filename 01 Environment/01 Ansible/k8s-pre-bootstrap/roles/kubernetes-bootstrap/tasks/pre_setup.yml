@@ -1,0 +1,47 @@
+---
+- name: Put SELinux in permissive mode
+  selinux:
+    policy: targeted
+    state: "{{ selinux_state }}"
+
+- name: Update system packages
+  package:
+    name: "*"
+    state: latest
+
+- name: Install some packages needed to configure the nodes
+  ansible.builtin.package:
+    name: "{{ item }}"
+  loop:
+    - "{{ basic_packages }}"
+  
+- name: Disable firewalld service
+  ansible.builtin.service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: Create .ssh directory
+  file: path=~/.ssh state=directory owner="{{ user }}" group="{{ group }}" mode=700
+
+- name: Copy public key to authorized keys on Nodes
+  template:
+    src: "{{ pubkeypath }}"
+    dest: "~/.ssh/authorized_keys"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0640
+
+- name: Uncomment wheel for no password
+  replace:
+    path: /etc/sudoers
+    regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
+    replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
+  become: yes
+
+- name: Comment out users in wheel to run all commands
+  replace:
+    path: /etc/sudoers
+    regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
+    replace: '# %wheel  ALL=(ALL)       ALL'
+  become: yes    
