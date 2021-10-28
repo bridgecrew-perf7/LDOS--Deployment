@@ -1,5 +1,5 @@
 ---
-- name: Configure timezone on all nodes
+- name: Configure timezone to Asia/Toyko on all nodes
   community.general.timezone:
     name: "{{ timezone }}"
 
