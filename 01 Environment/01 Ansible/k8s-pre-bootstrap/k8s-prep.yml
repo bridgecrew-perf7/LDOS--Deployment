@@ -1,14 +1,16 @@
 ---
-- name: Setup Proxy
+- name: Declare Variables and Setup Proxy
   hosts: k8snodes
-  remote_user: root
+  remote_user: centos
+  
   become: yes
   become_method: sudo
   #gather_facts: no
   vars:
-    k8s_version: "1.22"                                  # Kubernetes version to be installed
+    pubkeypath: ~/.ssh/id_rsa.pub                        # Path to SSH key
+    k8s_version: "1.18"                                  # Kubernetes version to be installed
     selinux_state: permissive                            # SELinux state to be set on k8s nodes                 
-    timezone: "Africa/Nairobi"                           # Timezone to set on all nodes
+    timezone: "Asia/Tokyo"                               # Timezone to set on all nodes
     k8s_cni: calico                                      # calico, flannel
     container_runtime: cri-o                             # docker, cri-o, containerd 
     pod_network_cidr: "192.168.0.0/16"                   # pod subnet if using cri-o runtime
