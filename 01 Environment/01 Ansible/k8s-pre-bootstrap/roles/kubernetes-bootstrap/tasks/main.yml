@@ -32,7 +32,7 @@
   include: setup_crio.yml
   when: container_runtime == "containerd"
 
-- name: Include task to install  k8s packages
+- name: Include task to install k8s packages
   include: install_k8s_packages.yml
 
 - name: Include task to configure firewalld
