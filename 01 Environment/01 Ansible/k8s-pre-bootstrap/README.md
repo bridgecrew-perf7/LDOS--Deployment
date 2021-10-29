@@ -157,32 +157,9 @@ playbook: k8s-prep.yml
 
 Playbook executed as root user - with ssh key:
 ```
-ansible-playbook -u centos k8s-prep.yml --extra-vars
+ansible-playbook -u centos -k /etc/ansible/playbooks/k8s-prep.yml --extra-vars "ansible_sudo_pass=centos  user=centos group=centos pubkeypath=~/.ssh/id_rsa.pub"
 ```
 
-Playbook executed as root user - with password:
-
-```
-$ ansible-playbook -i hosts k8s-prep.yml --ask-pass
-```
-
-Playbook executed as sudo user - with password:
-
-```
-$ ansible-playbook -i hosts k8s-prep.yml --ask-pass --ask-become-pass
-```
-
-Playbook executed as sudo user - with ssh key and sudo password:
-
-```
-$ ansible-playbook -i hosts k8s-prep.yml --ask-become-pass
-```
-
-Playbook executed as sudo user - with ssh key and passwordless sudo:
-
-```
-$ ansible-playbook -i hosts k8s-prep.yml --ask-become-pass
-```
 
 Execution should be successful without errors:
 
