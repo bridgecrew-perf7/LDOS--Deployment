@@ -1,4 +1,4 @@
-## <font color='red'>k8s-pre-bootstrap role</font>
+## <font color='red'>k8s-pre-bootstrap Role</font>
 
 > This playbook helps you automate the standard Kubernetes bootstrapping pre-reqs.
 
@@ -29,13 +29,18 @@ This role will run the following tasks:
 
 #### <font color='red'>How to use this role</font>
 Clone the GitHub repository:
+```
+sudo git clone https://github.com/jporeilly/
+```
 
+The repository has the following structure:
+```
 k8s-pre-bootstrap
   - hosts         # example inventory ansible hosts
   - k8s-prep.yml  # move to /etc/ansible/playbooks
   roles
     - kubernetes-bootstrap folder # move to /etc/ansible/roles
-
+```
 Configure `/etc/hosts` file on the Ansible Controller with all nodes and ip addresses. 
 
 Example:
