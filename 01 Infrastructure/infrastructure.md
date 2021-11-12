@@ -1,5 +1,16 @@
 ## <font color='red'>Pre-requisites</font>
-The following pre-requiste steps have been completed and are listed just for reference.  
+The following pre-requiste steps have been completed and are listed just for Lab reference. 
+
+This reference section covers:
+  * Setup SkyTap Lab environment. 
+     
+  * Setup of LDOS 1.2.0 Master / Worker Nodes.  
+  * Setup of LDOS 1.2.0 Installer.
+  * Setup of Pentaho Server 9.1.0.2
+
+
+---
+
 
 ### <font color='red'>Skytap Lab</font>
 The SkyTap Lab environment is configured with: 
@@ -26,7 +37,7 @@ VM sequence: LDOS Master 1-3 : Pentaho Server 9.1.0.2 : LDOS 1.2.0 Installer
 ---
 
 
-### <font color='red'>LDOS 1.2.0 Master Nodes</font>
+### <font color='red'>LDOS 1.2.0 Master / Worker Nodes</font>
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
 add a 'k8s' user to the wheel group (log in as root):
