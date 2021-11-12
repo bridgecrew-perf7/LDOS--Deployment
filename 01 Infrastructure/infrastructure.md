@@ -124,4 +124,26 @@ install Git:
 apt install git
 ```
 
+
+### <font color='red'>SSH</font>
+Generate the required SSH keys to connect to LDOS nodes.
+
+generate ssh key:
+```
+ssh-keygen
+```
+Note: keys are located in .ssh directory.
+
+copy over key to k8s user on LDOS nodes:
+```
+ssh-copy-id k8s@10.0.0101 (10.0.0.102, 10.0.0.103)
+```
+Note: do not copy over private key  
+
+test passwordless ssh connection:
+```
+ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
+```
+
+
 ---
