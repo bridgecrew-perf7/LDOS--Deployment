@@ -2,18 +2,26 @@
 The following pre-requiste steps have been completed and are listed just for reference.  
 
 ### <font color='red'>Skytap Lab</font>
-The SkyTap Lab environment is configured with:  
+The SkyTap Lab environment is configured with: 
 
 SkyTap DNS: 10.0.0.254 - This is automatically assigned.  
 Domain Name: skytap.example  
 
-Pentaho Server 9.1.0.2: 10.0.0.1 - Unbuntu 18.0.4  
-LDOS 1.2.0 Master Node 1: 10.0.0.101 - CentOS 7.5  
-LDOS 1.2.0 Master Node 2: 10.0.0.102 - CentOS 7.5  
-LDOS 1.2.0 Master Node 3: 10.0.0.103 - CentOS 7.5  
-LDOS Installer: 10.0.0.99 - Ubuntu 18.0.4  
+| Server Name               | Host              |  IP address | OS               |
+| ------------------------- | ------------------| ----------- | ---------------- |
+| Pentaho Server 9.1.0.2    | pentaho-server-1  | 10.0.0.1    | Unbuntu 18.0.4   |
+| LDOS 1.2.0 Master Node 1  | k8s-master-node-1 | 10.0.0.101  | CentOS 7.5       |    
+| LDOS 1.2.0 Master Node 2  | k8s-master-node-2 | 10.0.0.102  | CentOS 7.5       |
+| LDOS 1.2.0 Master Node 3  | k8s-master-node-3 | 10.0.0.103  | CentOS 7.5       |
+| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 18.0.4   | 
+|
 
-VM sequence: LDOS Master 1-3 : Pentaho Server 9.1.0.2 : LDOS 1.2.0 Installer  
+
+VM sequence: LDOS Master 1-3 : Pentaho Server 9.1.0.2 : LDOS 1.2.0 Installer   
+
+
+![SkyTap Lab](assets/skytap_lab.png)
+
 
 ---
 
@@ -58,6 +66,9 @@ Ctrl +o
 enter
 Ctrl + x
 ```
+
+---
+
 
 ### <font color='red'>LDOS 1.2.0 Installer</font>
 This server has been configured with an 'installer' user with sudo privileges.  
@@ -124,8 +135,7 @@ install Git:
 apt install git
 ```
 
-
-### <font color='red'>SSH</font>
+#### <font color='red'>SSH</font>
 Generate the required SSH keys to connect to LDOS nodes.
 
 generate ssh key:
@@ -144,6 +154,47 @@ test passwordless ssh connection:
 ```
 ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ```
+
+
+---
+
+
+### <font color='red'>Pentaho Server</font>
+
+
+### <font color='red'>HA Proxy</font>
+Install the latest HAProxy using a PPA.
+
+  > browse to: https://haproxy.debian.net/
+
+ Note: use the wizard to generate commands.
+
+ enable PPA (log in as root):
+```
+ apt-get install --no-install-recommends software-properties-common
+ add-apt-repository ppa:vbernat/haproxy-2.4
+```
+then install:
+```
+apt-get install haproxy=2.4.\*
+```
+verify installation:
+```
+haproxy -v
+```
+update and upgrade:
+```
+sudo apt update && sudo apt upgrade -y
+```
+
+#### <font color='red'>Configure HAProxy</font>
+Configure HAProxy to load-balance across the cluster.
+
+the configuration file is located at:  
+/etc/haproxy/haproxy.cfg
+
+Details can be found at: 
+  > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
 
 
 ---
