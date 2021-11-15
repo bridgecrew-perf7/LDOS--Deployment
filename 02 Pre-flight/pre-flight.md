@@ -1,5 +1,7 @@
-## <font color='red'>Pre-requisites</font>
+## <font color='red'>Pre-flight</font>
 The following pre-requiste steps have been completed and are listed just for reference.  
+
+
 
 ### <font color='red'>Skytap Lab</font>
 The SkyTap Lab environment is configured with: 
