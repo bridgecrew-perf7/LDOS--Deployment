@@ -127,7 +127,12 @@ enter
 Ctrl + x
 ```
 
-Other recommended packages:
+Other required packages:
+* openssh server and client
+* python3
+* pip3
+* ansible 2.9.6
+
 
 install openssh server-client & python3:
 ```
@@ -141,10 +146,28 @@ install Ansible 2.9.6:
 ```
 pip3 install botocore boto3 ansible==2.9.6
 ```
+Other recommended packages:
+* Git
+* Visual Studio Code - just for training purposes
+
 install Git:
 ```
 apt install git
 ```
+install Visual Studio Code:
+```
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+```
+update the package cache and install:
+```
+sudo apt install apt-transport-https
+sudo apt update
+sudo apt install code # or code-insiders
+```
+
 
 #### <font color='red'>SSH</font>
 Generate the required SSH keys to connect to LDOS nodes.
@@ -206,6 +229,7 @@ the configuration file is located at:
 
 Details can be found at: 
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
+
 
 
 ---
