@@ -231,5 +231,4 @@ Details can be found at:
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
 
 
-
 ---
