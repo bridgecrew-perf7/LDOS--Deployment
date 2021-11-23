@@ -58,7 +58,7 @@
     - name: copy hosts-skytap.yml
       copy:
         src: "../../hosts-skytap.yml"
-        dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"
+        dest: "{{ path }}/kubespray-{{release}}/hosts.yml"
       tags: [install]
 
     - debug: 
