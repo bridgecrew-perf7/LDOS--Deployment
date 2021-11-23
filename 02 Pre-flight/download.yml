@@ -2,7 +2,7 @@
   name: Install Kubespray
   gather_facts: true
   vars:
-    release: release-2.17.1
+    release: release-2.14
     path: /installers
     ansible_python_interpreter: /usr/bin/python3
   tasks:
