@@ -128,30 +128,41 @@ enter
 Ctrl + x
 ```
 
-### <font color='red'>Other Required Packages</font>
-
+### <font color='red'>Other Required Packages on Installer Server</font>
+Enusre that the following packages are also installed and configured:
 * openssh server and client
-* pip3
+* pip & pip3
 * git
+* visual studio code - just for training purposes 
+
+---
 
 
-install openssh server-client & python3:
+install openssh server & client:
 ```
-apt install openssh-server openssh-client python3
+apt install openssh-server openssh-client
 ```
+
+---
+
+
 install pip3 & upgrade:
 ```
 apt install python3-pip  --upgrade pip
 ```
 
-Other recommended packages:
-* Git
-* Visual Studio Code - just for training purposes
 
-install Git:
+---
+
+
+install git:
 ```
 apt install git
 ```
+
+---
+
+
 install Visual Studio Code:
 ```
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -192,9 +203,6 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ---
 
 
-### <font color='red'>Pentaho Server 9.2</font>
-
-
 ### <font color='red'>HA Proxy</font>
 Install the latest HAProxy using a PPA.
 
@@ -228,6 +236,19 @@ the configuration file is located at:
 
 Details can be found at: 
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
+
+
+rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak
+```
+
+```
+copy over 
+```
+
+
+```
+
+### <font color='red'>Pentaho Server 9.2</font>
 
 
 
