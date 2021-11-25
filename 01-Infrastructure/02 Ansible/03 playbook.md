@@ -1,5 +1,4 @@
 ## <font color='red'>Ansible-Centos7</font>
-
 Ansible playbook to configure prerequisites for Kubespray on CentOS7
 
 Prerequisites for the CentOS7 machines:

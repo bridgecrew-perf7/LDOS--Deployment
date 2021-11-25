@@ -38,16 +38,10 @@ VM sequence: LDOS Master 1-3 : Pentaho Server 9.2 : LDOS 1.2.0 Installer
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
-add a 'k8s' user to the wheel group (log in as root):
+<em>add a 'k8s' user to the wheel group (log in as root):</em>
 ```
-useradd k8s -aG wheel
+usermod -aG wheel k8s
 ```
-add password:
-```
-passwd k8s
-```
-Note: the password is 'lumada'  
-
 check the assigned groups:
 ```
 groups
@@ -60,7 +54,10 @@ check 'k8s' user on any master node:
 ```
 ls /home
 ```
-allow users in group wheel to run all commands without password:
+
+---
+
+<em>allow users in group wheel to run all commands without password:</em>
 ```
 nano /etc/sudoers
 ## Allows users in group wheel to run all commands
@@ -107,7 +104,10 @@ check 'installer' user:
 ```
 ls /home
 ```
-allow users in group sudo to run all commands without password:
+
+---
+
+<em>allow users in group sudo to run all commands without password:</em>
 ```
 nano /etc/sudoers
 ## Allows users in group admin to gain root privileges
@@ -206,8 +206,13 @@ pip2 --version
 ---
 
 <em>install git:</em>
+Access the Git repository
 ```
-apt install git
+sudo apt install git
+```
+verify the installation:
+```
+git --version
 ```
 
 ---
@@ -315,10 +320,5 @@ copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:
 
 
 ```
-
-
-
-
-
 
 ---
