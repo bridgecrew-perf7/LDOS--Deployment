@@ -4,20 +4,54 @@ Ansible is an open source IT Configuration Management, Deployment & Orchestratio
 In this lab we're going to:
 * Install ansible controller
 
-#### Note: Yum doesn't support install of Python3
-#### You are also going to find some minor differences between the videos and the Lab due to updates being released. Usually some patch or Firefox..!
-
 #### If you're new to Ansible you may want to take the course: LDS3013S - Introduction to Ansible.
+
+
 ---
 
 #### <font color='red'>Pre-requisties</font> 
-The following pre-requisties have to be installed and confifgured for Ansible on CentOS 7:
-* Development Tools
-* Python 3.5+
-* Git 2.x
-* Check SSH  
+Please ensure that the Environment has been configured as outlined in the previous section - 01-Environment:
+* installer user added - with sudo & passwordless privileges
+* openssh server & client - check ssh
+* pip & pip3
+*  
 
-<font color='red'>These pre-requisite checks have to be completed on all Nodes.</font>
+apply updates:
+```
+apt update
+apt upgrade -y
+reboot
+```
+install ansible dependencies:
+```
+apt install -y software-properties-common
+```
+configure PPA repository:
+```
+add-apt-repository --yes --update ppa:ansible/ansible
+```
+update repository:
+```
+apt update
+```
+
+---
+
+
+#### <font color='red'>Install Ansible</font> 
+
+install ansible:
+```
+apt install -y ansible
+```
+verify the installation:
+
+ansible --version
+
+
+
+
+
 
 </br>
 
@@ -34,63 +68,7 @@ yum groupinstall -y "Development Tools" && yum install gcc openssl-devel bzip2-d
 ```
 
 
-**Python 3**   
-It is recommended to install Python3 to ensure that your tasks and commands are executed correctly.  However, there will be times when you need to switch bewteen the 2 versions due to using an old version of CentOS. For the majority of the course we will be using the pre-installed Python 2.75  
 
-check python version:
-```
-python --version
-```
-install python3 for ansible versions 3.5+..
-
-switch to root:
-```
-sudo -i
-```
-make sure everything is up-to-date:
-```
-yum update -y
-```
-install python:
-```
-yum install -y python3
-```
-set as default:
-```
-alternatives --install /usr/bin/python python /usr/bin/python2 50
-alternatives --install /usr/bin/python python /usr/bin/python3.6 60
-alternatives --config python
-```
-verify:
-```
-python3
-```
-exit:
-```
-Ctrl + d
-```
-install extra packages for enterprise linux (EPEL):
-```
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-```
-Note: this may have  already be done with the upgrade to CentOS 7.9
-
-</br>
-
-**Git 2.x**  
-Git version 2.30.1 has already been installed. There's no need to 
-check Git Version:
-```
-git --version
-```
-to install the latest version:
-```
-sudo yum -y remove git
-sudo yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.9-1.x86_64.rpm
-sudo yum install git
-```
-
-</br>
 
 **SSH**  
 check if SSH is running:

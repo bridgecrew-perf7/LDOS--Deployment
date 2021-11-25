@@ -136,7 +136,8 @@ Enusre that the following packages are also installed and configured:
 * openssh server and client
 * pip & pip3
 * git
-* visual studio code - just for training purposes 
+* visual studio code - just for training purposes
+* tree - visualize directories
 
 ---
 
@@ -179,6 +180,17 @@ sudo apt install apt-transport-https
 sudo apt update
 sudo apt install code # or code-insiders
 ```
+
+---
+
+
+install tree:
+```
+apt install snapd
+snap install tree
+```
+
+---
 
 
 #### <font color='red'>SSH</font>
