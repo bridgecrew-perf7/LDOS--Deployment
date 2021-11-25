@@ -6,7 +6,7 @@ This reference section covers:
      
   * Setup of LDOS 1.2.0 Master / Worker Nodes.  
   * Setup of LDOS 1.2.0 Installer.
-  * Setup of Pentaho Server 9.1.0.2
+  * Setup of Pentaho Server 9.2
 
 
 ---
@@ -20,24 +20,25 @@ Domain Name: skytap.example
 
 | Server Name               | Host              |  IP address | OS               |
 | ------------------------- | ------------------| ----------- | ---------------- |
-| Pentaho Server 9.1.0.2    | pentaho-server-1  | 10.0.0.1    | Unbuntu 18.0.4   |
+| Pentaho Server 9.2        | pentaho-server-1  | 10.0.0.1    | Unbuntu 18.0.4   |
 | LDOS 1.2.0 Master Node 1  | k8s-master-node-1 | 10.0.0.101  | CentOS 7.5       |    
 | LDOS 1.2.0 Master Node 2  | k8s-master-node-2 | 10.0.0.102  | CentOS 7.5       |
 | LDOS 1.2.0 Master Node 3  | k8s-master-node-3 | 10.0.0.103  | CentOS 7.5       |
-| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 18.0.4   | 
+| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 20.04.3  | 
 |
 
 
-VM sequence: LDOS Master 1-3 : Pentaho Server 9.1.0.2 : LDOS 1.2.0 Installer   
+VM sequence: LDOS Master 1-3 : Pentaho Server 9.2 : LDOS 1.2.0 Installer   
 
 
-![SkyTap Lab](assets/skytap_lab.png)
+![SkyTap Lab](../assets/skytap_lab.png)
 
 
 ---
 
 
 ### <font color='red'>LDOS 1.2.0 Master / Worker Nodes</font>
+These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
 add a 'k8s' user to the wheel group (log in as root):
@@ -92,7 +93,7 @@ add an 'installer' user :
 ```
 adduser installer
 ```
-Note: the password is 'lumada'  
+Note: password is 'lumada'  
 
 add 'installer' to sudo group
 ```
@@ -127,11 +128,11 @@ enter
 Ctrl + x
 ```
 
-Other required packages:
+### <font color='red'>Other Required Packages</font>
+
 * openssh server and client
-* python3
 * pip3
-* ansible 2.9.6
+* git
 
 
 install openssh server-client & python3:
@@ -142,10 +143,7 @@ install pip3 & upgrade:
 ```
 apt install python3-pip  --upgrade pip
 ```
-install Ansible 2.9.6:
-```
-pip3 install botocore boto3 ansible==2.9.6
-```
+
 Other recommended packages:
 * Git
 * Visual Studio Code - just for training purposes
@@ -180,9 +178,10 @@ Note: keys are located in .ssh directory.
 
 copy over key to k8s user on LDOS nodes:
 ```
-ssh-copy-id k8s@10.0.0101 (10.0.0.102, 10.0.0.103)
+ssh-copy-id k8s@10.0.0.101 (10.0.0.102, 10.0.0.103)
 ```
-Note: do not copy over private key  
+Note: this will copy over both the private and public keys.
+
 
 test passwordless ssh connection:
 ```
@@ -193,7 +192,7 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ---
 
 
-### <font color='red'>Pentaho Server</font>
+### <font color='red'>Pentaho Server 9.2</font>
 
 
 ### <font color='red'>HA Proxy</font>
@@ -229,6 +228,8 @@ the configuration file is located at:
 
 Details can be found at: 
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
+
+
 
 
 ---
