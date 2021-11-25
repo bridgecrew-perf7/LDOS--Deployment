@@ -6,7 +6,10 @@ This reference section covers:
      
   * Setup of LDOS 1.2.0 Master / Worker Nodes.  
   * Setup of LDOS 1.2.0 Installer.
+  * Setup of HAProxy 2.4
   * Setup of Pentaho Server 9.2
+
+  * Generate SSH keys & deploy
 
 
 ---
@@ -203,6 +206,9 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ---
 
 
+### <font color='red'>Pentaho Server 9.2</font>
+
+
 ### <font color='red'>HA Proxy</font>
 Install the latest HAProxy using a PPA.
 
@@ -248,7 +254,7 @@ copy over
 
 ```
 
-### <font color='red'>Pentaho Server 9.2</font>
+
 
 
 
