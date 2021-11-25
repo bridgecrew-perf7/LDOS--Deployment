@@ -11,9 +11,7 @@ This reference section covers:
 
   * Generate SSH keys & deploy
 
-
 ---
-
 
 ### <font color='red'>Skytap Lab</font>
 The SkyTap Lab environment is configured with: 
@@ -30,15 +28,11 @@ Domain Name: skytap.example
 | LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 20.04.3  | 
 |
 
-
 VM sequence: LDOS Master 1-3 : Pentaho Server 9.2 : LDOS 1.2.0 Installer   
-
 
 ![SkyTap Lab](../assets/skytap_lab.png)
 
-
 ---
-
 
 ### <font color='red'>LDOS 1.2.0 Master / Worker Nodes</font>
 These servers were deployed as CentOS 7.5 Firstboot images.
@@ -84,11 +78,10 @@ Ctrl + x
 
 ---
 
-
 ### <font color='red'>LDOS 1.2.0 Installer</font>
 This server has been configured with an 'installer' user with sudo privileges.  
 
-update(log in as root) :
+update (log in as root) :
 ```
 apt update -y
 ```
@@ -138,7 +131,6 @@ sudo -v
 
 ---
 
-
 ### <font color='red'>Other Required Packages on Installer Server</font>
 Enusre that the following packages are also installed and configured:
 * openssh server and client
@@ -149,8 +141,7 @@ Enusre that the following packages are also installed and configured:
 
 ---
 
-
-install openssh server:
+<em>install openssh server:</em>  
 ssh should already be installed:
 ```
 ssh -V
@@ -179,11 +170,9 @@ to enable SSH connections on your host:
 sudo ufw allow ssh
 ```
 
-
 ---
 
-
-install pip3 & pip:
+<em>install pip3 & pip:</em>
 ```
 sudo apt install python3-pip
 ```
@@ -214,43 +203,36 @@ verify pip2 installation:
 pip2 --version
 ```
 
-
 ---
 
-
-install git:
+<em>install git:</em>
 ```
 apt install git
 ```
 
 ---
 
-
-install Visual Studio Code:
+<em>install Visual Studio Code:</em>
 ```
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
+apt install snapd
+sudo snap install --classic code
 ```
-update the package cache and install:
+Note: Whenever a new version is released, Visual Studio Code package will be automatically updated in the background.
+to use VSC:
 ```
-sudo apt install apt-transport-https
-sudo apt update
-sudo apt install code # or code-insiders
+cd
+code
 ```
 
 ---
 
-
-install tree:
+<em>install tree:</em>
 ```
 apt install snapd
 snap install tree
 ```
 
 ---
-
 
 #### <font color='red'>SSH Keys</font>
 Generate the required SSH keys to connect to LDOS nodes.
@@ -307,20 +289,28 @@ sudo apt update && sudo apt upgrade -y
 ```
 
 #### <font color='red'>Configure HAProxy</font>
+HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
+
 Configure HAProxy to load-balance across the cluster.
 
+to install haproxy:
+```
+sudo apt-get install haproxy
+```
+
 the configuration file is located at:  
-/etc/haproxy/haproxy.cfg
+  /etc/haproxy/haproxy.cfg
 
 Details can be found at: 
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
 
 
-rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak
+rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak:
 ```
-
+cd /etc/haproxy
+mv haproxy.cfg  haproxy.cfg.bak
 ```
-copy over 
+copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:
 ```
 
 
