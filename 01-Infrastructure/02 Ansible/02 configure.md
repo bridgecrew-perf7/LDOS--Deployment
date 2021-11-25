@@ -6,7 +6,6 @@ In this lab we're going to:
 * configure ansible Controller
 * configure ansible Nodes
 
-* create SSH-keys
 * update Inventory hosts
 * set host_key_checking
 

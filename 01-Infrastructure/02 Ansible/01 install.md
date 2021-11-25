@@ -18,55 +18,24 @@ Please ensure that the Environment has been configured as outlined in the previo
 
 apply updates:
 ```
-apt update
-apt upgrade -y
-reboot
+sudo apt update
+sudo apt upgrade -y
+sudo reboot
 ```
-install ansible dependencies:
-```
-apt install -y software-properties-common
-```
-configure PPA repository:
-```
-add-apt-repository --yes --update ppa:ansible/ansible
-```
-update repository:
-```
-apt update
-```
+
 
 ---
 
 
 #### <font color='red'>Install Ansible</font> 
-
+This installs Ansible on Ubuntu 20.04
 install ansible:
 ```
-apt install -y ansible
+sudo apt install -y ansible
 ```
 verify the installation:
 
 ansible --version
-
-
-
-
-
-
-</br>
-
-**Development Tools**  
-not really required but useful:  
-need to be root:
-```
-sudo -i
-yum update -y
-```
-ensures that openssl is up-to-date:
-```
-yum groupinstall -y "Development Tools" && yum install gcc openssl-devel bzip2-devel libffi-devel -y
-```
-
 
 
 

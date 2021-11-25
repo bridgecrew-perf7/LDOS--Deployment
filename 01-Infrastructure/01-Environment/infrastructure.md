@@ -100,7 +100,7 @@ Note: password is 'lumada'
 
 add 'installer' to sudo group
 ```
-usermod -aG sudo installer
+sudo usermod -aG sudo installer
 ```
 check the assigned groups:
 ```
@@ -110,11 +110,11 @@ or for the ids:
 ```
 id installer
 ```
-check 'installer' user on any master node:
+check 'installer' user:
 ```
 ls /home
 ```
-allow users in group wheel to run all commands without password:
+allow users in group sudo to run all commands without password:
 ```
 nano /etc/sudoers
 ## Allows users in group admin to gain root privileges
@@ -130,6 +130,14 @@ Ctrl +o
 enter
 Ctrl + x
 ```
+reboot and check user:
+```
+sudo reboot
+sudo -v
+```
+
+---
+
 
 ### <font color='red'>Other Required Packages on Installer Server</font>
 Enusre that the following packages are also installed and configured:
@@ -142,17 +150,68 @@ Enusre that the following packages are also installed and configured:
 ---
 
 
-install openssh server & client:
+install openssh server:
+ssh should already be installed:
 ```
-apt install openssh-server openssh-client
+ssh -V
 ```
+Note: you are currently only able to connect as a client to SSH servers
+```
+sudo apt install openssh-server 
+```
+verify service is running:
+```
+sudo systemctl status sshd
+```
+Note: By default, your SSH server is listening on port 22.
+if you need further details:
+```
+sudo apt-get install net-tools
+netstat -tulpn | grep 22^
+```
+If you are using UFW as a default firewall on your Ubuntu 20.04 host, it is likely that you need to allow SSH connections on your host:
+```
+sudo ufw status
+```
+Note: For training purposes it is inactive.
+to enable SSH connections on your host:
+```
+sudo ufw allow ssh
+```
+
 
 ---
 
 
-install pip3 & upgrade:
+install pip3 & pip:
 ```
-apt install python3-pip  --upgrade pip
+sudo apt install python3-pip
+```
+verify pip3 installation:
+```
+pip3 --version
+```
+enable the universe repository for pip:
+```
+sudo add-apt-repository universe
+```
+install python2:
+```
+sudo apt update
+sudo apt install python2
+```
+Use curl to download the get-pip.py script:
+```
+sudo apt install curl
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+```
+install pip for Python 2:
+```
+sudo python2 get-pip.py
+```
+verify pip2 installation:
+```
+pip2 --version
 ```
 
 
@@ -193,14 +252,15 @@ snap install tree
 ---
 
 
-#### <font color='red'>SSH</font>
+#### <font color='red'>SSH Keys</font>
 Generate the required SSH keys to connect to LDOS nodes.
 
 generate ssh key:
 ```
+cd
 ssh-keygen
 ```
-Note: keys are located in .ssh directory.
+Note: keys are located in .ssh directory. 2 keys: id_rsa (private) id_rsa.pub (public)
 
 copy over key to k8s user on LDOS nodes:
 ```
