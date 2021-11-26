@@ -392,5 +392,12 @@ copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:
 
 
 ```
+restart haproxy:
+```
+sudo systemctl restart haproxy
+```
+test the installation:
+
+   > browse to:  http://localhost:8000/haproxy?stats
 
 ---
