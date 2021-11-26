@@ -41,10 +41,10 @@ browse ansible directory:
 cd   /etc/ansible
 ls -lrt
 ```
-Note: these are the configuration files.
-* roles
-* hosts
-* ansible.cfg
+Note: the directories & configuration files.
+* roles - directory for ansible roles
+* hosts - inventory file
+* ansible.cfg - ansible configuration file
 
   > for further information: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#
 
