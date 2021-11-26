@@ -38,6 +38,16 @@ VM sequence: LDOS Master 1-3 : Pentaho Server 9.2 : LDOS 1.2.0 Installer
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
+update all nodes:
+```
+sudo yum check-update
+sudo yum clean all
+sudo reboot
+sudo yum update
+```
+
+---
+
 <em>add a 'k8s' user to the wheel group (log in as root):</em>
 ```
 usermod -aG wheel k8s
@@ -53,6 +63,13 @@ id k8s
 check 'k8s' user on any master node:
 ```
 ls /home
+```
+
+---
+
+<em>install nano:</em>
+```
+sudo yum install -y nano
 ```
 
 ---
