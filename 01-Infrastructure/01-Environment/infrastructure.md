@@ -126,7 +126,7 @@ ls /home
 
 <em>allow users in group sudo to run all commands without password:</em>
 ```
-nano /etc/sudoers
+sudo nano /etc/sudoers
 ## Allows users in group admin to gain root privileges
 %admin  ALL=(ALL)    ALL
 %sudo  ALL=(ALL)     ALL  
@@ -283,8 +283,62 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ---
 
 ### <font color='red'>Pentaho Server 9.2</font>
+This server has been configured with an 'installer' user with sudo privileges.  
 
+update (log in as root) :
+```
+apt update -y
+```
+add an 'pentaho' user :
+```
+adduser pentaho
+```
+Note: password is 'lumada'  
 
+add 'pentaho' to sudo group
+```
+sudo usermod -aG sudo pentaho
+```
+check the assigned groups:
+```
+groups
+```
+or for the ids:
+```
+id pentaho
+```
+check 'pentaho' user:
+```
+ls /home
+```
+
+---
+
+---
+
+<em>allow users in group sudo to run all commands without password:</em>
+```
+sudo nano /etc/sudoers
+## Allows users in group admin to gain root privileges
+%admin  ALL=(ALL)    ALL
+%sudo  ALL=(ALL)     ALL  
+
+## Without password
+%sudo  ALL=(ALL)     NOPASSWD:  ALL
+```
+save:
+```
+Ctrl +o
+enter
+Ctrl + x
+```
+reboot and check user:
+```
+sudo reboot
+sudo -v
+```
+
+---
 
 ### <font color='red'>HA Proxy</font>
 Install the latest HAProxy using a PPA.
@@ -331,7 +385,7 @@ Details can be found at:
 rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak:
 ```
 cd /etc/haproxy
-mv haproxy.cfg  haproxy.cfg.bak
+sudo mv haproxy.cfg  haproxy.cfg.bak
 ```
 copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:
 ```
