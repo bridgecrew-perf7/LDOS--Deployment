@@ -250,14 +250,16 @@ code
 
 <em>install tree:</em>
 ```
-apt install snapd
-snap install tree
+sudo apt-get update -y
+sudo apt-get install -y tree
+reboot
 ```
 
 ---
 
 #### <font color='red'>SSH Keys</font>
-Generate the required SSH keys to connect to LDOS nodes.
+Generate the required SSH keys to connect to LDOS nodes.  
+You will need the IPs of the Cluster Nodes - refer to table above.
 
 generate ssh key:
 ```
@@ -278,11 +280,10 @@ test passwordless ssh connection:
 ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ```
 
-
 ---
 
-
 ### <font color='red'>Pentaho Server 9.2</font>
+
 
 
 ### <font color='red'>HA Proxy</font>

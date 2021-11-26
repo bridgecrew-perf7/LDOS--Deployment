@@ -7,21 +7,23 @@ In this lab we're going to:
 * configure ansible Nodes
 
 * update Inventory hosts
-
+* add workshop directories
 ---
 
 #### <font color='red'>Ansible Controller Configuration</font>
-
-* create / select the account for ansible controller
+Ensure that the required pre-requisites have been completed as outlined in the previous section - 01-Infrastructure.
+* create 'installer' account for ansible controller
 * ensure 'installer' has root priviledges
 
 * generate ssh keys
 
 * update inventory file with the Node IPs 
 
+---
 
-**update Inventory file**  
-ensure that you're logged with ansadmin credentials, on Ansible Controller.  
+<em>Update Hosts - Inventory</em>  
+In this first part we will edit the default hosts to include our Cluster Nodes.  
+
 change directory:
 ```
 cd /etc/ansible
@@ -31,28 +33,45 @@ edit the hosts file:
 ```
 sudo nano hosts
 ```
-add the node IPs:
+add the Node IPs:
 ```
 [all]
-node1 ansible_host=10.0.0.2
-node2 ansible_host=10.0.0.3
-node3 ansible_host=10.0.0.4
+10.0.0.101
+10.0.0.102
+10.0.0.103
 ```
 and save..  
 Ctrl o
 Return 
 Ctrl x
 
-</br>
+Note: 
 
-**set host_key_checking**   
-you will need to disable SSH key host checking.
+---
+
+<em>edit the ansible.cfg</em>
+Apply the following configuration changes:    
 
 edit the ansible.cfg file:
 ```
 sudo nano ansible.cfg
 ```
+uncomment the line (14): inventory = /etc/ansible/hosts
+uncomment the line (68): roles_path = /etc/ansible/roles
 uncomment the line (71): host_key_checking = False
+uncomment the line (103): timeout=180
+uncomment the line (375): ssh_args = -C -o ControlMaster=auto -o ControlPersist=30m
+uncomment the line (401): pipelining = False  (disable requiretty in /etc/sudoers)
 
+---
+
+<em>add directories</em>
+create the following directories:
+```
+cd
+cd /etc/ansible
+sudo mkdir roles
+sudo mkdir playbooks
+```
 
 ---
