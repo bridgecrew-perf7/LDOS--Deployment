@@ -5,6 +5,7 @@
     release: release-2.14
     path: /installers
     ansible_python_interpreter: /usr/bin/python3
+  
   tasks:
     - name: Check if kubespray is available
       stat:
@@ -58,7 +59,7 @@
     - name: copy hosts-skytap.yml
       copy:
         src: "../../hosts-skytap.yml"
-        dest: "{{ path }}/kubespray-{{release}}/hosts.yml"
+        dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"
       tags: [install]
 
     - debug: 
