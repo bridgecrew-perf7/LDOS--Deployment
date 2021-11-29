@@ -11,7 +11,7 @@ In this lab we're going to:
 #### <font color='red'>Pre-requisties</font> 
 Please ensure that the Environment has been configured as outlined in the previous section - 01-Environment:
 * installer user added - with sudo & passwordless privileges
-* openssh server & client - check ssh
+* openssh server - check ssh
 * pip & pip3
 *  
 
