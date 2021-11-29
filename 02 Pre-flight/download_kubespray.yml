@@ -1,3 +1,4 @@
+# Downloads and installs Kubespray 2.14 of rKubernetes 1.18
 - hosts: "{{ groups['installer'][0] }}"
   name: Install Kubespray
   gather_facts: true
