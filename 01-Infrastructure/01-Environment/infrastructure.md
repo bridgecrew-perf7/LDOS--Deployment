@@ -314,8 +314,6 @@ ls /home
 
 ---
 
----
-
 <em>allow users in group sudo to run all commands without password:</em>
 ```
 sudo nano /etc/sudoers
