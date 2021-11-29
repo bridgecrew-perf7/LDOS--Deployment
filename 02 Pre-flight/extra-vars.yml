@@ -47,7 +47,7 @@ apiserver_loadbalancer_domain_name: "pentaho-server-1.skytap.example"
 # to allow AWS private DNS lookup from inside the cluster.
 change_dns: true
 #dns_server: 169.254.169.253 # aws private dns
-dns_server: 10.0.0.254 # skytap local dns
+dns_server: 10.0.0.254 # SkyTap DNS
 
 # =====  LDOS ===== 
 nfs_host: 10.0.0.1

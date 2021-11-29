@@ -7,8 +7,10 @@
   gather_facts: true
   any_errors_fatal: true
   vars:
-    remote_user: k8s
-    pubkeypath: ~/.ssh
+    ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+    ansible_ssh_private_key_file_name: "id_rsa"
+    ansible_user: k8s
+    change_DNS: true
     dns_server: 10.0.0.254 # skytap local dns
     ansible_python_interpreter: /usr/bin/python
  
@@ -20,7 +22,15 @@
    - name: update all packages
      yum:
        name: '*'
-      
+     tags: [install]  
+
+   - name: Install common packages
+     package:
+      name: [net-tools,nano,bash-completion,wget,curl,yum-utils,lvm2,device-mapper-persistent-data]
+      state: present
+     ignore_errors: True
+     tags: [install]
+
    # selinux must be forced to Python2 it does not work in Python3 state: latest
    - name: disable SELinux
      selinux:
@@ -51,37 +61,11 @@
       state: present
      ignore_errors: True
 
-   - name: check ntpd service is running
-     command: systemctl status ntpd
-      register: result
-      ignore_errors: True
-    
-   - name: configure and sync ntp
-     command: "{{item}}"
-     with_items:
-      - chkconfig ntpd on
-      - ntpdate pool.ntp.org
-     when: result is failed
 
-   - name: start service ntp, if not running
-     service:
-      name: ntpd
-      state: started
    
    # easy option. :)  Otherwise open Master / Worker ports for network - Calico, Fannel, 
    - name: turn off firewall for install
      command: systemctl disable firewalld
-
-   - name: creates .ssh directory
-     file: path=~/.ssh state=directory owner="{{ remote_user }}" group="{{ group }}" mode=700
-
-   - name: copy public key to authorized keys
-     template:
-      src: "{{ pubkeypath }}"
-      dest: "~/.ssh/authorized_keys"
-      owner: "{{ remote_user }}"
-      group: "{{ group }}"
-      mode: 0640
 
    - replace:
       path: /etc/sudoers
