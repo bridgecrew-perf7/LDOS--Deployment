@@ -13,7 +13,6 @@ Please ensure that the Environment has been configured as outlined in the previo
 * installer user added - with sudo & passwordless privileges
 * openssh server - check ssh
 * pip & pip3
-*  
 
 apply updates:
 ```

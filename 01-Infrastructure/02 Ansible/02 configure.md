@@ -1,7 +1,6 @@
 ## <font color='red'>Configure Ansible</font>
 Ansible is an open source IT Configuration Management, Deployment & Orchestration tool. It aims to provide large productivity gains to a wide variety of automation challenges. This tool is very simple to use yet powerful enough to automate complex multi-tier IT application environments. 
 
-
 In this lab we're going to:
 * configure ansible Controller
 * configure ansible Nodes
@@ -56,7 +55,7 @@ edit the ansible.cfg file:
 ```
 sudo nano ansible.cfg
 ```
-uncomment the line (14): inventory = /etc/ansible/hosts
+uncomment the line (14): inventory = /etc/ansible/hosts-skytap.yml
 uncomment the line (68): roles_path = /etc/ansible/roles
 uncomment the line (71): host_key_checking = False
 uncomment the line (103): timeout=180
