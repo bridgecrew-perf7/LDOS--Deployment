@@ -150,7 +150,7 @@ sudo -v
 
 ### <font color='red'>Other Required Packages on Installer Server</font>
 Enusre that the following packages are also installed and configured:
-* openssh server and client
+* openssh server
 * pip & pip3
 * git
 * visual studio code - just for training purposes
