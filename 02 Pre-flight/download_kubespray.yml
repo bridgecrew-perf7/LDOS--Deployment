@@ -3,7 +3,7 @@
   gather_facts: true
   vars:
     release: release-2.14
-    path: /installers
+    path: /kubspray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
@@ -51,14 +51,14 @@
     # May need to update path  
     - name: copy extra-vars.yml
       copy:
-        src: "../../extra-vars.yml"
+        src: "../extra-vars.yml"
         dest: "{{ path }}/kubespray-{{release}}/extra-vars.yml"
       tags: [install]
 
     # May need to update path 
     - name: copy hosts-skytap.yml
       copy:
-        src: "../../hosts-skytap.yml"
+        src: "../hosts-skytap.yml"
         dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"
       tags: [install]
 
