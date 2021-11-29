@@ -1,5 +1,5 @@
 ## <font color='red'>Ansible-Centos7</font>
-Ansible playbook to configure prerequisites for Kubespray on CentOS7
+Ansible playbook configures the Nodes for Kubespray 2.14
 
 Prerequisites for the CentOS7 machines:
 * SSH access using password with a user who has root permissions
