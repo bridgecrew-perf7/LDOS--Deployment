@@ -61,18 +61,17 @@
       state: present
      ignore_errors: True
 
-
-   
-   # easy option. :)  Otherwise open Master / Worker ports for network - Calico, Fannel, 
+   # easy option. :)  Otherwise open Master / Worker ports for network - Calico, Fannel 
    - name: turn off firewall for install
      command: systemctl disable firewalld
 
-   - replace:
+   # Uncomment if you havent manually copied over SSH keys
+   #- replace:
       path: /etc/sudoers
       regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
       replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
 
-   - replace:
+   #- replace:
       path: /etc/sudoers
       regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
       replace: '# %wheel  ALL=(ALL)       ALL'
