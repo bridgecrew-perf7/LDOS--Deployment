@@ -270,14 +270,18 @@ Note: keys are located in .ssh directory. 2 keys: id_rsa (private) id_rsa.pub (p
 
 copy over key to k8s user on LDOS nodes:
 ```
-ssh-copy-id k8s@10.0.0.101 (10.0.0.102, 10.0.0.103)
+ssh-copy-id k8s@10.0.0.101
+ssh-copy-id k8s@10.0.0.102
+ssh-copy-id k8s@10.0.0.103
 ```
+Password: lumada
 Note: this will copy over both the private and public keys.
 
 
 test passwordless ssh connection:
 ```
 ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
+exit
 ```
 
 ---
