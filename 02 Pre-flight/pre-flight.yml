@@ -55,26 +55,20 @@
         regexp: '^([^#].*?\sswap\s+.*)$'
         replace: '# \1'
 
-   - name: Install common packages
-     package:
-      name: [net-tools,ntp,nano,bash-completion,wget,curl,yum-utils,lvm2,device-mapper-persistent-data]
-      state: present
-     ignore_errors: True
-
    # easy option. :)  Otherwise open Master / Worker ports for network - Calico, Fannel 
    - name: turn off firewall for install
      command: systemctl disable firewalld
 
    # Uncomment if you havent manually copied over SSH keys
-   #- replace:
-      path: /etc/sudoers
-      regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
-      replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
+   #- replace: wheel group no password
+   #   path: /etc/sudoers
+   #   regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
+   #   replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
 
-   #- replace:
-      path: /etc/sudoers
-      regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
-      replace: '# %wheel  ALL=(ALL)       ALL'
+   #- replace: wheel group all commands
+   #  path: /etc/sudoers
+   #   regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
+   #   replace: '# %wheel  ALL=(ALL)       ALL'
    
    # Writes out Hostnames to act as local DNS -  not really required as it uses SkyTap DNS
    - lineinfile:
