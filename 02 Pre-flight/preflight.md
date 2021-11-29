@@ -24,9 +24,7 @@ VM sequence: LDOS Master 1-3 : Pentaho Server 9.1.0.2 : LDOS 1.2.0 Installer
 
 ![SkyTap Lab](assets/skytap_lab.png)
 
-
 ---
-
 
 ### <font color='red'>LDOS 1.2.0 Master Nodes</font>
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
@@ -70,7 +68,6 @@ Ctrl + x
 ```
 
 ---
-
 
 ### <font color='red'>LDOS 1.2.0 Installer</font>
 This server has been configured with an 'installer' user with sudo privileges.  
@@ -157,9 +154,7 @@ test passwordless ssh connection:
 ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 ```
 
-
 ---
-
 
 ### <font color='red'>Pentaho Server</font>
 
