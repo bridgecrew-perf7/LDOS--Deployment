@@ -70,7 +70,7 @@
    #   regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
    #   replace: '# %wheel  ALL=(ALL)       ALL'
    
-   # Writes out Hostnames to act as local DNS -  not really required as it uses SkyTap DNS
+   # Writes out Hostnames to act as local DNS -  not really required as there's SkyTap DNS
    - lineinfile:
       path: /etc/sysconfig/network
       state: present
