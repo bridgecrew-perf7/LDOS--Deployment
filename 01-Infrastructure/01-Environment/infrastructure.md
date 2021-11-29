@@ -323,7 +323,7 @@ ls /home
 sudo nano /etc/sudoers
 ## Allows users in group admin to gain root privileges
 %admin  ALL=(ALL)    ALL
-%sudo  ALL=(ALL)     ALL  
+%sudo   ALL=(ALL)     ALL  
 
 ## Without password
 %sudo  ALL=(ALL)     NOPASSWD:  ALL
