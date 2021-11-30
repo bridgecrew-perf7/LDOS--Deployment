@@ -32,7 +32,7 @@ edit the hosts file:
 ```
 sudo nano hosts
 ```
-add the Node IPs:
+add the Node IPs (see Note below):
 ```
 [all]
 10.0.0.101
@@ -44,7 +44,7 @@ Ctrl o
 Return 
 Ctrl x
 
-Note: 
+Note: You could simply add the hosts IPs, but be aware the incorrect hostnames will be written out to the /etc/hosts.  Workshop uses the complete hosts-skytap.yml
 
 ---
 
