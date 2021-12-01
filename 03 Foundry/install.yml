@@ -1,0 +1,87 @@
+- name: Install Foundry Services
+  become: false
+#  become_method: sudo
+  gather_facts: true
+  hosts: "{{ groups['installer'][0] }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    foundry_home: /installers/Foundry2.2/foundry
+    log_dir: /installers/logs
+    
+  tasks:
+    - name: Create directory
+      file:
+        path: "{{ log_dir }}"
+        state: directory
+      become: false
+
+    - name: Install Cluster Services
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/install-cluster-services.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true 2>&1 | tee -a {{ log_dir }}/install-cluster-services.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install_cs]
+
+    - name: Run Custom Resource Definitions Script
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ log_dir }}/apply-crds.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, install_cs]
+
+    - name: Install Foundry
+      shell: 
+        chdir: /installers/foundry/control-plane
+        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a ./install-logs/install-control-plane.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, install_cp]
+
+    - name: Install Metrics Add-On
+      shell: 
+        chdir: /installers/foundry/control-plane
+        cmd: ./tools/bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C ./metrics-addon-1.0.0/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, metrics]
+
+    - name: Upload Metrics Add-On Solution
+      shell: 
+        chdir: /installers/foundry/control-plane
+        cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, metrics]
+
+    - name: Confirm Foundry
+      shell: "{{ item }}"
+      with_items:
+        - "kubectl get all -n hitachi-solutions"
+      register: foundry_pods
+      tags: ['never', 'install_cp', 'info']
+
+    - name: Confirm Foundry User
+      shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
+      register: foundry_pass
+      tags: ['never', 'install_cp', 'info']
+
+    - name: Foundry URLs
+      debug:
+        msg: 
+        - " Installation complete.... "
+        - "          Logs can be found in {{ log_dir }}"
+        - "          URL: https://{{ apiserver_loadbalancer_domain_name }}/hitachi-solutions/hscp-hitachi-solutions/solution-control-plane/"
+        - "          as foundry/{{ foundry_pass.stdout }}"
+      tags: ['never', 'install_cp', 'info']
