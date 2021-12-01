@@ -79,7 +79,6 @@
       ping:
       when: dhcp_update is defined  
 
-
 # install helm on all hosts 
 - name: install helm on all hosts 
   become: true
@@ -195,7 +194,6 @@
       debug:
         msg: "{{ pods.stdout_lines }}"
 
-
 # install docker locally
 - name: install Docker
   hosts: "{{ groups['installer'][0] }}"
@@ -230,7 +228,7 @@
       ignore_errors: true
       when: docker_exists is defined 
 
-    - name: Create directory
+    - name: create directory
       ignore_errors: true
       file:
         path: "{{ item }}"
@@ -242,7 +240,7 @@
     - name: create docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
-         mv /var/lib/docker /installers
+         mv /var/lib/docker /docker
       tags: [install, docker]
       when: docker_exists is failed 
 
@@ -356,7 +354,7 @@
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
 # Allow the nodes of the cluster to access the regsitry by certificate
-- name: Create Registry Cert path on cluster
+- name: create Registry Cert path on cluster
   hosts: "{{ groups['kube-node']}}"
   become: true
   become_method: sudo
@@ -375,12 +373,15 @@
         shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: Copy Docker cert from installer node to cluster
+- name: copy Docker cert from installer node to cluster
   become: false
   gather_facts: false
   hosts:  "{{ groups['kube-node'] }}" 
   any_errors_fatal: true
   tags: [never, continue]
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
+
   # Only when the registry requested is the installer node will we install this.
   # Otherwise, we assume the registry is external and already defined
   tasks:
@@ -403,7 +404,7 @@
       - name: show filepath for new docker cert
         debug:
           msg: "{{ cert_path.stdout_lines }}"
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+        when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
 - name: install Storage Class (if needed)
   hosts: "{{ groups['installer'][0] }}"
