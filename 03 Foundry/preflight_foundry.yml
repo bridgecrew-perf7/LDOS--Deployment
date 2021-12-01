@@ -1,5 +1,5 @@
 # Foundry Cluster Preflight
-- name: Cluster Hosts Pre-Reqs
+- name: Cluster Hosts Pre-flight
   hosts:  "{{ groups['kube-node'] }}"
   become: true
   become_method: sudo
@@ -7,28 +7,28 @@
   gather_facts: true
   
   tasks:
-    - name: Ping
+    - name: ping
       ping:
       tags: info
 
-    - name: Yum update
+    - name: yum update
       raw: yum update -y
       tags: ['prereq']
       when: ansible_distribution == "CentOS"
 
-    - name: Yum install epel
+    - name: yum install epel
       raw: yum install -y epel-release
       tags: ['prereq', 'never']
       when: ansible_distribution == "CentOS"
     
     # Elasticserach requires a max map count > 262144
-    - name: Get /etc/sysctl.conf
+    - name: get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
       register: max_map_count
       tags: ['elastic']
 
-    - name: Expand max_map_count 
+    - name: expand max_map_count 
       shell: |
         cp /etc/sysctl.conf /etc/sysctl.conf.{{ 10000 | random }}.bak
         echo "vm.max_map_count=262144" >> /etc/sysctl.conf
@@ -39,18 +39,18 @@
         # May need check for it is there and not large enough 
       tags: ['elastic']
 
-    - name: Get sudoers secure_path
+    - name: get sudoers secure_path
       shell: cat /etc/sudoers | grep secure_path
       register: sudoers_path
         
     # Require /usr/local/bin in the sudoers path so 'su' will find kubectl and helm.
-    - name: Update sudoers secure_path to include /usr/local/bin
+    - name: update sudoers secure_path to include /usr/local/bin
       shell: |
         cp /etc/sudoers /etc/sudoers.{{ 10000 | random }}.bak
         sed -i "s!{{ sudoers_path.stdout }}!{{ sudoers_path.stdout }}:/usr/local/bin!g" /etc/sudoers     
       when: "'/usr/local/bin' not in sudoers_path.stdout"
 
-    - name: Get /etc/dhcp/dhclient.conf
+    - name: get /etc/dhcp/dhclient.conf
       shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
       ignore_errors: true
       register: dhcp_nameserver_entry
@@ -58,13 +58,13 @@
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
     # We need to leverage the private DNS lookup of the hosting provider and not Coporate DNS
-    - name: Override DNS entries
+    - name: override DNS entries
       shell: |
         cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
         echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
       register: dhcp_update
 
-    - name: Reboot hosts if required
+    - name: reboot hosts if required
       reboot:
         msg: "Reboot initiated by Ansible"
         connect_timeout: 5
@@ -75,13 +75,13 @@
       when: 
         - dhcp_update is not skipped 
 
-    - name: Ping servers in hosts.yml after reboot
+    - name: ping servers in hosts-skytap.yml after reboot
       ping:
       when: dhcp_update is defined  
 
 
 # install helm on all hosts 
-- name: Install helm on all hosts 
+- name: install helm on all hosts 
   become: true
   become_method: sudo
   become_user: root
@@ -89,13 +89,13 @@
   hosts:  all
 
   tasks:
-    - name: Check Helm
+    - name: check Helm
       shell: helm version
       register: helm_version
       ignore_errors: true
       tags: ['helm']
 
-    - name: Get Helm
+    - name: download Helm
       get_url:
          url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
          dest: ./get_helm.sh
@@ -103,13 +103,13 @@
       when: helm_version.rc != 0
       tags: [ helm ]
        
-    - name: Install Helm
+    - name: install Helm
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
       tags: ['helm']
 
 # configure kubeconfig on cluster for {{ ansible_user }}
-- name: Prepare Kubeconfig for {{ ansible_user }}
+- name: prepare Kubeconfig for {{ ansible_user }}
   become: true
   become_method: sudo
   gather_facts: false
@@ -119,16 +119,16 @@
   tags: kubeconfig
   tasks:
 
-    - name: Create directory
+    - name: create ~/.kube directory
       file:
         path: ~/.kube
         state: directory
       become: false
       
-    - name: Copy config to {{ ansible_user }} home
+    - name: copy config to {{ ansible_user }} home
       shell: "cp ~/.kube/config /home/{{ ansible_user }}/.kube/"
 
-    - name: Change config ownership to {{ ansible_user }}
+    - name: change config ownership to {{ ansible_user }}
       shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
 # setup kubectl for local user and root by copying from the cluster
@@ -142,17 +142,13 @@
    
   any_errors_fatal: true
   tasks:
-    - name: Install jq 
+    - name: install jq 
       apt:
         name: jq
       when: ansible_distribution == "Ubuntu"
 
-    - name: Install jq
-      yum:
-        name: jq
-      when: ansible_distribution == "CentOS"
-
-    - name: Install kubectl
+    # install kubectl
+    - name: install kubectl
       raw: snap install kubectl --channel=1.18/stable --classic
 
     - name: get local user home
@@ -161,13 +157,13 @@
       become: false
       tags: info
 
-    - name: Create directory
+    - name: create ~/.kube directory
       file:
         path: ~/.kube
         state: directory
       become: false
 
-    - name: Transfer file from cluster to installer
+    - name: transfer file from cluster to installer
       raw: scp -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ groups['kube-master'][0] }}:/home/{{ ansible_user }}/.kube/config ~/.kube/config
       become: false
 
@@ -177,31 +173,31 @@
         path: ~/.kube
         state: directory
 
-    - name: Copy config to root home
+    - name: copy config to root home
       shell: "cp {{ local_home.stdout }}/.kube/config ~/.kube"
 
     # as local user, test kubectl config
-    - name: Check kubectl connectivity from installer node to cluster
+    - name: check kubectl connectivity from installer node to cluster
       shell: "kubectl get nodes"
       register: nodes
       become: false
 
-    - name: Show output from command --> kubectl get nodes
+    - name: show output from command --> kubectl get nodes
       debug:
         msg: "{{ nodes.stdout_lines }}"
 
-    - name: Check kubectl connectivity from installer node to cluster
+    - name: check kubectl connectivity from installer node to cluster
       shell: "kubectl get pods -n kube-system"
       register: pods
       become: false
 
-    - name: Show output from command --> kubectl get pods -n kube-system
+    - name: show output from command --> kubectl get pods -n kube-system
       debug:
         msg: "{{ pods.stdout_lines }}"
 
 
 # install docker locally
-- name: Install Docker
+- name: install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true
   become_method: sudo
@@ -214,22 +210,22 @@
     
   any_errors_fatal: true
   tasks:
-    - name: Create group for non-root docker
+    - name: create group for non-root docker
       shell: |
         groupadd docker;
         usermod {{ local_user }} -aG docker;
 
-    - name: Check for docker
+    - name: check for docker
       shell: which docker
       ignore_errors: true
       register: docker_exists
       
-    - name: Install docker
+    - name: install docker
       apt: 
         name: docker.io
       when: docker_exists is failed 
 
-    - name: Stop docker if running
+    - name: stop docker if running
       shell: systemctl stop docker
       ignore_errors: true
       when: docker_exists is defined 
@@ -243,14 +239,14 @@
         - /etc/docker
       when: docker_exists is failed
 
-    - name: Create docker daemon.json and data root
+    - name: create docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /installers
       tags: [install, docker]
       when: docker_exists is failed 
 
-    - name: non-root docker directorys
+    - name: non-root docker directories
       shell: |
         chgrp docker "{{ item }}"
         chmod 775 "{{ item }}"
@@ -260,15 +256,15 @@
         - /docker/registry
       when: docker_exists is failed 
 
-    - name: Start docker
+    - name: start docker
       shell: systemctl start docker
 
-    - name: Check Root change
+    - name: check root change
       shell: docker info | grep Root
       register: docker_root
       failed_when: '"{{ docker_home }}" not in docker_root.stdout'
 
-- name: Configure Registry
+- name: configure Docker Registry
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
@@ -283,8 +279,8 @@
     - block:
       - name: Debug ID getting new group role
         shell: |
-          # Looks like each step is independant, which means installer user does not ever get docker group while still logged in
-          # of you allow reboot and come back then you can run these because the group is there.
+          # 'installer' user does not retrieve docker group while logged in
+          # you will need to manually add the user to the docker group and re-run.
           newgrp docker
           id
         register: output
@@ -294,11 +290,14 @@
             - "{{ output.stdout_lines|list }}"
             - "To get docker group rights, you will need to logout and back in to continue."
             - "the gnome UI will retain your rights so you need to run: loginctl -terminate-user {{ local_user }}"
-            - "When you return add the optional tag '-t continue' and you should see the docker group added on the second run."  
+            - "or run the command: id to check which groups the user belongs too"
+            - "then the command: sudo su - installer"
+            - "then the command: id to check it belongs to docker group"
+            - "When you re-run add the optional tag '-t continue' and you should see the docker group added on the second run."  
         failed_when: '"(docker)" not in output.stdout_lines|string'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: Configure Registry
+- name: configure Registry
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
@@ -309,7 +308,7 @@
   #  @TODO might want to add a check to confirm openssl 1.1.1 or the '-addext option will fail'
   tasks:
     - block:
-      - name: Create local certificate
+      - name: create local certificate
         shell: |
           cd ~{{ local_user }};
           mkdir -p certs;
@@ -318,7 +317,7 @@
           # openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN={{ groups['installer'][0] }}"
         tags: [certs]
 
-      - name: Allow insure registry
+      - name: allow insecure registry
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
@@ -326,7 +325,7 @@
         pip: 
           name: docker
 
-      - name: Build registry service
+      - name: build registry service
         docker_container:
           name: registry
           image: registry:2
@@ -345,11 +344,11 @@
               REGISTRY_HTTP_TLS_KEY: "/certs/domain.key"       
 
       # do this manually since this restarts the running docker process on the installer node
-      - name: Restart docker for registry
+      - name: restart docker for registry
         shell: systemctl restart docker
         become: true
 
-      - name: Check registry change
+      - name: check registry change
         shell: |
           docker info | grep -i -a1 Insecure 
         register: docker_insecure
@@ -369,10 +368,10 @@
   any_errors_fatal: true
   tasks:
     - block:
-      - name: Create Docker cert directory on cluster
+      - name: create Docker cert directory on cluster
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
-      - name: Set ownership of cluster Docker cert directory to centos
+      - name: set ownership of cluster Docker cert directory to centos
         shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
@@ -386,27 +385,27 @@
   # Otherwise, we assume the registry is external and already defined
   tasks:
     - block:
-      - name: Write the clusters host key to known hosts
+      - name: write the clusters host key to known hosts
         connection: local
         shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
 
-      - name: Transfer file from installer to cluster
+      - name: transfer file from installer to cluster
         shell: scp -i {{ ansible_ssh_private_key_file }} /home/{{ local_user }}/certs/domain.crt {{ansible_user }}@{{ inventory_hostname }}:/etc/docker/certs.d/{{ groups['installer'][0] }}:5000
         delegate_to: "{{ groups['installer'][0] }}"
       
-      - name: Verify new cert directory on cluster
+      - name: verify new cert directory on cluster
         shell: | 
           cd /etc/docker/certs.d/{{ groups['installer'][0] }}:5000;
           pwd;
           ls -l;
         register: cert_path
 
-      - name: Show filepath for new docker cert
+      - name: show filepath for new docker cert
         debug:
           msg: "{{ cert_path.stdout_lines }}"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: Install Storage Class (if needed)
+- name: install Storage Class (if needed)
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
@@ -415,7 +414,7 @@
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    - name: PreReq Yq
+    - name: preReq Yq
       shell: wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64.tar.gz -O - | tar xz && mv yq_linux_amd64 /usr/bin/yq
       become: true
 
@@ -424,7 +423,7 @@
       register: sc
       ignore_errors: true
     
-    - name: Install openebs default storage (if needed)
+    - name: install openebs default storage (if needed)
       shell: "{{ item }}"
       with_items:
         - kubectl create ns openebs
@@ -433,12 +432,12 @@
         - helm install --namespace openebs openebs openebs/openebs
       when: "'default' not in sc.stdout"
 
-    - name: Make default 
+    - name: make openebs the default storageclass
       shell: |
         kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
       when: "'default' not in sc.stdout"
 
-    - name: Check Openebs storage class
+    - name: check Openebs storage class
       shell: kubectl get sc | grep default
       register: openebs
       failed_when: "'openebs-hostpath' not in openebs.stdout"
