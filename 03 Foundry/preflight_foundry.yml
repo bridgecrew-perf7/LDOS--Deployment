@@ -1,4 +1,4 @@
-## cluster preflight
+# Foundry Cluster Preflight
 - name: Cluster Hosts Pre-Reqs
   hosts:  "{{ groups['kube-node'] }}"
   become: true
@@ -21,6 +21,7 @@
       tags: ['prereq', 'never']
       when: ansible_distribution == "CentOS"
     
+    # Elasticserach requires a max map count > 262144
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
@@ -42,7 +43,7 @@
       shell: cat /etc/sudoers | grep secure_path
       register: sudoers_path
         
-    # We need /usr/local/bin in the sudoers path so 'su' will find kubectl and helm.
+    # Require /usr/local/bin in the sudoers path so 'su' will find kubectl and helm.
     - name: Update sudoers secure_path to include /usr/local/bin
       shell: |
         cp /etc/sudoers /etc/sudoers.{{ 10000 | random }}.bak
@@ -57,7 +58,7 @@
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
     # We need to leverage the private DNS lookup of the hosting provider and not Coporate DNS
-    - name: Override Hitachi DNS entries
+    - name: Override DNS entries
       shell: |
         cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
         echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
@@ -79,7 +80,7 @@
       when: dhcp_update is defined  
 
 
-## install helm on all hosts 
+# install helm on all hosts 
 - name: Install helm on all hosts 
   become: true
   become_method: sudo
@@ -107,7 +108,7 @@
       when: "'not found' in helm_version.stderr"
       tags: ['helm']
 
-## configure kubeconfig on cluster for {{ ansible_user }}
+# configure kubeconfig on cluster for {{ ansible_user }}
 - name: Prepare Kubeconfig for {{ ansible_user }}
   become: true
   become_method: sudo
@@ -130,7 +131,7 @@
     - name: Change config ownership to {{ ansible_user }}
       shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
-## Setup kubectl for local user and root by copying from the cluster
+# setup kubectl for local user and root by copying from the cluster
 - name: Setup kubectl for '{{ ansible_user }}' user on installer node
   become: true
   become_user: root
@@ -170,7 +171,7 @@
       raw: scp -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ groups['kube-master'][0] }}:/home/{{ ansible_user }}/.kube/config ~/.kube/config
       become: false
 
-    # Now as root get config from {{ local_home.stdout }}
+    # as root get config from {{ local_home.stdout }}
     - name: Create directory
       file:
         path: ~/.kube
@@ -199,7 +200,7 @@
         msg: "{{ pods.stdout_lines }}"
 
 
-## Install docker locally
+# install docker locally
 - name: Install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true
@@ -209,7 +210,7 @@
   tags: docker
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    docker_home: /installers/docker
+    docker_home: /docker/registry
     
   any_errors_fatal: true
   tasks:
@@ -256,7 +257,7 @@
       with_items:
         - /etc/docker
         - /etc/docker/daemon.json
-        - /installers/docker
+        - /docker/registry
       when: docker_exists is failed 
 
     - name: Start docker
@@ -481,7 +482,7 @@
       - apt remove -y docker.io;
       - rm -rf /etc/docker
       - rm -rf /var/lib/docker
-      - rm -rf /installers/docker
+      - rm -rf /docker/registry
       - rm -rf ~/.kube;
       - rm -rf ~installer/.kube;
       - groupdel docker
