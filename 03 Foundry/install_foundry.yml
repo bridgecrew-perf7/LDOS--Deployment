@@ -5,17 +5,17 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    foundry_home: /Downloads/Foundry2.2.1/foundry
+    foundry_home: /Downloads/Foundry-2.2.1/Foundry/Foundry-Control-Plane-2.2.1
     log_dir: /docker/logs
     
   tasks:
-    - name: create logs directory
+    - name: Create Logs Directory
       file:
         path: "{{ log_dir }}"
         state: directory
       become: false
 
-    - name: install Cluster Services
+    - name: Install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
         cmd: ./bin/install-cluster-services.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true 2>&1 | tee -a {{ log_dir }}/install-cluster-services.log
@@ -35,9 +35,9 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cs]
 
-    - name: Install Foundry
+    - name: Install Foundry Control Plane
       shell: 
-        chdir: /installers/foundry/control-plane
+        chdir: "{{ foundry_home }}"
         cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a ./install-logs/install-control-plane.log
       async: 2500
       poll: 30
@@ -47,7 +47,7 @@
 
     - name: Install Metrics Add-On
       shell: 
-        chdir: /installers/foundry/control-plane
+        chdir: "{{ foundry_home }}"
         cmd: ./tools/bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C ./metrics-addon-1.0.0/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
