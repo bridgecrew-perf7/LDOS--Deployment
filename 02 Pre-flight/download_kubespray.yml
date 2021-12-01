@@ -20,7 +20,7 @@
       
     # Downloads kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
-    - name: Get kubespray if needed
+    - name: Get Kubespray if required
       get_url:
         url: 'https://github.com/kubernetes-sigs/kubespray/archive/refs/heads/{{release}}.zip'
         dest: "{{ path }}/{{release}}.zip"
@@ -29,7 +29,7 @@
  
     # Extracts kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
-    - name: Extract kubespray
+    - name: Extract Kubespray-{{ release }}
       ansible.builtin.unarchive:
         src: "{{ path }}/{{release}}.zip"
         dest: "{{ path }}"
@@ -42,7 +42,7 @@
         chdir: "{{ path }}/kubespray-{{release}}"
       tags: [cluster]
   
-    - name: re-Check if kubespray is available
+    - name: Re-Check if Kubespray has extracted
       stat:
         path: "{{ path }}/kubespray-{{release}}"
       register: kubespray
@@ -50,14 +50,14 @@
       tags: [install]
 
     # May need to update path  
-    - name: copy extra-vars.yml
+    - name: Copy extra-vars.yml
       copy:
         src: "../../extra-vars.yml"
         dest: "{{ path }}/kubespray-{{release}}/extra-vars.yml"
       tags: [install]
 
     # May need to update path 
-    - name: copy hosts-skytap.yml
+    - name: Copy hosts-skytap.yml
       copy:
         src: "../../hosts-skytap.yml"
         dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"

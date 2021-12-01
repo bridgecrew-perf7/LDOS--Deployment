@@ -369,7 +369,7 @@
       - name: create Docker cert directory on cluster
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
-      - name: set ownership of cluster Docker cert directory to centos
+      - name: set ownership of cluster Docker cert directory to installer
         shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 

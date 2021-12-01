@@ -5,17 +5,17 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    foundry_home: /installers/Foundry2.2/foundry
-    log_dir: /installers/logs
+    foundry_home: /Downloads/Foundry2.2.1/foundry
+    log_dir: /docker/logs
     
   tasks:
-    - name: Create directory
+    - name: create logs directory
       file:
         path: "{{ log_dir }}"
         state: directory
       become: false
 
-    - name: Install Cluster Services
+    - name: install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
         cmd: ./bin/install-cluster-services.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true 2>&1 | tee -a {{ log_dir }}/install-cluster-services.log
