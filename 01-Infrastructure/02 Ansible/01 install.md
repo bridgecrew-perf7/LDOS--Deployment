@@ -4,7 +4,7 @@ Ansible is an open source IT Configuration Management, Deployment & Orchestratio
 In this lab we're going to:
 * Install ansible controller
 
-#### If you're new to Ansible you may want to take the course: LDS3013S - Introduction to Ansible.
+#### If you're new to Ansible you may want to take the course: [LDS3013S](https://learning.lumada.hitachivantara.com/course/introduction-to-ansible-lds3013s) - Introduction to Ansible.
 
 ---
 
