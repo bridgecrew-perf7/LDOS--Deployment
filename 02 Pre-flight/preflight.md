@@ -32,12 +32,12 @@ run the playbook - pre-flight.yml:
 cd /etc/ansibe/playbooks
 ansible-playbook pre-flight.yml
 ```
-Note the required vars:
-    ansible_ssh_private_key_file: "~/.ssh/id_rsa"
-    ansible_ssh_private_key_file_name: "id_rsa"
-    ansible_user: k8s
-    change_dns: true
-    dns_server: 10.0.0.254 # SkyTap DNS
-    ansible_python_interpreter: /usr/bin/python
+Note the required vars:  
+    ansible_ssh_private_key_file: "~/.ssh/id_rsa"  
+    ansible_ssh_private_key_file_name: "id_rsa"  
+    ansible_user: k8s  
+    change_dns: true  
+    dns_server: 10.0.0.254 # SkyTap DNS  
+    ansible_python_interpreter: /usr/bin/python  
 
 ---
