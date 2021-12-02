@@ -8,12 +8,16 @@ Prerequisites for the CentOS7 machines:
 
 This playbook will:
 * Update packages
-* Install common packages
-* Disable SELinux
-* Disable SWAP
-* Turn off firewall
-* Set hostname
-* Reboot Nodes
+* Ensure Map Max count > 262144
+* Install Helm
+* Prepare kubeconfig
+* Install jq
+* Install kubectl
+* Configure kubectl for Installer access
+* Install Docker
+* Configure a Docker insecure Registry - Ansible Controller
+* Copy over certs
+* Install OpenEBS storage class
 
 ---
 

@@ -7,28 +7,28 @@
   gather_facts: true
   
   tasks:
-    - name: ping
+    - name: Ping
       ping:
       tags: info
 
-    - name: yum update
+    - name: Yum Update
       raw: yum update -y
       tags: ['prereq']
       when: ansible_distribution == "CentOS"
 
-    - name: yum install epel
+    - name: Yum Install Epel
       raw: yum install -y epel-release
       tags: ['prereq', 'never']
       when: ansible_distribution == "CentOS"
     
-    # Elasticserach requires a max map count > 262144
-    - name: get /etc/sysctl.conf
+    # Elasticsearch requires a max map count > 262144
+    - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
       register: max_map_count
       tags: ['elastic']
 
-    - name: expand max_map_count 
+    - name: Expand max_map_count 
       shell: |
         cp /etc/sysctl.conf /etc/sysctl.conf.{{ 10000 | random }}.bak
         echo "vm.max_map_count=262144" >> /etc/sysctl.conf
@@ -39,26 +39,26 @@
         # May need check for it is there and not large enough 
       tags: ['elastic']
 
-    - name: get sudoers secure_path
+    - name: Get sudoers secure_path
       shell: cat /etc/sudoers | grep secure_path
       register: sudoers_path
         
     # Require /usr/local/bin in the sudoers path so 'su' will find kubectl and helm.
-    - name: update sudoers secure_path to include /usr/local/bin
+    - name: Update sudoers secure_path to include /usr/local/bin
       shell: |
         cp /etc/sudoers /etc/sudoers.{{ 10000 | random }}.bak
         sed -i "s!{{ sudoers_path.stdout }}!{{ sudoers_path.stdout }}:/usr/local/bin!g" /etc/sudoers     
       when: "'/usr/local/bin' not in sudoers_path.stdout"
 
-    - name: get /etc/dhcp/dhclient.conf
+    - name: Get /etc/dhcp/dhclient.conf
       shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
       ignore_errors: true
       register: dhcp_nameserver_entry
       tags: ['dhcp']
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
-    # We need to leverage the private DNS lookup of the hosting provider and not Coporate DNS
-    - name: override DNS entries
+    # Leverage the private DNS lookup of the hosting provider
+    - name: Override DNS entries
       shell: |
         cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
         echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
@@ -75,12 +75,12 @@
       when: 
         - dhcp_update is not skipped 
 
-    - name: ping servers in hosts-skytap.yml after reboot
+    - name: Ping Nodes in hosts-skytap.yml after Reboot
       ping:
       when: dhcp_update is defined  
 
-# install helm on all hosts 
-- name: install helm on all hosts 
+# install Helm on all hosts 
+- name: Install helm on all hosts 
   become: true
   become_method: sudo
   become_user: root
@@ -88,13 +88,13 @@
   hosts:  all
 
   tasks:
-    - name: check Helm
+    - name: Check Helm
       shell: helm version
       register: helm_version
       ignore_errors: true
       tags: ['helm']
 
-    - name: download Helm
+    - name: Download Helm
       get_url:
          url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
          dest: ./get_helm.sh
@@ -102,23 +102,22 @@
       when: helm_version.rc != 0
       tags: [ helm ]
        
-    - name: install Helm
+    - name: Install Helm
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
       tags: ['helm']
 
 # configure kubeconfig on cluster for {{ ansible_user }}
-- name: prepare Kubeconfig for {{ ansible_user }}
+- name: Prepare Kubeconfig for {{ ansible_user }}
   become: true
   become_method: sudo
   gather_facts: false
   hosts:  "{{ groups['kube-master'][0] }}"
-        
   any_errors_fatal: true
   tags: kubeconfig
+  
   tasks:
-
-    - name: create ~/.kube directory
+    - name: Create ~/.kube directory
       file:
         path: ~/.kube
         state: directory
@@ -136,33 +135,33 @@
   become_user: root
   become_method: sudo
   gather_facts: true
+  any_errors_fatal: true
   tags: kubeconfig
   hosts: "{{ groups['installer'][0] }}"
    
-  any_errors_fatal: true
   tasks:
-    - name: install jq 
+    - name: Install jq 
       apt:
         name: jq
       when: ansible_distribution == "Ubuntu"
 
-    # install kubectl
-    - name: install kubectl
+    # Install kubectl
+    - name: Install kubectl
       raw: snap install kubectl --channel=1.18/stable --classic
 
-    - name: get local user home
+    - name: Get local user home
       local_action: command echo $HOME
       register: local_home
       become: false
       tags: info
 
-    - name: create ~/.kube directory
+    - name: Create ~/.kube directory
       file:
         path: ~/.kube
         state: directory
       become: false
 
-    - name: transfer file from cluster to installer
+    - name: Transfer file from cluster to installer
       raw: scp -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ groups['kube-master'][0] }}:/home/{{ ansible_user }}/.kube/config ~/.kube/config
       become: false
 
@@ -201,13 +200,13 @@
   become_method: sudo
   become_user: root
   gather_facts: true
+  any_errors_fatal: true
   tags: docker
   vars:
     ansible_python_interpreter: /usr/bin/python3
     docker_home: /docker/registry
     
-  any_errors_fatal: true
-  tasks:
+    tasks:
     - name: create group for non-root docker
       shell: |
         groupadd docker;

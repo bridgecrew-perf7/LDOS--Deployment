@@ -6,13 +6,13 @@ Prerequisites for the CentOS7 machines:
 * SSH passwordless access on Nodes with root permissions
 
 This playbook will:
-* Install Helm
-* Prepare kubeconfig
-* Install kubectl
-* Install Docker
-* Configure a Docker insecure Registry
-* Copy over certs
-* Install OpenEBS storeage class
+* Update packages
+* Install common packages
+* Disable SELinux
+* Disable SWAP
+* Turn off firewall
+* Set hostname
+* Reboot Nodes
 
 check you can ssh into the Nodes:
 ```
