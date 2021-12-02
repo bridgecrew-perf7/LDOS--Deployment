@@ -26,7 +26,7 @@
 
    - name: Install Common Packages
      package:
-      name: [net-tools,nano,bash-completion,wget,curl,yum-utils,lvm2,device-mapper-persistent-data]
+      name: [net-tools,bash-completion,wget,curl,yum-utils,lvm2,device-mapper-persistent-data]
       state: present
      ignore_errors: True
      tags: [install]

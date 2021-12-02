@@ -9,8 +9,8 @@ This playbook will:
 * Update packages
 * Install common packages
 * Disable SELinux
-* Disable SWAP
-* Turn off firewall
+* Disable SWAP - also handled by Kubespray
+* Turn off firewall - also handled by Kubespray
 * Set hostname
 * Reboot Nodes
 
