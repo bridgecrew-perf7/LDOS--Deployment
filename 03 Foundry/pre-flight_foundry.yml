@@ -50,36 +50,36 @@
         sed -i "s!{{ sudoers_path.stdout }}!{{ sudoers_path.stdout }}:/usr/local/bin!g" /etc/sudoers     
       when: "'/usr/local/bin' not in sudoers_path.stdout"
 
-    - name: Get /etc/dhcp/dhclient.conf
-      shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
-      ignore_errors: true
-      register: dhcp_nameserver_entry
-      tags: [dhcp]
+    #- name: Get /etc/dhcp/dhclient.conf
+    #  shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
+    #  ignore_errors: true
+    #  register: dhcp_nameserver_entry
+    #  tags: [dhcp]
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
     # Leverage the private DNS lookup of the hosting provider
-    - name: Override DNS entries
-      shell: |
-        cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
-        echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
-      register: dhcp_update
+    #- name: Override DNS entries
+    #  shell: |
+    #    cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
+    #    echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
+    #  register: dhcp_update
 
-    - name: reboot hosts if required
-      reboot:
-        msg: "Reboot initiated by Ansible"
-        connect_timeout: 5
-        reboot_timeout: 600
-        pre_reboot_delay: 0
-        post_reboot_delay: 30
-        test_command: whoami
-      when: 
-        - dhcp_update is not skipped 
+    #- name: reboot hosts if required
+    #  reboot:
+    #    msg: "Reboot initiated by Ansible"
+    #    connect_timeout: 5
+    #    reboot_timeout: 600
+    #    pre_reboot_delay: 0
+    #    post_reboot_delay: 30
+    #    test_command: whoami
+    #  when: 
+    #    - dhcp_update is not skipped 
 
-    - name: Ping Nodes in hosts-skytap.yml after Reboot
-      ping:
-      when: dhcp_update is defined  
+    #- name: Ping Nodes in hosts-skytap.yml after Reboot
+    #  ping:
+    #  when: dhcp_update is defined  
 
-# install Helm on all hosts 
+# Install Helm on all hosts 
 - name: Install helm on all hosts 
   become: true
   become_method: sudo
@@ -105,9 +105,9 @@
     - name: Install Helm
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
-      tags: ['helm']
+      tags: [helm]
 
-# configure kubeconfig on cluster for {{ ansible_user }}
+# Configure kubeconfig on cluster for {{ ansible_user }}
 - name: Prepare Kubeconfig for {{ ansible_user }}
   become: true
   become_method: sudo
@@ -129,7 +129,7 @@
     - name: change config ownership to {{ ansible_user }}
       shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
-# setup kubectl for local user and root by copying from the cluster
+# Setup kubectl for local user and root by copying from the cluster
 - name: Setup kubectl for '{{ ansible_user }}' user on Ansible Controller
   become: true
   become_user: root
@@ -144,6 +144,7 @@
       apt:
         name: jq
       when: ansible_distribution == "Ubuntu"
+      tags: [install]
 
     # Install kubectl
     - name: Install kubectl
@@ -204,30 +205,31 @@
   tags: docker
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    docker_home: /docker/registry
+    docker_home: /Docker/Registry
     
     tasks:
-    - name: create group for non-root docker
+    - name: Create group for non-root docker
       shell: |
         groupadd docker;
         usermod {{ local_user }} -aG docker;
 
-    - name: check for docker
+    - name: Check for Docker
       shell: which docker
       ignore_errors: true
       register: docker_exists
+      tags: [info]
       
-    - name: install docker
+    - name: Install Docker
       apt: 
         name: docker.io
       when: docker_exists is failed 
 
-    - name: stop docker if running
+    - name: Stop Docker if running
       shell: systemctl stop docker
       ignore_errors: true
       when: docker_exists is defined 
 
-    - name: create directory
+    - name: Create Docker directory
       ignore_errors: true
       file:
         path: "{{ item }}"
@@ -236,7 +238,7 @@
         - /etc/docker
       when: docker_exists is failed
 
-    - name: create docker daemon.json and data root
+    - name: Create docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /docker
@@ -253,15 +255,15 @@
         - /docker/registry
       when: docker_exists is failed 
 
-    - name: start docker
+    - name: Start Docker
       shell: systemctl start docker
 
-    - name: check root change
+    - name: Check root change
       shell: docker info | grep Root
       register: docker_root
       failed_when: '"{{ docker_home }}" not in docker_root.stdout'
 
-- name: configure Docker Registry
+- name: Configure Docker Registry
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
@@ -294,7 +296,7 @@
         failed_when: '"(docker)" not in output.stdout_lines|string'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: configure Registry
+- name: Configure Registry
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
@@ -305,7 +307,7 @@
   #  @TODO might want to add a check to confirm openssl 1.1.1 or the '-addext option will fail'
   tasks:
     - block:
-      - name: create local certificate
+      - name: Create Local Certificate
         shell: |
           cd ~{{ local_user }};
           mkdir -p certs;
@@ -314,7 +316,7 @@
           # openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN={{ groups['installer'][0] }}"
         tags: [certs]
 
-      - name: allow insecure registry
+      - name: Allow Insecure Registry
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
@@ -322,7 +324,7 @@
         pip: 
           name: docker
 
-      - name: build registry service
+      - name: Build Registry Service
         docker_container:
           name: registry
           image: registry:2
@@ -341,11 +343,11 @@
               REGISTRY_HTTP_TLS_KEY: "/certs/domain.key"       
 
       # do this manually since this restarts the running docker process on the installer node
-      - name: restart docker for registry
+      - name: Restart Docker for Registry
         shell: systemctl restart docker
         become: true
 
-      - name: check registry change
+      - name: Check Registry change
         shell: |
           docker info | grep -i -a1 Insecure 
         register: docker_insecure
@@ -353,7 +355,7 @@
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
 # Allow the nodes of the cluster to access the regsitry by certificate
-- name: create Registry Cert path on cluster
+- name: Create Registry Cert path on cluster
   hosts: "{{ groups['kube-node']}}"
   become: true
   become_method: sudo
@@ -365,14 +367,14 @@
   any_errors_fatal: true
   tasks:
     - block:
-      - name: create Docker cert directory on cluster
+      - name: Create Docker cert directory on cluster
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
-      - name: set ownership of cluster Docker cert directory to installer
+      - name: Set ownership of cluster Docker cert directory to installer
         shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: copy Docker cert from installer node to cluster
+- name: Copy Docker cert from installer node to cluster
   become: false
   gather_facts: false
   hosts:  "{{ groups['kube-node'] }}" 
@@ -385,27 +387,27 @@
   # Otherwise, we assume the registry is external and already defined
   tasks:
     - block:
-      - name: write the clusters host key to known hosts
+      - name: Write the clusters host key to known hosts
         connection: local
         shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
 
-      - name: transfer file from installer to cluster
+      - name: Transfer file from installer to cluster
         shell: scp -i {{ ansible_ssh_private_key_file }} /home/{{ local_user }}/certs/domain.crt {{ansible_user }}@{{ inventory_hostname }}:/etc/docker/certs.d/{{ groups['installer'][0] }}:5000
         delegate_to: "{{ groups['installer'][0] }}"
       
-      - name: verify new cert directory on cluster
+      - name: Verify new cert directory on cluster
         shell: | 
           cd /etc/docker/certs.d/{{ groups['installer'][0] }}:5000;
           pwd;
           ls -l;
         register: cert_path
 
-      - name: show filepath for new docker cert
+      - name: Show filepath for new docker cert
         debug:
           msg: "{{ cert_path.stdout_lines }}"
         when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: install Storage Class (if needed)
+- name: Install Storage Class - if required
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
