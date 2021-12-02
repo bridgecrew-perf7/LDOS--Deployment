@@ -9,24 +9,24 @@
   tasks:
     - name: Ping
       ping:
-      tags: info
+      tags: [info]
 
     - name: Yum Update
       raw: yum update -y
-      tags: ['prereq']
       when: ansible_distribution == "CentOS"
+      tags: [prereq]
 
     - name: Yum Install Epel
       raw: yum install -y epel-release
-      tags: ['prereq', 'never']
       when: ansible_distribution == "CentOS"
+      tags: ['prereq', 'never']
     
     # Elasticsearch requires a max map count > 262144
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
       register: max_map_count
-      tags: ['elastic']
+      tags: [elastic]
 
     - name: Expand max_map_count 
       shell: |
@@ -37,7 +37,7 @@
       when: 
         - max_map_count.stdout | int < 262144 
         # May need check for it is there and not large enough 
-      tags: ['elastic']
+      tags: [elastic]
 
     - name: Get sudoers secure_path
       shell: cat /etc/sudoers | grep secure_path
@@ -54,7 +54,7 @@
       shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
       ignore_errors: true
       register: dhcp_nameserver_entry
-      tags: ['dhcp']
+      tags: [dhcp]
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
     # Leverage the private DNS lookup of the hosting provider
@@ -92,7 +92,7 @@
       shell: helm version
       register: helm_version
       ignore_errors: true
-      tags: ['helm']
+      tags: [helm]
 
     - name: Download Helm
       get_url:
@@ -130,7 +130,7 @@
       shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
 # setup kubectl for local user and root by copying from the cluster
-- name: Setup kubectl for '{{ ansible_user }}' user on installer node
+- name: Setup kubectl for '{{ ansible_user }}' user on Ansible Controller
   become: true
   become_user: root
   become_method: sudo
@@ -153,9 +153,9 @@
       local_action: command echo $HOME
       register: local_home
       become: false
-      tags: info
-
-    - name: Create ~/.kube directory
+      tags: [info]
+    # Create a .kube directory for Installer
+    - name: Create ~/.kube Directory
       file:
         path: ~/.kube
         state: directory
