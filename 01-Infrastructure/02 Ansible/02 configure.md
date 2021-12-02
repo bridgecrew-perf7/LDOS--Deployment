@@ -55,12 +55,12 @@ edit the ansible.cfg file:
 ```
 sudo nano ansible.cfg
 ```
-uncomment the line (14): inventory = /etc/ansible/hosts-skytap.yml
-uncomment the line (68): roles_path = /etc/ansible/roles
-uncomment the line (71): host_key_checking = False
-uncomment the line (103): timeout=180
-uncomment the line (375): ssh_args = -C -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=30m -o ConnectionAttempts=100
-uncomment the line (401): pipelining = False  set to True (disable requiretty in /etc/sudoers)
+uncomment the line (14): inventory = /etc/ansible/hosts-skytap.yml  
+uncomment the line (68): roles_path = /etc/ansible/roles  
+uncomment the line (71): host_key_checking = False  
+uncomment the line (103): timeout=180  
+uncomment the line (375): ssh_args = -C -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=30m -o ConnectionAttempts=100  
+uncomment the line (401): pipelining = False  set to True (disable requiretty in /etc/sudoers)  
 
 ---
 
