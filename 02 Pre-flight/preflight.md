@@ -6,13 +6,13 @@ Prerequisites for the CentOS7 machines:
 * SSH passwordless access on Nodes with root permissions
 
 This playbook will:
-* Update packages
-* Install common packages
-* Disable SELinux
-* Disable SWAP - also handled by Kubespray
-* Turn off firewall - also handled by Kubespray
-* Set hostname
-* Reboot Nodes
+* Install Helm
+* Prepare kubeconfig
+* Install kubectl
+* Install Docker
+* Configure a Docker insecure Registry
+* Copy over certs
+* Install OpenEBS storeage class
 
 check you can ssh into the Nodes:
 ```
@@ -29,7 +29,7 @@ This will update, install and configure the various required packages.
 
 run the playbook - pre-flight_hardware.yml: 
 ```
-cd /etc/ansibe/playbooks
+cd /etc/ansible/playbooks
 ansible-playbook pre-flight_hardware.yml
 ```
 Note the required vars:  

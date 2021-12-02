@@ -22,10 +22,10 @@ This will update, install and configure the various required packages.
 
 
 
-run the playbook - pre-flight.yml: 
+run the playbook - pre-flight_foundry.yml: 
 ```
-cd /etc/ansibe/playbooks
-ansible-playbook pre-flight.yml
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" --become pre-flight_foundry.yml
 ```
 Note the required vars:
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
