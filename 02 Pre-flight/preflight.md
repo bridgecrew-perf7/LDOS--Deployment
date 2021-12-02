@@ -2,8 +2,8 @@
 Ansible playbook configures the Nodes for Kubespray 2.14
 
 Prerequisites for the CentOS7 machines:
-* SSH access using password with a user who has root permissions
 * A public key generated on your Ansible Controller
+* SSH passwordless access on Nodes with root permissions
 
 This playbook will:
 * Update packages
@@ -14,18 +14,18 @@ This playbook will:
 * Set hostname
 * Reboot Nodes
 
+check you can ssh into the Nodes:
+```
+ssh k8s@10.0.0.101
+ssh k8s@10.0.0.102
+ssh k8s@10.0.0.103
+```
+Note: k8s passwordless authenticated connection.
+
 ---
 
 <em>Run the playbook - pre-flight_hardware.yml</em>  
 This will update, install and configure the various required packages.
-
-check you can ssh into the Nodes:
-```
-ssh k8s@10.0.0.2
-ssh k8s@10.0.0.3
-ssh k8s@10.0.0.4
-```
-Note: k8s passwordless authenticated connection.
 
 run the playbook - pre-flight_hardware.yml: 
 ```

@@ -2,8 +2,9 @@
 Ansible playbook installs and configures Hitachi Vantara Foundry Soluti
 
 Prerequisites for the CentOS7 machines:
-* SSH access using password with a user who has root permissions
 * A public key generated on your Ansible Controller
+* SSH passwordless access on Nodes with root permissions
+* Completed 01 Infrastructure section
 
 This playbook will:
 * Update packages
@@ -16,16 +17,10 @@ This playbook will:
 
 ---
 
-<em>Run the playbook - pre-flight.yml</em>  
+<em>Run the playbook - pre-flight_foundry.yml</em>  
 This will update, install and configure the various required packages.
 
-check you can ssh into the Nodes:
-```
-ssh k8s@10.0.0.2
-ssh k8s@10.0.0.3
-ssh k8s@10.0.0.4
-```
-Note: k8s passwordless authenticated connection.
+
 
 run the playbook - pre-flight.yml: 
 ```
