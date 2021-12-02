@@ -89,7 +89,7 @@
      register: dhcp_nameserver_entry
 
    # This file will rebuild the /etc/resolv.conf file on reboot.   
-   # We need to leverage the private DNS lookup of SkyTap
+   # Leverage the private DNS lookup of SkyTap
    - name: Override current DNS entries
      shell: |
         cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
