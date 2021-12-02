@@ -44,7 +44,7 @@ Ctrl o
 Return 
 Ctrl x
 
-Note: You could simply add the hosts IPs, but be aware the incorrect hostnames will be written out to the /etc/hosts.  Workshop uses the complete hosts-skytap.yml
+Note: You could simply add the hosts IPs, but be aware the incorrect hostnames will be written out to the /etc/hosts.  Workshop uses the complete hosts-skytap.yml so that hostnames can be resolved.
 
 ---
 
