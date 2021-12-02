@@ -53,6 +53,7 @@ sudo yum update
 
 <em>add a 'k8s' user to the wheel group (log in as root):</em>
 ```
+sudo -i
 usermod -aG wheel k8s
 ```
 check the assigned groups:
@@ -79,7 +80,9 @@ sudo yum install -y nano
 
 <em>allow users in group wheel to run all commands without password:</em>
 ```
-nano /etc/sudoers
+sudo nano /etc/sudoers  
+```
+```
 ## Allows users in group wheel to run all commands
 %wheel  ALL=(ALL)     ALL
 
@@ -95,12 +98,14 @@ Ctrl + x
 
 ---
 
-### <font color='red'>LDOS 1.2.0 Installer</font>
+### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
 This server has been configured with an 'installer' user with sudo privileges.  
 
 update (log in as root) :
 ```
+sudo -i
 apt update -y
+apt upgrade -y
 ```
 add an 'installer' user :
 ```
@@ -130,6 +135,8 @@ ls /home
 <em>allow users in group sudo to run all commands without password:</em>
 ```
 sudo nano /etc/sudoers
+```
+```
 ## Allows users in group admin to gain root privileges
 %admin  ALL=(ALL)    ALL
 %sudo   ALL=(ALL)    ALL  
@@ -162,7 +169,7 @@ Enusre that the following packages are also installed and configured:
 ---
 
 <em>install openssh server:</em>  
-ssh should already be installed:
+ssh client should already be installed:
 ```
 ssh -V
 ```
