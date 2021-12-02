@@ -43,7 +43,7 @@
       shell: cat /etc/sudoers | grep secure_path
       register: sudoers_path
         
-    # Require /usr/local/bin in the sudoers path so 'su' will find kubectl and helm.
+    # Require /usr/local/bin in the sudoers path so 'su' will find kubectl and Helm.
     - name: Update sudoers secure_path to include /usr/local/bin
       shell: |
         cp /etc/sudoers /etc/sudoers.{{ 10000 | random }}.bak
@@ -194,7 +194,7 @@
       debug:
         msg: "{{ pods.stdout_lines }}"
 
-# install docker locally
+# Install Docker - locally
 - name: install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true
@@ -208,6 +208,7 @@
     docker_home: /Docker/Registry
     
     tasks:
+    # add 'installer' to Docker group
     - name: Create group for non-root docker
       shell: |
         groupadd docker;
@@ -267,13 +268,13 @@
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
+  any_errors_fatal: true
   tags: [registry, continue]
   vars:
     ansible_python_interpreter: /usr/bin/python3
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined
-  # 
-  any_errors_fatal: true
+    
+  # Only when the registry requested is on the Ansible Controller.
+  # Otherwise, assume the registry is external and already defined
   tasks:
     - block:
       - name: Debug ID getting new group role

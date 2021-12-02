@@ -9,14 +9,14 @@ Prerequisites for the CentOS7 machines:
 This playbook will:
 * Update packages
 * Ensure Map Max count > 262144
-* Install Helm
+* Install Helm - all Nodes
 * Prepare kubeconfig
 * Install jq
 * Install kubectl
-* Configure kubectl for Installer access
+* Configure kubectl for 'installer' access
 * Install Docker
 * Configure a Docker insecure Registry - Ansible Controller
-* Copy over certs
+* Copy over certs to 'installer'
 * Install OpenEBS storage class
 
 ---

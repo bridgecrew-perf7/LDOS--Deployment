@@ -294,6 +294,11 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 exit
 ```
 
+#### <font color='red'>Docker Registry Volume</font>
+Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  An insecure Docker Registry 
+
+
+
 ---
 
 ### <font color='red'>Pentaho Server 9.2</font>
