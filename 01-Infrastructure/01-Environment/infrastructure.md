@@ -28,7 +28,10 @@ Domain Name: skytap.example
 | LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 20.04.3  | 
 |
 
-VM sequence: LDOS Master 1-3 : Pentaho Server 9.2 : LDOS 1.2.0 Installer   
+VM sequence: 
+* LDOS Master 1-3 
+* Pentaho Server 9.2 
+* LDOS 1.2.0 Installer   
 
 ![SkyTap Lab](../assets/skytap_lab.png)
 
