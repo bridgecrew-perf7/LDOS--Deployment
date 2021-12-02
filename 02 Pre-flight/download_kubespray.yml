@@ -1,10 +1,11 @@
 # Downloads and installs Kubespray 2.14 of Kubernetes 1.18
 - hosts: "{{ groups['installer'][0] }}"
+  become: true
   name: Install Kubespray
   gather_facts: true
   vars:
     release: release-2.14
-    path: /kubspray
+    path: ~/Download/Kubespray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
@@ -17,6 +18,14 @@
     - debug: 
         msg: "Kubspray Exists: {{ kubespray.stat.exists }}"
       tags: [info]
+
+    # Creates kubespray directory - if required
+    - name: Create kubespray directory
+      file:
+        path: ~/Download/Kubespray
+        state: directory
+      when: kubespray.stat.exists == false
+      tags: [info, install]
       
     # Downloads kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
@@ -52,14 +61,14 @@
     # May need to update path  
     - name: Copy extra-vars.yml
       copy:
-        src: "../../extra-vars.yml"
+        src: "extra-vars.yml"
         dest: "{{ path }}/kubespray-{{release}}/extra-vars.yml"
       tags: [install]
 
     # May need to update path 
     - name: Copy hosts-skytap.yml
       copy:
-        src: "../../hosts-skytap.yml"
+        src: "hosts-skytap.yml"
         dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"
       tags: [install]
 

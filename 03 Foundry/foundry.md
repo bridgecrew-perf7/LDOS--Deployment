@@ -1,5 +1,5 @@
-## <font color='red'>Ansible-Centos7</font>
-Ansible playbook configures the Nodes for Kubespray 2.14
+## <font color='red'>Hitachi Vantara Foundry 2.2.1 Platform</font>
+Ansible playbook installs and configures Hitachi Vantara Foundry Soluti
 
 Prerequisites for the CentOS7 machines:
 * SSH access using password with a user who has root permissions
