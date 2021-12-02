@@ -73,4 +73,5 @@ sudo mkdir roles
 sudo mkdir playbooks
 ```
 Note: you will have to copy over the playbooks to: /etc/ansible/playbooks
+
 ---
