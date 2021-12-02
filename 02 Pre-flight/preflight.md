@@ -16,7 +16,7 @@ This playbook will:
 
 ---
 
-<em>Run the playbook - pre-flight.yml</em>  
+<em>Run the playbook - pre-flight_hardware.yml</em>  
 This will update, install and configure the various required packages.
 
 check you can ssh into the Nodes:
@@ -27,10 +27,10 @@ ssh k8s@10.0.0.4
 ```
 Note: k8s passwordless authenticated connection.
 
-run the playbook - pre-flight.yml: 
+run the playbook - pre-flight_hardware.yml: 
 ```
 cd /etc/ansibe/playbooks
-ansible-playbook pre-flight.yml
+ansible-playbook pre-flight_hardware.yml
 ```
 Note the required vars:  
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"  
