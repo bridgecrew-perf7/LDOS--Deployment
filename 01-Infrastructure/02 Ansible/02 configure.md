@@ -48,7 +48,7 @@ Note: You could simply add the hosts IPs, but be aware the incorrect hostnames w
 
 ---
 
-<em>edit the ansible.cfg</em>
+<em>edit the ansible.cfg</em>  
 Apply the following configuration changes:    
 
 edit the ansible.cfg file:
