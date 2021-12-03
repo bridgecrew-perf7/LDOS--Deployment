@@ -1,6 +1,6 @@
-# Foundry Cluster Preflight - Worker Nodes
+---
 - name: Cluster Hosts Pre-flight
-  hosts:  "{{ groups['kube-node'] }}"
+  hosts: "{{ groups['kube-node'] }}"
   become: true
   become_method: sudo
   become_user: root
@@ -200,7 +200,7 @@
         msg: "{{ pods.stdout_lines }}"
 
 # Install Docker - locally
-- name: install Docker
+- name: Install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true
   become_method: sudo
@@ -216,7 +216,7 @@
     # add 'installer' to Docker group
     - name: Create group for non-root docker
       shell: |
-        groupadd docker;
+        addgroup docker;
         usermod {{ local_user }} -aG docker;
 
     - name: Check for Docker
@@ -433,7 +433,7 @@
       register: sc
       ignore_errors: true
     
-    - name: install openebs default storage (if needed)
+    - name: Install openebs default storage (if needed)
       shell: "{{ item }}"
       with_items:
         - kubectl create ns openebs
@@ -442,7 +442,7 @@
         - helm install --namespace openebs openebs openebs/openebs
       when: "'default' not in sc.stdout"
 
-    - name: make openebs the default storageclass
+    - name: Make openebs the default storageclass
       shell: |
         kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
       when: "'default' not in sc.stdout"
