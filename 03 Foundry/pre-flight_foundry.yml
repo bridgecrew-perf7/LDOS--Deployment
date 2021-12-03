@@ -1,4 +1,4 @@
-# Foundry Cluster Preflight
+# Foundry Cluster Preflight - Worker Nodes
 - name: Cluster Hosts Pre-flight
   hosts:  "{{ groups['kube-node'] }}"
   become: true
@@ -50,34 +50,35 @@
         sed -i "s!{{ sudoers_path.stdout }}!{{ sudoers_path.stdout }}:/usr/local/bin!g" /etc/sudoers     
       when: "'/usr/local/bin' not in sudoers_path.stdout"
 
-    #- name: Get /etc/dhcp/dhclient.conf
-    #  shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
-    #  ignore_errors: true
-    #  register: dhcp_nameserver_entry
-    #  tags: [dhcp]
+    - name: Get /etc/dhcp/dhclient.conf
+      shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
+      ignore_errors: true
+      register: dhcp_nameserver_entry
+      tags: [dhcp]
 
     # This file will rebuild the /etc/resolv.conf file on reboot.
     # Leverage the private DNS lookup of the hosting provider
-    #- name: Override DNS entries
-    #  shell: |
-    #    cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
-    #    echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
-    #  register: dhcp_update
+    # Not really required for this workshop as Master / Worker Nodes are on the same cluster Node.
+    - name: Override DNS entries
+      shell: |
+        cp /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.{{ 10000 | random }}.bak
+        echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
+      register: dhcp_update
 
-    #- name: reboot hosts if required
-    #  reboot:
-    #    msg: "Reboot initiated by Ansible"
-    #    connect_timeout: 5
-    #    reboot_timeout: 600
-    #    pre_reboot_delay: 0
-    #    post_reboot_delay: 30
-    #    test_command: whoami
-    #  when: 
-    #    - dhcp_update is not skipped 
+    - name: reboot hosts if required
+      reboot:
+        msg: "Reboot initiated by Ansible"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: whoami
+      when: 
+        - dhcp_update is not skipped 
 
-    #- name: Ping Nodes in hosts-skytap.yml after Reboot
-    #  ping:
-    #  when: dhcp_update is defined  
+    - name: Ping Nodes in hosts-skytap.yml after Reboot
+      ping:
+      when: dhcp_update is defined  
 
 # Install Helm on all hosts 
 - name: Install helm on all hosts 
@@ -129,16 +130,17 @@
     - name: change config ownership to {{ ansible_user }}
       shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
+# Switch to Ansible Controller
 # Setup kubectl for local user and root by copying from the cluster
 - name: Setup kubectl for '{{ ansible_user }}' user on Ansible Controller
+  hosts: "{{ groups['installer'][0] }}"
   become: true
   become_user: root
   become_method: sudo
   gather_facts: true
   any_errors_fatal: true
   tags: kubeconfig
-  hosts: "{{ groups['installer'][0] }}"
-   
+     
   tasks:
     - name: Install jq 
       apt:
@@ -155,6 +157,7 @@
       register: local_home
       become: false
       tags: [info]
+    
     # Create a .kube directory for Installer
     - name: Create ~/.kube Directory
       file:
@@ -166,7 +169,7 @@
       raw: scp -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ groups['kube-master'][0] }}:/home/{{ ansible_user }}/.kube/config ~/.kube/config
       become: false
 
-    # as root get config from {{ local_home.stdout }}
+    # As root get config from {{ local_home.stdout }}
     - name: Create directory
       file:
         path: ~/.kube
@@ -175,12 +178,13 @@
     - name: copy config to root home
       shell: "cp {{ local_home.stdout }}/.kube/config ~/.kube"
 
-    # as local user, test kubectl config
+    # As local user, test kubectl config
     - name: check kubectl connectivity from installer node to cluster
       shell: "kubectl get nodes"
       register: nodes
       become: false
-
+    
+    # Display the Nodes
     - name: show output from command --> kubectl get nodes
       debug:
         msg: "{{ nodes.stdout_lines }}"
@@ -189,7 +193,8 @@
       shell: "kubectl get pods -n kube-system"
       register: pods
       become: false
-
+    
+    # Display the Pods..
     - name: show output from command --> kubectl get pods -n kube-system
       debug:
         msg: "{{ pods.stdout_lines }}"
@@ -205,7 +210,7 @@
   tags: docker
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    docker_home: /Docker/Registry
+    docker_home: /media/installer/Docker/docker
     
     tasks:
     # add 'installer' to Docker group
@@ -239,21 +244,21 @@
         - /etc/docker
       when: docker_exists is failed
 
-    - name: Create docker daemon.json and data root
+    - name: Create Docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /docker
       tags: [install, docker]
       when: docker_exists is failed 
 
-    - name: non-root docker directories
+    - name: Non-root docker directories
       shell: |
         chgrp docker "{{ item }}"
         chmod 775 "{{ item }}"
       with_items:
         - /etc/docker
         - /etc/docker/daemon.json
-        - /docker/registry
+        - /media/Docker/docker
       when: docker_exists is failed 
 
     - name: Start Docker
@@ -355,6 +360,7 @@
         failed_when: '"{{ groups[''installer''][0] }}" not in docker_insecure.stdout'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
+# Switch to Nodes
 # Allow the nodes of the cluster to access the regsitry by certificate
 - name: Create Registry Cert path on cluster
   hosts: "{{ groups['kube-node']}}"
@@ -408,6 +414,7 @@
           msg: "{{ cert_path.stdout_lines }}"
         when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
+# Switch to Ansible Controller to install OpenEBS
 - name: Install Storage Class - if required
   hosts: "{{ groups['installer'][0] }}"
   become: false
