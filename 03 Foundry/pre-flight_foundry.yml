@@ -491,7 +491,7 @@
       - apt remove -y docker.io;
       - rm -rf /etc/docker
       - rm -rf /var/lib/docker
-      - rm -rf /docker/registry
+      - rm -rf /media/installer/Docker/docker
       - rm -rf ~/.kube;
       - rm -rf ~installer/.kube;
       - groupdel docker
