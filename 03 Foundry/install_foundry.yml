@@ -6,7 +6,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
     foundry_home: /Downloads/Foundry-2.2.1/Foundry/Foundry-Control-Plane-2.2.1
-    log_dir: /docker/logs
+    log_dir: /Docker/logs
     
   tasks:
     - name: Create Logs Directory
@@ -57,7 +57,7 @@
 
     - name: Upload Metrics Add-On Solution
       shell: 
-        chdir: /installers/foundry/control-plane
+        chdir: /Docker/foundry/control-plane
         cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
