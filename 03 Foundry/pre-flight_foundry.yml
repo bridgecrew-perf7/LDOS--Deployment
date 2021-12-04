@@ -96,7 +96,7 @@
       ignore_errors: true
       tags: [helm]
 
-    - name: Download Helm
+    - name: Download Helm3
       get_url:
          url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
          dest: ./get_helm.sh
@@ -104,7 +104,7 @@
       when: helm_version.rc != 0
       tags: [ helm ]
        
-    - name: Install Helm
+    - name: Install Helm3
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
       tags: [helm]
@@ -212,7 +212,7 @@
   tags: docker
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    docker_home: /media/installer/Docker/docker
+    docker_home: /Docker/docker
     
     tasks:
     # add 'installer' to Docker group
@@ -249,7 +249,7 @@
     - name: Create Docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
-         mv /var/lib/docker /docker
+         mv /var/lib/docker /Docker
       tags: [install, docker]
       when: docker_exists is failed 
 
@@ -260,7 +260,7 @@
       with_items:
         - /etc/docker
         - /etc/docker/daemon.json
-        - /media/Docker/docker
+        - /Docker/docker
       when: docker_exists is failed 
 
     - name: Start Docker
@@ -493,7 +493,7 @@
       - apt remove -y docker.io;
       - rm -rf /etc/docker
       - rm -rf /var/lib/docker
-      - rm -rf /media/installer/Docker/docker
+      - rm -rf /Docker/docker
       - rm -rf ~/.kube;
       - rm -rf ~installer/.kube;
       - groupdel docker
