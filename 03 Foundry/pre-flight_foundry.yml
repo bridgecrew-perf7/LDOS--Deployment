@@ -312,9 +312,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  # This procedure configures Docker to entirely disregard security for your registry. 
-  # This is very insecure and is not recommended. It exposes your registry to trivial man-in-the-middle (MITM) attacks. 
-  # Only use this solution for isolated testing or in a tightly controlled, air-gapped environment.
+  # Using self-signed certificates with basic authentication requires to also trust the certificate into the OS cert store for some versions of docker
   tasks:
     - block:
       - name: Create Local Certificate
@@ -401,7 +399,8 @@
       - name: Write the clusters host key to known hosts
         connection: local
         shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
-
+      
+      # Instruct every Docker daemon to trust that certificate.
       - name: Transfer file from installer to cluster
         shell: scp -i {{ ansible_ssh_private_key_file }} /home/{{ local_user }}/certs/domain.crt {{ansible_user }}@{{ inventory_hostname }}:/etc/docker/certs.d/{{ groups['installer'][0] }}:5000
         delegate_to: "{{ groups['installer'][0] }}"

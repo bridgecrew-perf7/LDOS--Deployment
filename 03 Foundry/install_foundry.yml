@@ -6,6 +6,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
     foundry_home: /Downloads/Foundry-2.2.1/Foundry/Foundry-Control-Plane-2.2.1
+    metrics_home: /Downloads/
     log_dir: /Docker/logs
     
   tasks:
@@ -47,7 +48,7 @@
 
     - name: Install Metrics Add-On
       shell: 
-        chdir: "{{ foundry_home }}"
+        chdir: "{{ metrics_home }}"
         cmd: ./tools/bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C ./metrics-addon-1.0.0/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
@@ -57,7 +58,7 @@
 
     - name: Upload Metrics Add-On Solution
       shell: 
-        chdir: /Docker/foundry/control-plane
+        chdir: "{{ metrics_home }}"
         cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
