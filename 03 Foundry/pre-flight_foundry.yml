@@ -371,6 +371,7 @@
   become_user: root
   gather_facts: true
   tags: [never, continue]
+  
   # Only when the registry requested is the installer node will we install this.
   # Otherwise, we assume the registry is external and already defined 
   any_errors_fatal: true
