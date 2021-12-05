@@ -232,7 +232,7 @@
         name: docker.io
       when: docker_exists is failed 
 
-    - name: Stop Docker if running
+    - name: Stop Docker -  if required
       shell: systemctl stop docker
       ignore_errors: true
       when: docker_exists is defined 
@@ -312,7 +312,9 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  #  @TODO might want to add a check to confirm openssl 1.1.1 or the '-addext option will fail'
+  # This procedure configures Docker to entirely disregard security for your registry. 
+  # This is very insecure and is not recommended. It exposes your registry to trivial man-in-the-middle (MITM) attacks. 
+  # Only use this solution for isolated testing or in a tightly controlled, air-gapped environment.
   tasks:
     - block:
       - name: Create Local Certificate
