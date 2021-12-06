@@ -4,18 +4,35 @@
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    foundry_root: /Downloads/Foundry-Control-Plane-2.2.1.tgz
     foundry_home: /Downloads/Foundry/Foundry-Control-Plane-2.2.1
     metrics_home: /Downloads/Foundry/metrics-addon-1.0.0
     log_dir: media/installer/Docker/logs
+    ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    - name: Create Logs Directory
+    # Creates required install directories
+    - name: Create directory
       file:
-        path: "{{ log_dir }}"
+        path: "{{ item }}"
         state: directory
+      with_items:
+        - "{{ foundry_home }}"
+        - "{{ metrics_home }}"
+        - "{{ log_dir }}"
       become: false
+      tags: [unpack]
+    
+    # Unpacks Foundry & Metrics packages 
+    - name: Unpack Foundry
+      unarchive: 
+        src: "{{ foundry_root }}"
+        dest: "{{ foundry_home }}"
+        creates: "{{ foundry_home }}/bin"
+      with_fileglob: "{{ foundry_root }}*"
+      tags: [unpack] 
 
+    # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
@@ -60,6 +77,130 @@
       shell: 
         chdir: /media/installers/foundry/control-plane
         cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, metrics]
+
+    - name: Confirm Foundry
+      shell: "{{ item }}"
+      with_items:
+        - "kubectl get all -n hitachi-solutions"
+      register: foundry_pods
+      tags: ['never', 'install_cp', 'info']
+
+    - name: Confirm Foundry User
+      shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
+      register: foundry_pass
+      tags: ['never', 'install_cp', 'info']
+
+    - name: Foundry URLs
+      debug:
+        msg: 
+        - " Installation complete.... "
+        - "          Logs can be found in {{ log_dir }}"
+        - "          URL: https://{{ apiserver_loadbalancer_domain_name }}/hitachi-solutions/hscp-hitachi-solutions/solution-control-plane/"
+        - "          as foundry/{{ foundry_pass.stdout }}"
+      tags: ['never', 'install_cp', 'info']
+
+
+
+
+
+
+- name: Install Foundry Services
+  become: false
+#  become_method: sudo
+  gather_facts: true
+  hosts: "{{ groups['installer'][0] }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    installer_home: /installers
+    foundry_home: /installers/Foundry2.2/foundry
+    foundry_root: Foundry-Control-Plane-2.2.0
+    metrics_root: metrics-addon-1.0.0
+    log_dir: /installers/logs
+    
+  tasks:
+    - name: Create directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ log_dir }}"
+        - "{{ foundry_home }}"
+      become: false
+      tags: unpack
+
+    # What: Unpack downloads
+    # Why: This will make sure the files are downlaoded and unpacked in the expected paths.  If not, it will fail which is a quick double-check
+    - name: Unpack Foundry
+      unarchive: 
+        src: "{{ item }}"
+        dest: "{{ foundry_home }}"
+        creates: "{{ foundry_home }}/bin"
+      with_fileglob: "{{ installer_home }}/{{ foundry_root }}*"
+      tags: unpack
+
+    - name: Unpack Metrics Add-on
+      unarchive: 
+        src: "{{ item }}"
+        dest: "{{ installer_home }}"
+        creates: "{{ installer_home }}/{{ metrics_root }}"
+      with_fileglob: "{{ installer_home }}/{{ metrics_root }}*"
+      tags: unpack
+
+    # What: Run install-cluster-services.sh
+    # Why: Foundry requires istio and cert-manager be installed
+    - name: Install Cluster Services
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/install-cluster-services.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true 2>&1 | tee -a {{ log_dir }}/install-cluster-services.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install_cs]
+
+    # What: Run apply-crds.sh
+    # Why: We need to add custom resources to the cluster
+    - name: Run Custom Resource Definitions Script
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ log_dir }}/apply-crds.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, install_cs]
+
+    # What: Run install-control-plane.sh
+    # Why: Install the Soluton Control Plane services
+    - name: Install Foundry
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a ./install-logs/install-control-plane.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, install_cp]
+
+    - name: Install Metrics Add-On
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ installer_home }}/metrics-addon-1.0.0/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+      async: 2500
+      poll: 30
+      register: ret
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      tags: [install, metrics]
+
+    - name: Upload Metrics Add-On Solution
+      shell: 
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/upload-solutions.sh -C {{ installer_home }}/metrics-addon-1.0.0/charts/ -I {{ installer_home }}/metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
