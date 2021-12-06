@@ -249,7 +249,7 @@
     - name: Create Docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
-         mv /var/lib/docker /docker
+         mv /var/lib/docker /media/installer/Docker
       tags: [install, docker]
       when: docker_exists is failed 
 
@@ -260,7 +260,7 @@
       with_items:
         - /etc/docker
         - /etc/docker/daemon.json
-        - /media/Docker/docker
+        - /media/installer/Docker/docker
       when: docker_exists is failed 
 
     - name: Start Docker

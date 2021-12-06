@@ -1,12 +1,12 @@
 - name: Install Foundry Services
   become: false
-#  become_method: sudo
+  # become_method: sudo
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
     ansible_python_interpreter: /usr/bin/python3
     foundry_home: /Downloads/Foundry-2.2.1/Foundry/Foundry-Control-Plane-2.2.1
-    log_dir: /docker/logs
+    log_dir: media/installer/Docker/logs
     
   tasks:
     - name: Create Logs Directory
