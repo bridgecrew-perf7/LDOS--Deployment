@@ -312,7 +312,8 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  #  @TODO might want to add a check to confirm openssl 1.1.1 or the '-addext option will fail'
+  # This configures a self-signed Docker Registry.  The cerificate to authorize users to access the Registry is self-signed, 
+  # i.e every Docker daemon needs to trust that certificate.
   tasks:
     - block:
       - name: Create Local Certificate
@@ -324,7 +325,7 @@
           # openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN={{ groups['installer'][0] }}"
         tags: [certs]
 
-      - name: Allow Insecure Registry
+      - name: Allow Self-signed Registry
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
