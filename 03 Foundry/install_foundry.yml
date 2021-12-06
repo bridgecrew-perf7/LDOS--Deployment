@@ -4,29 +4,38 @@
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
-    foundry_root: /Downloads/Foundry-Control-Plane-2.2.1.tgz
-    foundry_home: /Downloads/Foundry/Foundry-Control-Plane-2.2.1
-    metrics_home: /Downloads/Foundry/metrics-addon-1.0.0
+    foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
+    foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
+    metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
     log_dir: media/installer/Docker/logs
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    # Creates required install directories
-    - name: Create directory
+    # Check for Foundry directory
+    - name: Ansible check directory
+       stat:
+       path: ~/Downloads/Foundry
+       register: foundry
+       tags: [unpack]
+
+    # Display message if dircetory exists
+    - name: "echo if directory already existed"
+      debug:
+        msg: "Foundry directory already exists.."
+        when: foundry.stat.exists   
+
+    # Creates Foundry install directories -if required
+    - name: Ansible Create directory if not exists
       file:
-        path: "{{ item }}"
-        state: directory
-        owner: installer
-        group: sudo
-        mode: 0775
-      with_items:
-        - "{{ foundry_home }}"
-        - "{{ metrics_home }}"
-        - "{{ log_dir }}"
-      become: false
+      path: "{{ foundry_home }}"
+      state: directory
+      mode: 0755
+      group: installer
+      owner: installer
+      when: foundry.stat.exists == false
       tags: [unpack]
     
-    # Unpacks Foundry & Metrics packages 
+    # Unpacks Foundry Solution Control Plane 
     - name: Unpack Foundry
       unarchive: 
         src: "{{ foundry_root }}"
