@@ -6,6 +6,7 @@
   vars:
     foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
     foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
+    metrics_root: ~/Downloads/metrics-addon-1.0.0.tgz
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
     log_dir: media/installer/Docker/logs
     ansible_python_interpreter: /usr/bin/python3
@@ -14,19 +15,19 @@
     # Check for Foundry directory
     - name: Check if Foundry directory exists
       stat:
-        path: ~/Downloads/Foundry
+        path: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
         register: foundry
         tags: [unpack]
 
-    # Display message if dircetory exists
+    # Display message if directory exists
     - name: echo if directory already existed
       debug:
         msg: "Foundry directory already exists.."
         when: foundry.stat.exists   
         tags: [unpack]
 
-    # Creates Foundry install directories -if required
-    - name: Create Foundry directory if not exists
+    # Creates Foundry install directory -if required
+    - name: Create Foundry directory
       file:
       path: "{{ foundry_home }}"
       state: directory
@@ -41,8 +42,6 @@
       unarchive: 
         src: "{{ foundry_root }}"
         dest: "{{ foundry_home }}"
-        creates: "{{ foundry_home }}/bin"
-      with_fileglob: "{{ foundry_root }}*"
       tags: [unpack] 
 
     # Foundry requires istio and cert-manager be installed
@@ -77,6 +76,38 @@
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cp]
+
+    # Check for Metrics directory
+    - name: Check if Metrics directory exists
+      stat:
+        path: ~/Downloads/Foundry/metrics-addon-1.0.0
+        register: metrics
+        tags: [unpack]
+
+    # Display message if directory exists
+    - name: echo if directory already existed
+      debug:
+        msg: "Metrics directory already exists.."
+        when: metrics.stat.exists   
+        tags: [unpack]
+
+    # Creates Metrics install directory -if required
+    - name: Create Metrics directory
+      file:
+      path: "{{ metrics_home }}"
+      state: directory
+      mode: 0755
+      group: installer
+      owner: installer
+      when: metrics.stat.exists == false
+      tags: [unpack]
+    
+    # Unpacks Metrics addon 
+    - name: Unpack Foundry
+      unarchive: 
+        src: "{{ metrics_root }}"
+        dest: "{{ metrics_home }}"
+      tags: [unpack] 
 
     - name: Install Metrics Add-On
       shell: 
