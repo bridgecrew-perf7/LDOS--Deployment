@@ -8,6 +8,7 @@
     foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
     metrics_root: ~/Downloads/metrics-addon-1.0.0.tgz
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
+    upload_home: 
     log_dir: media/installer/Docker/logs
     ansible_python_interpreter: /usr/bin/python3
     
@@ -103,7 +104,7 @@
       tags: [unpack]
     
     # Unpacks Metrics addon 
-    - name: Unpack Foundry
+    - name: Unpack Metrics
       unarchive: 
         src: "{{ metrics_root }}"
         dest: "{{ metrics_home }}"
