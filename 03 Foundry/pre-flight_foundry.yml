@@ -202,6 +202,7 @@
         msg: "{{ pods.stdout_lines }}"
 
 # Install Docker - locally
+# Best practice not to run Docker as root, so 'installer' is added to docker group
 - name: Install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true

@@ -5,7 +5,8 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    foundry_home: /Downloads/Foundry-2.2.1/Foundry/Foundry-Control-Plane-2.2.1
+    foundry_home: /Downloads/Foundry/Foundry-Control-Plane-2.2.1
+    metrics_home: /Downloads/Foundry/metrics-addon-1.0.0
     log_dir: media/installer/Docker/logs
     
   tasks:
@@ -57,7 +58,7 @@
 
     - name: Upload Metrics Add-On Solution
       shell: 
-        chdir: /installers/foundry/control-plane
+        chdir: /media/installers/foundry/control-plane
         cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
