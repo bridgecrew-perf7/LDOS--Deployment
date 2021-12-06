@@ -16,6 +16,9 @@
       file:
         path: "{{ item }}"
         state: directory
+        owner: installer
+        group: sudo
+        mode: 0775
       with_items:
         - "{{ foundry_home }}"
         - "{{ metrics_home }}"
