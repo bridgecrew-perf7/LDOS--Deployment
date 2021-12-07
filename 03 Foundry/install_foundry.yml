@@ -5,6 +5,7 @@
   remote_user: installer
   hosts: "{{ groups['installer'][0] }}"
   vars:
+    base_foundry_dir: ~/Downloads/Foundry
     foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
     foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
     istio_root: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1/istio/Foundry-Istio-2.2.0.49.tgz
@@ -125,30 +126,19 @@
     - name: Check if Metrics directory exists
       stat:
         path: "{{ metrics_home }}"
-        register: metrics
-        tags: [unpack]
+      register: metrics
+      tags: [unpack]
 
     - name: Metrics Directory located
       debug:
         msg: "Directory {{ metrics_home }} present"
       when: metrics.stat.isdir is defined and metrics.stat.isdir
 
-    # Creates Metrics install directory -if required
-    - name: Create Metrics directory
-      file:
-       path:  "{{ metrics_home }}"
-       state: directory
-       mode: '0755'
-       group: installer
-       owner: installer
-      when: metrics.stat.isdir is not defined
-      tags: [unpack]
-    
     # Unpacks Metrics addon 
     - name: Unpack Metrics
       unarchive: 
         src: "{{ metrics_root }}"
-        dest: "{{ metrics_home }}"
+        dest: "{{ base_foundry_dir }}"
       tags: [unpack] 
 
     - name: Install Metrics Addon
