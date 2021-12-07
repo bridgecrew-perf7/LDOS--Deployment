@@ -15,7 +15,8 @@
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
     upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
     upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
-    log_dir: /media/installer/Docker/logs
+    log_dir: /Docker/logs
+    
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
