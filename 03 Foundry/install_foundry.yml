@@ -2,40 +2,40 @@
   become: false
   # become_method: sudo
   gather_facts: true
+  remote_user: installer
   hosts: "{{ groups['installer'][0] }}"
   vars:
     foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
     foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
     metrics_root: ~/Downloads/metrics-addon-1.0.0.tgz
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
-    upload_home: 
+    upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
+    upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
     log_dir: media/installer/Docker/logs
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
     # Check for Foundry directory
-    - name: Check if Foundry directory exists
-      stat:
-        path: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
-        register: foundry
-        tags: [unpack]
+    - name: Check if the directory exists
+      ansible.builtin.stat:
+        path: "{{ foundry_home }}"
+      register: foundry
+      tags: [unpack]
 
-    # Display message if directory exists
-    - name: echo if directory already existed
-      debug:
-        msg: "Foundry directory already exists.."
-        when: foundry.stat.exists   
-        tags: [unpack]
+    - name: Foundry Directory located
+      ansible.builtin.debug:
+        msg: "Directory {{ foundry_home }} present"
+      when: foundry.stat.isdir is defined and foundry.stat.isdir
 
     # Creates Foundry install directory -if required
     - name: Create Foundry directory
       file:
-      path: "{{ foundry_home }}"
-      state: directory
-      mode: 0755
-      group: installer
-      owner: installer
-      when: foundry.stat.exists == false
+       path: ~/Downloads/Foundry
+       state: directory
+       mode: 0755
+       group: installer
+       owner: installer
+       when: foundry.stat.isdir == false
       tags: [unpack]
     
     # Unpacks Foundry Solution Control Plane 
@@ -95,7 +95,7 @@
     # Creates Metrics install directory -if required
     - name: Create Metrics directory
       file:
-      path: "{{ metrics_home }}"
+      path:  ~/Downloads/Foundry/metrics-addon-1.0.0
       state: directory
       mode: 0755
       group: installer
