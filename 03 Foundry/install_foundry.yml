@@ -11,31 +11,38 @@
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
     upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
     upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
-    log_dir: media/installer/Docker/logs
+    log_dir: /media/installer/Docker/logs
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
+    - name: Create Log Directory
+      file:
+      path: "{{ log_dir }}"
+      state: directory
+      become: false
+      tags: [unpack]
+
     # Check for Foundry directory
     - name: Check if the directory exists
-      ansible.builtin.stat:
+      stat:
         path: "{{ foundry_home }}"
       register: foundry
       tags: [unpack]
 
     - name: Foundry Directory located
-      ansible.builtin.debug:
+      debug:
         msg: "Directory {{ foundry_home }} present"
       when: foundry.stat.isdir is defined and foundry.stat.isdir
 
     # Creates Foundry install directory -if required
     - name: Create Foundry directory
       file:
-       path: ~/Downloads/Foundry
+       path: "{{ foundry_home }}"
        state: directory
-       mode: 0755
+       mode: '0755'
        group: installer
        owner: installer
-       when: foundry.stat.isdir == false
+      when: not foundry.stat.isdir == true
       tags: [unpack]
     
     # Unpacks Foundry Solution Control Plane 
@@ -81,26 +88,24 @@
     # Check for Metrics directory
     - name: Check if Metrics directory exists
       stat:
-        path: ~/Downloads/Foundry/metrics-addon-1.0.0
+        path: "{{ metrics_home }}"
         register: metrics
         tags: [unpack]
 
-    # Display message if directory exists
-    - name: echo if directory already existed
+    - name: Metrics Directory located
       debug:
-        msg: "Metrics directory already exists.."
-        when: metrics.stat.exists   
-        tags: [unpack]
+        msg: "Directory {{ metrics_home }} present"
+      when: metrics.stat.isdir is defined and metrics.stat.isdir
 
     # Creates Metrics install directory -if required
     - name: Create Metrics directory
       file:
-      path:  ~/Downloads/Foundry/metrics-addon-1.0.0
-      state: directory
-      mode: 0755
-      group: installer
-      owner: installer
-      when: metrics.stat.exists == false
+       path:  {{ metrics_home }}
+       state: directory
+       mode: 0755
+       group: installer
+       owner: installer
+      when: not metrics.stat.isdir == false
       tags: [unpack]
     
     # Unpacks Metrics addon 
