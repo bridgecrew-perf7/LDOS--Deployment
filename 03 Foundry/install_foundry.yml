@@ -117,8 +117,8 @@
 
     - name: Install Metrics Addon
       shell: 
-        chdir: "{{ metrics_home }}"
-        cmd: ./tools/bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C ./metrics-addon-1.0.0/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{metrics-home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
@@ -127,8 +127,8 @@
 
     - name: Upload Metrics Add-On Solution
       shell: 
-        chdir: /media/installers/foundry/control-plane
-        cmd: ./tools/bin/upload-solutions.sh -C metrics-addon-1.0.0/charts/ -I metrics-addon-1.0.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+        chdir: {{ foundry_home }}
+        cmd: ./bin/upload-solutions.sh -C {{metrics-home }}/charts/ -I {{metrics-home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
