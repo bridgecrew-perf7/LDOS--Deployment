@@ -5,7 +5,9 @@ Prerequisites for the CentOS7 machines:
 * A public key generated on your Ansible Controller
 * SSH passwordless access on Nodes with root permissions
 
-This playbook will:
+The following playbooks are run:  
+
+#### pre-flight_hardware.yml
 * Update packages
 * Install common packages
 * Disable SELinux
@@ -14,14 +16,13 @@ This playbook will:
 * Set hostname
 * Reboot Nodes
 
-check you can ssh into the Nodes:
-```
-ssh k8s@10.0.0.101
-ssh k8s@10.0.0.102
-ssh k8s@10.0.0.103
-```
-Note: k8s passwordless authenticated connection.
+#### extra-vars.yml
+* Configure the env.properties with required values
+* Run the apply_env_properties.sh
+* Check the extra-vars.yml values
 
+#### download_kubespray.yml
+* 
 ---
 
 <em>Run the playbook - pre-flight_hardware.yml</em>  
@@ -39,5 +40,15 @@ Note the required vars:
 - change_dns: true  
 - dns_server: 10.0.0.254  <font color='green'> # SkyTap DNS </font> 
 - ansible_python_interpreter: /usr/bin/python  
+
+---
+
+<em>Define the playbook - extra-vars.yml</em> 
+Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file.
+
+---
+
+<em>Run the playbook - download_kubespray.yml</em> 
+Kubespray 
 
 ---

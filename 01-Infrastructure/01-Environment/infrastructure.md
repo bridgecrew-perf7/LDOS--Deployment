@@ -158,7 +158,7 @@ sudo -v
 
 ---
 
-### <font color='red'>Other Required Packages on Installer Server</font>
+### <font color='red'>Other Required Packages on Ansible Controller</font>
 Enusre that the following packages are also installed and configured:
 * openssh server
 * pip & pip3
@@ -295,9 +295,7 @@ exit
 ```
 
 #### <font color='red'>Docker Registry Volume</font>
-Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  An insecure Docker Registry 
-
-
+Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on a /Docker volume. One of the post-installation tasks is to enter the Regsitry credentials to enable versioning, upgrades and rollbacks to be performed.
 
 ---
 
