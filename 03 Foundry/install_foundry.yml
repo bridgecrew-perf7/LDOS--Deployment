@@ -71,7 +71,7 @@
       when: istio.stat.isdir is defined and istio.stat.isdir  
 
     # Creates Istio install directory -if required
-    - name: Create Foundry directory
+    - name: Create Istio directory
       file:
        path: "{{ istio_home }}"
        state: directory
