@@ -1,3 +1,4 @@
+## Install Foundry Control Plane
 - name: Install Foundry Services
   become: false
   # become_method: sudo
@@ -154,7 +155,7 @@
     - name: Upload Metrics Add-On Solution
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{metrics-home }}/charts/ -I {{metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
+        cmd: ./bin/upload-solutions.sh -C {{metrics_home }}/charts/ -I {{metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
