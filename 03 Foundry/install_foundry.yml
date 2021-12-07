@@ -17,9 +17,9 @@
   tasks:
     - name: Create Log Directory
       file:
-      path: "{{ log_dir }}"
-      state: directory
-      become: false
+       path: "{{ log_dir }}"
+       state: directory
+       become: false
       tags: [unpack]
 
     # Check for Foundry directory
