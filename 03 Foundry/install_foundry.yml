@@ -144,7 +144,7 @@
     - name: Install Metrics Addon
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{metrics-home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
+        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
