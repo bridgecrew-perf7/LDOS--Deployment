@@ -7,6 +7,8 @@
   vars:
     foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
     foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
+    istio_root: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1/istio/Foundry-Istio-2.2.0.49.tgz
+    istio_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1/Foundry-Istio-2.2.0.49
     metrics_root: ~/Downloads/metrics-addon-1.0.0.tgz
     metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
     upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
@@ -15,10 +17,14 @@
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
+    # Create a log directory on the 'Docker' volume
     - name: Create Log Directory
       file:
        path: "{{ log_dir }}"
        state: directory
+       mode: '0755'
+       group: installer
+       owner: installer
        become: false
       tags: [unpack]
 
@@ -42,7 +48,7 @@
        mode: '0755'
        group: installer
        owner: installer
-      when: not foundry.stat.isdir == true
+      when: foundry.stat.isdir is not defined
       tags: [unpack]
     
     # Unpacks Foundry Solution Control Plane 
@@ -51,6 +57,25 @@
         src: "{{ foundry_root }}"
         dest: "{{ foundry_home }}"
       tags: [unpack] 
+    
+    # Check for Istio directory
+    - name: Check if the directory exists
+      stat:
+        path: "{{ istio_home }}"
+      register: istio
+      tags: [unpack]    
+
+    - name: Istio Directory located
+      debug:
+        msg: "Directory {{ istio_home }} present"
+      when: istio.stat.isdir is defined and istio.stat.isdir  
+
+    # Unpacks Istio 
+    - name: Unpack Istio
+      unarchive: 
+        src: "{{ istio_root }}"
+        dest: "{{ istio_home }}"
+      tags: [unpack]  
 
     # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
@@ -78,7 +103,7 @@
     - name: Install Foundry Control Plane
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a ./install-logs/install-control-plane.log
+        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ log_dir }}/install-control-plane.log
       async: 2500
       poll: 30
       register: ret
@@ -100,12 +125,12 @@
     # Creates Metrics install directory -if required
     - name: Create Metrics directory
       file:
-       path:  {{ metrics_home }}
+       path:  "{{ metrics_home }}"
        state: directory
-       mode: 0755
+       mode: '0755'
        group: installer
        owner: installer
-      when: not metrics.stat.isdir == false
+      when: metrics.stat.isdir is not defined
       tags: [unpack]
     
     # Unpacks Metrics addon 
@@ -118,7 +143,7 @@
     - name: Install Metrics Addon
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{metrics-home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{metrics-home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
@@ -127,8 +152,8 @@
 
     - name: Upload Metrics Add-On Solution
       shell: 
-        chdir: {{ foundry_home }}
-        cmd: ./bin/upload-solutions.sh -C {{metrics-home }}/charts/ -I {{metrics-home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a ./install-logs/install-metrics-add-on.log
+        chdir: "{{ foundry_home }}"
+        cmd: ./bin/upload-solutions.sh -C {{metrics-home }}/charts/ -I {{metrics-home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ log_dir }}/install-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
