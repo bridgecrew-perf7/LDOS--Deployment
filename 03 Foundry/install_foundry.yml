@@ -16,7 +16,7 @@
     upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
     upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
     log_dir: /Docker/logs
-    
+
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
@@ -25,10 +25,7 @@
       file:
        path: "{{ log_dir }}"
        state: directory
-       mode: '0755'
-       group: installer
-       owner: installer
-       become: true
+       become: false
       tags: [unpack]
 
     # Check for Foundry directory
