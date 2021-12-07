@@ -25,7 +25,7 @@
        mode: '0755'
        group: installer
        owner: installer
-       become: false
+       become: true
       tags: [unpack]
 
     # Check for Foundry directory
@@ -69,6 +69,17 @@
       debug:
         msg: "Directory {{ istio_home }} present"
       when: istio.stat.isdir is defined and istio.stat.isdir  
+
+    # Creates Istio install directory -if required
+    - name: Create Foundry directory
+      file:
+       path: "{{ istio_home }}"
+       state: directory
+       mode: '0755'
+       group: installer
+       owner: installer
+      when: istio.stat.isdir is not defined
+      tags: [unpack]      
 
     # Unpacks Istio 
     - name: Unpack Istio
