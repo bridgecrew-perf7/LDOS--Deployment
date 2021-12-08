@@ -5,10 +5,19 @@
   gather_facts: true
   vars:
     release: release-2.14
-    path: ~/Download/Kubespray
+    path: ~/Downloads/Kubespray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
+    - name: Ping Nodes
+      ping:
+      tags: ['info']
+
+    - name: Update all packages
+      yum:
+       name: '*'
+      tags: [install]  
+
     # Checks for the kubespray directory
     - name: Check if kubespray is available
       stat:
@@ -23,7 +32,7 @@
     # Creates kubespray directory - if required
     - name: Create kubespray directory
       file:
-        path: ~/Download/Kubespray
+        path: ~/Downloads/Kubespray
         state: directory
       when: kubespray.stat.exists == false
       tags: [info, install]
