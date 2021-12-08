@@ -1,11 +1,12 @@
 # Downloads and installs Kubespray 2.14 of Kubernetes 1.18
+# Run from: /etc/ansible/playbooks
 - hosts: "{{ groups['installer'][0] }}"
   become: false
   name: Install Kubespray
   gather_facts: true
   vars:
     release: release-2.14
-    kube_path: ~/Downloads/Kubespray
+    kube_path: /installers/Kubespray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
