@@ -87,7 +87,7 @@
       tags: [install]
       
     # Run the kubespray playbook on the hosts
-    # - include: "{{ path }}/kubespray-{{release}}/cluster.yml"
+    # - include: "{{ kube_path }}/kubespray-{{release}}/cluster.yml"
 
     - debug:
         msg:
