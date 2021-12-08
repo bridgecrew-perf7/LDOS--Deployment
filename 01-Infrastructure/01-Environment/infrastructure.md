@@ -11,6 +11,8 @@ This reference section covers:
 
   * Generate SSH keys & deploy
 
+<font color='red'>** This section has already been completed**</font>  
+
 ---
 
 ### <font color='red'>Skytap Lab</font>
