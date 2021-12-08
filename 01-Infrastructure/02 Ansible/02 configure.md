@@ -21,7 +21,9 @@ Ensure that the required pre-requisites have been completed as outlined in the p
 ---
 
 <em>Update Hosts - Inventory</em>  
-In this first part we will edit the default hosts to include our Cluster Nodes.  
+You could use a basic hosts file to test the connection to the Cluster Nodes over SSH.  
+Kubespray 
+
 
 change directory:
 ```
@@ -69,7 +71,6 @@ create the following directories:
 ```
 cd
 cd /etc/ansible
-sudo mkdir roles
 sudo mkdir playbooks
 ```
 Note: you will have to copy over the playbooks to: /etc/ansible/playbooks
