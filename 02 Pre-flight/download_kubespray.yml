@@ -93,7 +93,7 @@
         msg:
           - "kubespray is available in {{ kube_path }}/kubespray-{{release}}"
           - "cd {{ kube_path }}/kubespray-{{release}}"
-          - "ansible-playbook --become -i hosts-skytap.yml --extra-vars='@extra-vars.yml' cluster.yml"
+          - "ansible-playbook -b -v -i hosts-skytap.yml --extra-vars='@extra-vars.yml' cluster.yml"
       when: kubespray.stat.exists == true
       tags: [info, install]
     

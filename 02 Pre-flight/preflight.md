@@ -70,6 +70,39 @@ check extra-vars.yml
 ---
 
 <em>Run the playbook - download_kubespray.yml</em> 
-Kubespray 
+Kubernetes clusters can be created using various automation tools. Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, and domain knowledge for generic OS/Kubernetes clusters configuration management tasks. 
+
+Kubespray provides:
+* a highly available cluster
+* composable attributes
+* support for most popular Linux distributions
+
+There is a sample inventory in the inventory folder. You need to copy that and name your whole cluster (e.g. mycluster). The repository has already provided you the inventory builder to update the Ansible inventory file.  
+
+copy ``inventory/sample`` as ``inventory/mycluster``:
+```
+cd Dow  Downloads/Kubespray/kubespray-release-2.14/inventory
+sudo mkdir mycluster
+cd ..
+sudo cp -rfp inventory/sample inventory/mycluster
+declare -a IPS=(10.0.0.101 10.0.0.102 10.0.0.103)
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+```
+check inventory/mycluster/hosts.yaml
+
+---
+
+<em>Run the playbook - kubespray-release-2.14/cluster.yml</em>   
+Its is important that you explicitly include all the parameters when running the kubespray-release-2.14/cluster.yml playbook. 
+Kubespray release 2.14 installs and configures the Foundry Platform supported version: kubernetes 1.18.10
+
+Pre-requistes:
+* Firewalls are not managed by kubespray. You'll need to implement appropriate rules as needed. You should disable your firewall in order to avoid any issues during deployment.  
+* If kubespray is ran from a non-root user account, correct privilege escalation method should be configured in the target servers and the ansible_become flag or command parameters --become or -b should be specified. 
+
+```
+cd Downloads/Kubespray/kubespray-release-2.14
+ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b cluster.yml  -t info
+```
 
 ---
