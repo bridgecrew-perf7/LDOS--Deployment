@@ -5,7 +5,7 @@
   gather_facts: true
   vars:
     release: release-2.14
-    path: ~/Downloads/Kubespray
+    kube_path: ~/Downloads/Kubespray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
@@ -21,7 +21,7 @@
     # Checks for the kubespray directory
     - name: Check if kubespray is available
       stat:
-        path: "{{ path }}/kubespray-{{ release }}"
+        path: "{{ kube_path }}/kubespray-{{ release }}"
       register: kubespray
       tags: [info, install]
 
@@ -32,7 +32,7 @@
     # Creates kubespray directory - if required
     - name: Create kubespray directory
       file:
-        path: ~/Downloads/Kubespray
+        path: "{{ kube_path }}"
         state: directory
       when: kubespray.stat.exists == false
       tags: [info, install]
@@ -42,28 +42,28 @@
     - name: Get Kubespray if required
       get_url:
         url: 'https://github.com/kubernetes-sigs/kubespray/archive/refs/heads/{{release}}.zip'
-        dest: "{{ path }}/{{release}}.zip"
+        dest: "{{ kube_path }}/{{release}}.zip"
       when: kubespray.stat.exists == false
       tags: [install]
  
     # Extracts kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
     - name: Extract Kubespray-{{ release }}
-      ansible.builtin.unarchive:
-        src: "{{ path }}/{{release}}.zip"
-        dest: "{{ path }}"
+      unarchive:
+        src: "{{ kube_path }}/{{release}}.zip"
+        dest: "{{ kube_path }}"
       when: kubespray.stat.exists == false
       tags: [install]
 
     - name: Update pip dependancies
       pip:
         requirements: requirements.txt
-        chdir: "{{ path }}/kubespray-{{release}}"
+        chdir: "{{ kube_path }}/kubespray-{{release}}"
       tags: [cluster]
   
     - name: Re-Check if Kubespray has extracted
       stat:
-        path: "{{ path }}/kubespray-{{release}}"
+        path: "{{ kube_path }}/kubespray-{{release}}"
       register: kubespray
       #when: kubespray.stat.exists == false
       tags: [install]
@@ -72,14 +72,14 @@
     - name: Copy extra-vars.yml
       copy:
         src: "extra-vars.yml"
-        dest: "{{ path }}/kubespray-{{release}}/extra-vars.yml"
+        dest: "{{ kube_path }}/kubespray-{{release}}/extra-vars.yml"
       tags: [install]
 
     # May need to update path 
     - name: Copy hosts-skytap.yml
       copy:
         src: "hosts-skytap.yml"
-        dest: "{{ path }}/kubespray-{{release}}/hosts-skytap.yml"
+        dest: "{{ kube_path }}/kubespray-{{release}}/hosts-skytap.yml"
       tags: [install]
 
     - debug: 
@@ -91,8 +91,8 @@
 
     - debug:
         msg:
-          - "kubespray is available in {{ path }}/kubespray-{{release}}"
-          - "cd {{ path }}/kubespray-{{release}}"
+          - "kubespray is available in {{ kube_path }}/kubespray-{{release}}"
+          - "cd {{ kube_path }}/kubespray-{{release}}"
           - "ansible-playbook --become -i hosts-skytap.yml --extra-vars='@extra-vars.yml' cluster.yml"
       when: kubespray.stat.exists == true
       tags: [info, install]
