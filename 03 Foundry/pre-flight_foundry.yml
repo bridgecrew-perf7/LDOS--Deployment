@@ -280,7 +280,7 @@
       when: docker_exists is defined 
 
     - name: Create Docker directory
-      ignore_errors: true
+      ignore_errors: false
         file:
           path: "{{ item }}"
           state: directory
@@ -324,14 +324,23 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
     
-  # Only when the registry requested is on the Ansible Controller.
-  # Otherwise, assume the registry is external and already defined
-    tasks:
+- name: Configure Registry
+  hosts: "{{ groups['installer'][0] }}"
+  become: false
+  gather_facts: true
+  tags: [registry, continue]
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  # Only when the registry requested is the installer node will we install this.
+  # Otherwise, we assume the registry is external and already defined
+  
+  any_errors_fatal: true
+  tasks:
     - block:
       - name: Debug ID getting new group role
         shell: |
-          # 'installer' user does not retrieve docker group while logged in
-          # you will need to manually add the user to the docker group and re-run.
+          # Looks like each step is independant, which means installer user does not ever get docker group while still logged in
+          # of you allow reboot and come back then you can run these because the group is there.
           newgrp docker
           id
         register: output
@@ -341,12 +350,10 @@
             - "{{ output.stdout_lines|list }}"
             - "To get docker group rights, you will need to logout and back in to continue."
             - "the gnome UI will retain your rights so you need to run: loginctl -terminate-user {{ local_user }}"
-            - "or run the command: id to check which groups the user belongs too"
-            - "then the command: sudo su - installer"
-            - "then the command: id to check it belongs to docker group"
-            - "When you re-run add the optional tag '-t continue' and you should see the docker group added on the second run."  
+            - "When you return add the optional tag '-t continue' and you should see the docker group added on the second run."  
         failed_when: '"(docker)" not in output.stdout_lines|string'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+
 
 - name: Configure Registry
   hosts: "{{ groups['installer'][0] }}"
