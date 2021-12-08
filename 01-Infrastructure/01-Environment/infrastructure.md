@@ -21,7 +21,7 @@ Domain Name: skytap.example
 
 | Server Name               | Host              |  IP address | OS               |
 | ------------------------- | ------------------| ----------- | ---------------- |
-| Pentaho Server 9.2        | pentaho-server-1  | 10.0.0.1    | Unbuntu 18.0.4   |
+| HAProxy                   | pentaho-server-1  | 10.0.0.1    | Unbuntu 18.04.4  |
 | LDOS 1.2.0 Master Node 1  | k8s-master-node-1 | 10.0.0.101  | CentOS 7.5       |    
 | LDOS 1.2.0 Master Node 2  | k8s-master-node-2 | 10.0.0.102  | CentOS 7.5       |
 | LDOS 1.2.0 Master Node 3  | k8s-master-node-3 | 10.0.0.103  | CentOS 7.5       |
@@ -30,7 +30,7 @@ Domain Name: skytap.example
 
 VM sequence: 
 * LDOS Master 1-3 
-* Pentaho Server 9.2 
+* HAProxy 
 * LDOS 1.2.0 Installer   
 
 ![SkyTap Lab](../assets/skytap_lab.png)
@@ -295,12 +295,12 @@ exit
 ```
 
 #### <font color='red'>Docker Registry Volume</font>
-Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on a /Docker volume. One of the post-installation tasks is to enter the Regsitry credentials to enable versioning, upgrades and rollbacks to be performed.
+Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on /installers volume. One of the post-installation tasks is to enter the Regsitry credentials to enable versioning, upgrades and rollbacks to be performed.
 
 ---
 
-### <font color='red'>Pentaho Server 9.2</font>
-This server has been configured with an 'installer' user with sudo privileges.  
+### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
+This server has been configured with an 'pentaho' user with sudo privileges.  
 
 update (log in as root) :
 ```
