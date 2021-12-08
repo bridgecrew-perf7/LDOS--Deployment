@@ -1,6 +1,6 @@
 # Downloads and installs Kubespray 2.14 of Kubernetes 1.18
 - hosts: "{{ groups['installer'][0] }}"
-  become: true
+  become: false
   name: Install Kubespray
   gather_facts: true
   vars:
