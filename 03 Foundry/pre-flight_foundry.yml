@@ -218,8 +218,8 @@
     tasks:
     - name: Create group for non-root docker
       shell: |
-        addgroup docker;
-        usermod {{ local_user }} -aG docker;
+       addgroup docker;
+       usermod {{ local_user }} -aG docker;
 
     - name: Check for Docker
       shell: which docker
@@ -234,7 +234,6 @@
     #  when: docker_exists is failed
     #  tags: [install] 
 
-
     - name: Update apt cache
       apt: update_cache=yes cache_valid_time=3600
 
@@ -246,13 +245,13 @@
         name: "{{ packages }}"
         state: present
         update_cache: yes
-      vars:
-        packages:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-        - gnupg-agent
+        vars:
+         packages:
+         - apt-transport-https
+         - ca-certificates
+         - curl
+         - software-properties-common
+         - gnupg-agent
 
     - name: Add an apt signing key for Docker
       apt_key:
@@ -269,11 +268,11 @@
         name: "{{ packages }}"
         state: present
         update_cache: yes
-      vars:
-        packages:
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io    
+        vars:
+          packages:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io    
 
     - name: Stop Docker if running
       shell: systemctl stop docker
@@ -282,19 +281,19 @@
 
     - name: Create Docker directory
       ignore_errors: true
-      file:
-        path: "{{ item }}"
-        state: directory
-        owner: installer
-        group: docker
+        file:
+          path: "{{ item }}"
+          state: directory
+          owner: installer
+          group: docker
       with_items:
         - /etc/docker
       when: docker_exists is failed
 
     - name: Create Docker daemon.json and data root
       shell: |
-         echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
-         mv /var/lib/docker /Docker
+        echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
+        mv /var/lib/docker /Docker
       tags: [install, docker]
       when: docker_exists is failed 
 
@@ -327,7 +326,7 @@
     
   # Only when the registry requested is on the Ansible Controller.
   # Otherwise, assume the registry is external and already defined
-  tasks:
+    tasks:
     - block:
       - name: Debug ID getting new group role
         shell: |
@@ -359,7 +358,7 @@
 
   # This configures a self-signed Docker Registry.  The cerificate to authorize users to access the Registry is self-signed, 
   # i.e every Docker daemon needs to trust that certificate.
-  tasks:
+    tasks:
     - block:
       - name: Create Local Certificate
         shell: |
@@ -416,10 +415,11 @@
   become_method: sudo
   become_user: root
   gather_facts: true
-  tags: [never, continue]
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined 
   any_errors_fatal: true
+  tags: [never, continue]
+  
+    # Only when the registry requested is the installer node will we install this.
+    # Otherwise, we assume the registry is external and already defined 
   tasks:
     - block:
       - name: Create Docker cert directory on cluster
@@ -438,9 +438,9 @@
   vars:
     ansible_python_interpreter: /usr/bin/python2
 
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined
-  tasks:
+   # Only when the registry requested is the installer node will we install this.
+   # Otherwise, we assume the registry is external and already defined
+   tasks:
     - block:
       - name: Write the clusters host key to known hosts
         connection: local
@@ -511,7 +511,7 @@
   gather_facts: true
   tags: [reset, never]
   tasks:
-    - name:  rm helm
+    - name: rm helm
       ignore_errors: true
       shell:
         cmd: "{{ item }}"
