@@ -6,7 +6,7 @@
   gather_facts: true
   vars:
     release: release-2.14
-    kube_path: /installers/Kubespray
+    kube_path: /installers
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
