@@ -43,7 +43,7 @@ Note the required vars:
 
 ---
 
-<em>Define the playbook - extra-vars.yml</em> 
+<em>Define the playbook - extra-vars.yml</em>   
 Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file.
 
 ---
