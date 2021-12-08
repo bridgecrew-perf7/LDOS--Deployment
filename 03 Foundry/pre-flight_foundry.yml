@@ -285,6 +285,8 @@
       file:
         path: "{{ item }}"
         state: directory
+        owner: installer
+        group: docker
       with_items:
         - /etc/docker
       when: docker_exists is failed
