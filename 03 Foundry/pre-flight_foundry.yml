@@ -200,7 +200,7 @@
       shell: "kubectl get pods -n kube-system"
       register: pods
       become: false
-      
+
     # Display the Pods
     - name: Show output from command --> kubectl get pods -n kube-system
       debug:
@@ -208,6 +208,7 @@
 
 
 # Install Docker locally
+# Best practice not to run Docker as root, so 'installer' is added to docker group
 - name: Install Docker
   hosts: "{{ groups['installer'][0] }}"
   become: true
@@ -223,7 +224,7 @@
   tasks:
     - name: Create group for non-root docker
       shell: |
-        groupadd docker;
+        addgroup docker;
         usermod {{ local_user }} -aG docker;
 
     - name: Check for docker
