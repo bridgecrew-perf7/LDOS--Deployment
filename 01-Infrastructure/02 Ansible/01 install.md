@@ -1,4 +1,4 @@
-## <font color='red'>Installation of Ansible</font>
+## <font color='red'>Installation of Ansible 2.9.6</font>
 Ansible is an open source IT Configuration Management, Deployment & Orchestration tool. It aims to provide large productivity gains to a wide variety of automation challenges. This tool is very simple to use yet powerful enough to automate complex multi-tier IT application environments. 
 
 In this lab we're going to:
@@ -24,10 +24,13 @@ sudo reboot
 ---
 
 #### <font color='red'>Install Ansible</font> 
-This installs Ansible on Ubuntu 20.04
+This installs Ansible on Ubuntu 18.04
 install ansible:
 ```
-sudo apt install -y ansible
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
 ```
 verify the installation:
 ```
@@ -48,9 +51,9 @@ Note: the directory & configuration files.
   > for further information: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#
 
 
-clean up:
+to remove ansible:
 ```
-sudo yum remove ansible -y
+sudo apt-get purge --auto-remove ansible 
 ```
 
 ---

@@ -25,7 +25,7 @@ Domain Name: skytap.example
 | LDOS 1.2.0 Master Node 1  | k8s-master-node-1 | 10.0.0.101  | CentOS 7.5       |    
 | LDOS 1.2.0 Master Node 2  | k8s-master-node-2 | 10.0.0.102  | CentOS 7.5       |
 | LDOS 1.2.0 Master Node 3  | k8s-master-node-3 | 10.0.0.103  | CentOS 7.5       |
-| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 20.04.3  | 
+| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 18.04.6  | 
 |
 
 VM sequence: 
@@ -187,7 +187,7 @@ if you need further details:
 sudo apt-get install net-tools
 netstat -tulpn | grep 22^
 ```
-If you are using UFW as a default firewall on your Ubuntu 20.04 host, it is likely that you need to allow SSH connections on your host:
+If you are using UFW as a default firewall on your Ubuntu 18.04 host, it is likely that you need to allow SSH connections on your host:
 ```
 sudo ufw status
 ```
@@ -246,7 +246,7 @@ git --version
 
 <em>install Visual Studio Code:</em>
 ```
-apt install snapd
+sudo apt install snapd
 sudo snap install --classic code
 ```
 Note: Whenever a new version is released, Visual Studio Code package will be automatically updated in the background.
