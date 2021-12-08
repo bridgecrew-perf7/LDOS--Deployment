@@ -281,11 +281,11 @@
 
     - name: Create Docker directory
       ignore_errors: false
-        file:
-          path: "{{ item }}"
-          state: directory
-          owner: installer
-          group: docker
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: installer
+        group: docker
       with_items:
         - /etc/docker
       when: docker_exists is failed
@@ -334,7 +334,7 @@
   # Only when the registry requested is the installer node will we install this.
   # Otherwise, we assume the registry is external and already defined
   
-  any_errors_fatal: true
+    any_errors_fatal: true
   tasks:
     - block:
       - name: Debug ID getting new group role
@@ -352,7 +352,7 @@
             - "the gnome UI will retain your rights so you need to run: loginctl -terminate-user {{ local_user }}"
             - "When you return add the optional tag '-t continue' and you should see the docker group added on the second run."  
         failed_when: '"(docker)" not in output.stdout_lines|string'
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+        when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
 
 - name: Configure Registry
@@ -447,7 +447,7 @@
 
    # Only when the registry requested is the installer node will we install this.
    # Otherwise, we assume the registry is external and already defined
-   tasks:
+  tasks:
     - block:
       - name: Write the clusters host key to known hosts
         connection: local
