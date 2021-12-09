@@ -283,9 +283,9 @@
   tags: [registry, continue]
   vars:
     ansible_python_interpreter: /usr/bin/python3
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined
-  # 
+  # Only when the Registry is installed on the installer node.
+  # Otherwise, its assumed the registry is external and already defined.
+
   any_errors_fatal: true
   tasks:
     - block:
@@ -314,7 +314,8 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  #  @TODO might want to add a check to confirm openssl 1.1.1 or the '-addext option will fail'
+  # This configures a self-signed Docker Registry.  The cerificate to authorize users to access the Registry is self-signed, 
+  # i.e every Docker daemon needs to trust that certificate.
   tasks:
     - block:
       - name: Create local certificate
@@ -352,7 +353,7 @@
               REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/domain.crt"
               REGISTRY_HTTP_TLS_KEY: "/certs/domain.key"       
 
-      # do this manually since this restarts the running docker process on the installer node
+      # Perform manually as this restarts the running docker process on the installer node
       - name: Restart docker for registry
         shell: systemctl restart docker
         become: true
@@ -364,6 +365,7 @@
         failed_when: '"{{ groups[''installer''][0] }}" not in docker_insecure.stdout'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
+# Switch to Nodes
 # Allow the nodes of the cluster to access the regsitry by certificate
 - name: Create Registry Cert path on cluster
   hosts: "{{ groups['kube-node']}}"
@@ -373,7 +375,8 @@
   gather_facts: true
   tags: [never, continue]
   # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined 
+  # Otherwise, we assume the registry is external and already defined. 
+
   any_errors_fatal: true
   tasks:
     - block:
@@ -391,7 +394,8 @@
   any_errors_fatal: true
   tags: [never, continue]
   # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined
+  # Otherwise, we assume the registry is external and already defined.
+
   tasks:
     - block:
       - name: Write the clusters host key to known hosts
@@ -431,7 +435,8 @@
       shell: kubectl get sc -A | grep "(default)"
       register: sc
       ignore_errors: true
-    
+
+    # Switch to Ansible Controller to install OpenEBS    
     - name: Install openebs default storage (if needed)
       shell: "{{ item }}"
       with_items:
@@ -452,8 +457,8 @@
       failed_when: "'openebs-hostpath' not in openebs.stdout"
       when: "'default' not in sc.stdout"
 
-# If you need to back up and try again this will remove software from the servers
-# Note: we do not attempt to unedit files we may have added content to
+# If you need to back up and try install again this will remove software from the Nodes.
+# Note: This does make any changes to the playbooks.
 - name: Cluster Hosts Reset
   hosts: "{{ groups['kube-node'] }}"
   become: true
