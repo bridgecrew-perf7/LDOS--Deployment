@@ -6,16 +6,16 @@
   remote_user: installer
   hosts: "{{ groups['installer'][0] }}"
   vars:
-    base_foundry_dir: ~/Downloads/Foundry
-    foundry_root: ~/Downloads/Foundry-Control-Plane-2.2.1.tgz
-    foundry_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1
-    istio_root: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1/istio/Foundry-Istio-2.2.0.49.tgz
-    istio_home: ~/Downloads/Foundry/Foundry-Control-Plane-2.2.1/Foundry-Istio-2.2.0.49
-    metrics_root: ~/Downloads/metrics-addon-1.0.0.tgz
-    metrics_home: ~/Downloads/Foundry/metrics-addon-1.0.0
+    base_foundry_dir: /installers/Foundry
+    foundry_root: installers/Foundry-Control-Plane-2.2.1.tgz
+    foundry_home: installers/Foundry/Foundry-Control-Plane-2.2.1
+    istio_root: installers/Foundry/Foundry-Control-Plane-2.2.1/istio/Foundry-Istio-2.2.0.49.tgz
+    istio_home: installers/Foundry/Foundry-Control-Plane-2.2.1/Foundry-Istio-2.2.0.49
+    metrics_root: installers/metrics-addon-1.0.0.tgz
+    metrics_home: installers/Foundry/metrics-addon-1.0.0
     upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
     upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
-    log_dir: /Docker/logs
+    log_dir: /installers/logs
 
     ansible_python_interpreter: /usr/bin/python3
     
