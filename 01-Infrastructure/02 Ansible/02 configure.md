@@ -22,30 +22,31 @@ Ensure that the required pre-requisites have been completed as outlined in the p
 
 <em>Update Hosts - Inventory</em>  
 You could use a basic hosts file to test the connection to the Cluster Nodes over SSH.  
-Kubespray 
+Kubespray has a python module that will generate a default hosts file. 
 
 
-change directory:
+``change directory:``
 ```
 cd /etc/ansible
 ls -al
 ```
-edit the hosts file:
+``edit the hosts file:``
 ```
 sudo nano hosts
 ```
-add the Node IPs (see Note below):
+``add the Node IPs (see Note below):``
 ```
 [all]
 10.0.0.101
 10.0.0.102
 10.0.0.103
 ```
-and save..  
+``save: `` 
+```
 Ctrl o
 Return 
 Ctrl x
-
+```
 Note: You could simply add the hosts IPs, but be aware the incorrect hostnames will be written out to the /etc/hosts.  Workshop uses the complete hosts-skytap.yml so that hostnames can be resolved.
 
 ---
@@ -53,7 +54,7 @@ Note: You could simply add the hosts IPs, but be aware the incorrect hostnames w
 <em>edit the ansible.cfg</em>  
 Apply the following configuration changes:    
 
-edit the ansible.cfg file:
+``edit the ansible.cfg file:``
 ```
 sudo nano ansible.cfg
 ```
@@ -69,7 +70,7 @@ Note: Ctrl + c will display line numbers.
 ---
 
 <em>add directories</em>
-create the following directories:
+``create the following directories:``
 ```
 cd
 cd /etc/ansible

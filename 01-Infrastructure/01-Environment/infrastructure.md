@@ -420,6 +420,6 @@ sudo systemctl restart haproxy
 ---
 
 #### <font color='red'>data volume</font>
-You will a /data volume which gets mapped to LDOS as a Pentaho File Repository.
+You will require a /data volume which gets mapped to LDOS, as a Pentaho File Repository.
 
 ---

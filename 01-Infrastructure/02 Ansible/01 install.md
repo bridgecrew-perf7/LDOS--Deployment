@@ -14,7 +14,7 @@ Please ensure that the Environment has been configured as outlined in the previo
 * openssh server - check ssh
 * pip & pip3
 
-apply updates:
+``apply updates:``
 ```
 sudo apt update
 sudo apt upgrade -y
@@ -25,20 +25,20 @@ sudo reboot
 
 #### <font color='red'>Install Ansible</font> 
 This installs Ansible on Ubuntu 18.04
-install ansible:
+``install ansible:``
 ```
 sudo apt update
 sudo apt install software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
 ```
-verify the installation:
+``verify the installation:``
 ```
 ansible --version
 ```
 Note: the path to ansible.cfg  path to python & python version..  
 
-browse ansible directory:
+``browse ansible directory:``
 ```
 cd   /etc/ansible
 ls -lrt
@@ -51,7 +51,7 @@ Note: the directory & configuration files.
   > for further information: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#
 
 
-to remove ansible:
+``to remove ansible:``
 ```
 sudo apt-get purge --auto-remove ansible 
 ```

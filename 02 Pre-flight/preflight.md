@@ -28,7 +28,7 @@ The following playbooks are run:
 <em>Run the playbook - pre-flight_hardware.yml</em>  
 This will update, install and configure the various required packages.
 
-run the playbook - pre-flight_hardware.yml: 
+``run the playbook - pre-flight_hardware.yml:``
 ```
 cd /etc/ansible/playbooks
 ansible-playbook pre-flight_hardware.yml
@@ -52,7 +52,7 @@ open extra-vars-template.yml
 open apply_env_prperties.sh
 open extra-vars.yml 
 
-edit the file and enter the following values:
+``edit the file and enter the following values:``
 ```
 installer_node_hostname=installer.skytap.example
 installer_node_ip=10.0.0.99
@@ -61,11 +61,11 @@ cluster_node_ip=10.0.0.1
 pem_file_name=id_rsa
 ansible_user=k8s
 ```
-to define the extra-vars.yml, execute:
+``to define the extra-vars.yml, execute:``
 ```
 ./apply_env_properties.sh
 ```
-check extra-vars.yml
+``check extra-vars.yml``
 
 ---
 
@@ -79,7 +79,7 @@ Kubespray provides:
 
 There is a sample inventory in the inventory folder. You need to copy that and name your whole cluster (e.g. mycluster). The repository has already provided you the inventory builder to update the Ansible inventory file.  
 
-copy ``inventory/sample`` as ``inventory/mycluster``:
+``copy inventory/sample as inventory/mycluster:``
 ```
 cd Dow  Downloads/Kubespray/kubespray-release-2.14/inventory
 sudo mkdir mycluster
@@ -88,7 +88,7 @@ sudo cp -rfp inventory/sample inventory/mycluster
 declare -a IPS=(10.0.0.101 10.0.0.102 10.0.0.103)
 CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 ```
-check inventory/mycluster/hosts.yaml
+``check inventory/mycluster/hosts.yaml``
 
 ---
 
@@ -100,9 +100,10 @@ Pre-requistes:
 * Firewalls are not managed by kubespray. You'll need to implement appropriate rules as needed. You should disable your firewall in order to avoid any issues during deployment.  
 * If kubespray is ran from a non-root user account, correct privilege escalation method should be configured in the target servers and the ansible_become flag or command parameters --become or -b should be specified. 
 
+``run the cluster.yml playbook:``
 ```
 cd Downloads/Kubespray/kubespray-release-2.14
 ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b cluster.yml  -t info
 ```
-
+Note: 
 ---

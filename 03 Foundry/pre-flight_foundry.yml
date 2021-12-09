@@ -303,7 +303,8 @@
             - "{{ output.stdout_lines|list }}"
             - "To get docker group rights, you will need to logout and back in to continue."
             - "the gnome UI will retain your rights so you need to run: loginctl -terminate-user {{ local_user }}"
-            - "When you return add the optional tag '-t continue' and you should see the docker group added on the second run."  
+            - "or execute the command: sudo su - installer"
+            - "then re-run adding the optional tag '-t continue'.  This will pick up the installation at 'Configure Regsitry'."  
         failed_when: '"(docker)" not in output.stdout_lines|string'
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
@@ -315,8 +316,8 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  # This configures a self-signed Docker Registry.  The cerificate to authorize users to access the Registry is self-signed, 
-  # i.e every Docker daemon needs to trust that certificate.
+  # This configures a self-signed Docker Registry, i.e.  the cerificate to authorize users to access the Registry is self-signed. 
+  # Every Docker daemon needs to trust that certificate, so is copied over to the Nodes.
   tasks:
     - block:
       - name: Create local certificate
@@ -328,7 +329,7 @@
           # openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN={{ groups['installer'][0] }}"
         tags: [certs]
 
-      - name: Allow insure registry
+      - name: Allow self-signed Registry
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
@@ -384,7 +385,7 @@
       - name: Create Docker cert directory on cluster
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
-      - name: Set ownership of cluster Docker cert directory to centos
+      - name: Set ownership of cluster Docker cert directory to 'installer'
         shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
@@ -399,6 +400,7 @@
 
   tasks:
     - block:
+      #    
       - name: Write the clusters host key to known hosts
         connection: local
         shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
