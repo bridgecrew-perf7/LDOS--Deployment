@@ -43,7 +43,7 @@ VM sequence:
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
-update all nodes:
+``update all nodes:``
 ```
 sudo yum check-update
 sudo yum clean all
@@ -58,15 +58,15 @@ sudo yum update
 sudo -i
 usermod -aG wheel k8s
 ```
-check the assigned groups:
+``check the assigned groups:``
 ```
 groups
 ```
-or for the ids:
+``or for the ids:``
 ```
 id k8s
 ```
-check 'k8s' user on any master node:
+``check 'k8s' user on any master node:``
 ```
 ls /home
 ```
@@ -91,7 +91,7 @@ sudo nano /etc/sudoers
 ## Without password
 %wheel  ALL=(ALL)     NOPASSWD:  ALL
 ```
-save:
+``save:``
 ```
 Ctrl +o
 enter
@@ -103,31 +103,31 @@ Ctrl + x
 ### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
 This server has been configured with an 'installer' user with sudo privileges.  
 
-update (log in as root) :
+``update (log in as root):``
 ```
 sudo -i
 apt update -y
 apt upgrade -y
 ```
-add an 'installer' user :
+``add an 'installer' user:``
 ```
 adduser installer
 ```
 Note: password is 'lumada'  
 
-add 'installer' to sudo group
+``add 'installer' to sudo group:``
 ```
 sudo usermod -aG sudo installer
 ```
-check the assigned groups:
+``check the assigned groups:``
 ```
 groups
 ```
-or for the ids:
+``or for the ids:``
 ```
 id installer
 ```
-check 'installer' user:
+``check 'installer' user:``
 ```
 ls /home
 ```
@@ -146,13 +146,13 @@ sudo nano /etc/sudoers
 ## Without password
 %sudo  ALL=(ALL)     NOPASSWD:  ALL
 ```
-save:
+``save:``
 ```
 Ctrl +o
 enter
 Ctrl + x
 ```
-reboot and check user:
+``reboot and check user:``
 ```
 sudo reboot
 sudo -v
@@ -171,7 +171,7 @@ Enusre that the following packages are also installed and configured:
 ---
 
 <em>install openssh server:</em>  
-ssh client should already be installed:
+``ssh client should already be installed:``
 ```
 ssh -V
 ```
@@ -179,7 +179,7 @@ Note: you are currently only able to connect as a client to SSH servers
 ```
 sudo apt install openssh-server 
 ```
-verify service is running:
+``verify service is running:``
 ```
 sudo systemctl status sshd
 ```
@@ -194,7 +194,7 @@ If you are using UFW as a default firewall on your Ubuntu 18.04 host, it is like
 sudo ufw status
 ```
 Note: For training purposes it is inactive.
-to enable SSH connections on your host:
+``to enable SSH connections on your host:``
 ```
 sudo ufw allow ssh
 ```
@@ -205,29 +205,29 @@ sudo ufw allow ssh
 ```
 sudo apt install python3-pip
 ```
-verify pip3 installation:
+``verify pip3 installation:``
 ```
 pip3 --version
 ```
-enable the universe repository for pip:
+``enable the universe repository for pip:``
 ```
 sudo add-apt-repository universe
 ```
-install python2:
+``install python2:``
 ```
 sudo apt update
 sudo apt install python2
 ```
-Use curl to download the get-pip.py script:
+``use curl to download the get-pip.py script:``
 ```
 sudo apt install curl
 curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 ```
-install pip for Python 2:
+``install pip for Python 2:``
 ```
 sudo python2 get-pip.py
 ```
-verify pip2 installation:
+``verify pip2 installation:``
 ```
 pip2 --version
 ```
@@ -235,11 +235,11 @@ pip2 --version
 ---
 
 <em>install git:</em>
-Access the Git repository
+used to access the LDOS-Workshop Git repository.
 ```
 sudo apt install git
 ```
-verify the installation:
+``verify the installation:``
 ```
 git --version
 ```
@@ -273,14 +273,14 @@ reboot
 Generate the required SSH keys to connect to LDOS nodes.  
 You will need the IPs of the Cluster Nodes - refer to table above.
 
-generate ssh key:
+``generate ssh key:``
 ```
 cd
 ssh-keygen
 ```
 Note: keys are located in .ssh directory. 2 keys: id_rsa (private) id_rsa.pub (public)
 
-copy over key to k8s user on LDOS nodes:
+``copy over key to k8s user on LDOS nodes:``
 ```
 ssh-copy-id k8s@10.0.0.101
 ssh-copy-id k8s@10.0.0.102
@@ -290,7 +290,7 @@ Password: lumada
 Note: this will copy over both the private and public keys.
 
 
-test passwordless ssh connection:
+``test passwordless ssh connection:``
 ```
 ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 exit
@@ -304,29 +304,29 @@ Installation of the Foundry Platform and LDOS requires that the images are uploa
 ### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
-update (log in as root) :
+``update (log in as root):``
 ```
 apt update -y
 ```
-add an 'pentaho' user :
+``add an 'pentaho' user:``
 ```
 adduser pentaho
 ```
 Note: password is 'lumada'  
 
-add 'pentaho' to sudo group
+``add 'pentaho' to sudo group:``
 ```
 sudo usermod -aG sudo pentaho
 ```
-check the assigned groups:
+``check the assigned groups:``
 ```
 groups
 ```
-or for the ids:
+``or for the ids:``
 ```
 id pentaho
 ```
-check 'pentaho' user:
+``check 'pentaho' user:``
 ```
 ls /home
 ```
@@ -343,13 +343,13 @@ sudo nano /etc/sudoers
 ## Without password
 %sudo  ALL=(ALL)     NOPASSWD:  ALL
 ```
-save:
+``save:``
 ```
 Ctrl +o
 enter
 Ctrl + x
 ```
-reboot and check user:
+``reboot and check user:``
 ```
 sudo reboot
 sudo -v
@@ -364,20 +364,20 @@ Install the latest HAProxy using a PPA.
 
  Note: use the wizard to generate commands.
 
- enable PPA (log in as root):
+``enable PPA (log in as root):``
 ```
  apt-get install --no-install-recommends software-properties-common
  add-apt-repository ppa:vbernat/haproxy-2.4
 ```
-then install:
+``then install:``
 ```
 apt-get install haproxy=2.4.\*
 ```
-verify installation:
+``verify installation:``
 ```
 haproxy -v
 ```
-update and upgrade:
+``update and upgrade:``
 ```
 sudo apt update && sudo apt upgrade -y
 ```
@@ -387,7 +387,7 @@ HAProxy is an open-source High availability proxy and load balancer that is popu
 
 Configure HAProxy to load-balance across the cluster.
 
-to install haproxy:
+``to install haproxy:``
 ```
 sudo apt-get install haproxy
 ```
@@ -399,25 +399,27 @@ Details can be found at:
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
 
 
-rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak:
+``rename the existing /etc/haproxy/haproxy.cfg to haproxy.cfg.bak:``
 ```
 cd /etc/haproxy
 sudo mv haproxy.cfg  haproxy.cfg.bak
 ```
-copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:
+``copy over 01-Infrastructure/01-Environment/haproxy.cfg to /etc/haproxy:``
 ```
-
+cd /installers/LDOS-Workshop/
 
 ```
-restart haproxy:
+``restart haproxy:``
 ```
 sudo systemctl restart haproxy
 ```
-test the installation:
+``test the installation:``
 
    > browse to:  http://localhost:8000/haproxy?stats
 
+---
 
 #### <font color='red'>data volume</font>
 You will a /data volume which gets mapped to LDOS as a Pentaho File Repository.
+
 ---

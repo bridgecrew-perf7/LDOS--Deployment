@@ -138,15 +138,16 @@
 # Switch to Ansible Controller
 # Setup kubectl for local user and root by copying from the cluster
 - name: Setup kubectl for '{{ ansible_user }}' user on installer node
+  hosts: "{{ groups['installer'][0] }}"
   become: true
   become_user: root
   become_method: sudo
   gather_facts: true
   tags: kubeconfig
-  hosts: "{{ groups['installer'][0] }}"
-   
+
   any_errors_fatal: true
   tasks:
+
     - name: Install jq 
       apt:
         name: jq
@@ -374,8 +375,8 @@
   become_user: root
   gather_facts: true
   tags: [never, continue]
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined. 
+  # Only when the Registry is installed on the installer node.
+  # Otherwise, its assumed the registry is external and already defined.
 
   any_errors_fatal: true
   tasks:
@@ -393,8 +394,8 @@
   hosts:  "{{ groups['kube-node'] }}" 
   any_errors_fatal: true
   tags: [never, continue]
-  # Only when the registry requested is the installer node will we install this.
-  # Otherwise, we assume the registry is external and already defined.
+  # Only when the Registry is installed on the installer node.
+  # Otherwise, its assumed the registry is external and already defined.
 
   tasks:
     - block:
