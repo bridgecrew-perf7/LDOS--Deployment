@@ -28,27 +28,59 @@ The following playbooks are run:
 
 ---
 
-<em>Run the playbook - pre-flight_foundry.yml</em>  
+<em>Run the playbook - pre-flight_foundry.yml</em>    
 This will update, install and configure the various required packages.
 
 Before you run the playbook ensure that 
 
 
-run the playbook - pre-flight_foundry.yml: 
+``run the playbook - pre-flight_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" --become pre-flight_foundry.yml
 ```
-Notice that the last few playbooks havent run.  To complete the playbook tasks:
+
+---
+
+<em>Configure Registry</em>  
+Notice that the last few playbooks haven't run.  To complete the playbook tasks:
 
 ``restart Docker:``
 ```
 systemctl status docker
 systemctl restart docker
 ```
-Note: This is really just a check of the docker service
+Note: This is really just a check of the docker service.
 
-Configure Registry
+
+``re-run the playbook - pre-flight_foundry.yml:`` 
+```
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v pre-flight_foundry.yml -t continue
+```
+
 
 
 ---
+
+<em>.kubectl_aliases</em>  
+To save typing out the kubectl commands, in the resources folder there's a kubectl_aliases file which you copy over to your $HOME directory.
+
+``add the following to your .bashrc/.zshrc file:``
+```
+[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
+```
+
+If you want to print the full command before running it.   
+
+``add this to your .bashrc or .zshrc file:``
+```
+function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
+```
+
+For further information:
+
+  > browse to: https://github.com/ahmetb/kubectl-aliases
+
+---
+
