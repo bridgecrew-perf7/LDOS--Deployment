@@ -52,14 +52,16 @@ systemctl restart docker
 ```
 Note: This is really just a check of the docker service.
 
-
+to 'log' the 'installer' user out and in: 
+```
+sudo su - installer 
+```
 ``re-run the playbook - pre-flight_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v pre-flight_foundry.yml -t continue
 ```
-
-
+Note:  This will pick up the playbook from the continue tag onwards.
 
 ---
 
