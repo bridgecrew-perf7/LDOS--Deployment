@@ -135,10 +135,11 @@ kubeadm reset -f
 ```
 ``remove all the data from all below locations:``
 ```
-rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
+sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
 ```
-``flush all the firewall (iptables) rules:``
+``flush all the firewall (iptables) rules (as root):``
 ```
+sudo -i
 iptables -F && iptables -X
 iptables -t nat -F && iptables -t nat -X
 iptables -t raw -F && iptables -t raw -X
