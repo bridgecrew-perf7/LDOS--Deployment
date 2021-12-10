@@ -24,7 +24,7 @@ The following playbooks are run:
 
 
 #### install_foundry.yml
-
+* 
 
 ---
 

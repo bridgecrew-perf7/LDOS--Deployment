@@ -13,14 +13,23 @@
     istio_home: installers/Foundry/Foundry-Control-Plane-2.2.1/Foundry-Istio-2.2.0.49
     metrics_root: installers/metrics-addon-1.0.0.tgz
     metrics_home: installers/Foundry/metrics-addon-1.0.0
-    upload_root: ~/Downloads/Foundry-Solution-Upload-2.2.1.tgz
-    upload_home: ~/Downloads/Foundry/Foundry-Solution-Upload-2.2.1
+    upload_root: installers/Foundry-Solution-Upload-2.2.1.tgz
+    upload_home: installers/Foundry/Foundry-Solution-Upload-2.2.1
     log_dir: /installers/logs
 
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    # Create a log directory on the 'Docker' volume
+    - name: Ping Nodes
+      ping:
+      tags: ['info']
+
+    - name: Update all packages
+      yum:
+       name: '*'
+      tags: [install] 
+
+    # Create a log directory on the 'installers' volume
     - name: Create Log Directory
       file:
        path: "{{ log_dir }}"
