@@ -19,7 +19,7 @@
     - name: Yum install epel
       raw: yum install -y epel-release
       when: ansible_distribution == "CentOS"
-      tags: [prereq, never]
+      tags: [install, never]
     
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
@@ -449,7 +449,7 @@
         - helm install --namespace openebs openebs openebs/openebs
       when: "'default' not in sc.stdout"
 
-    - name: Make default 
+    - name: Set openEBs as default storageclass
       shell: |
         kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
       when: "'default' not in sc.stdout"
