@@ -6,7 +6,7 @@
   gather_facts: true
   vars:
     installer_home: /installers
-    foundry_home: /installers/Foundry/Foundry-Control-Plane-2.2.1
+    foundry_home: /installers/Foundry-Control-Plane-2.2.1/Foundry
     foundry_root: Foundry-Control-Plane-2.2.1
     metrics_home: /installers/metrics-addon-1.0.0
     metrics_root: metrics-addon-1.0.0
