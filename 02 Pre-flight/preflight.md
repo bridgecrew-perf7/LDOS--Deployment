@@ -69,7 +69,7 @@ ansible_user=k8s
 
 ---
 
-<em>Run the playbook - download_kubespray.yml</em> 
+<em>Run the playbook - download_kubespray.yml</em>   
 Kubernetes clusters can be created using various automation tools. Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, and domain knowledge for generic OS/Kubernetes clusters configuration management tasks. 
 
 Kubespray provides:
@@ -106,4 +106,32 @@ cd Downloads/Kubespray/kubespray-release-2.14
 ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b cluster.yml  -t info
 ```
 Note: 
+
+``if you need to reset the k8s deployment:``
+```
+cd Downloads/Kubespray/kubespray-release-2.14
+ansible-playbook -i hosts-skytap.yaml reset.yml -b --become-user=root
+```
+Note: This will still keep some residual config files, IP routing tables, etc
+
+``rest kubernetes cluster using kubeadm:``
+```
+kubeadm reset -f
+```
+``remove all the data from all below locations:``
+```
+rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
+```
+``flush all the firewall (iptables) rules:``
+```
+iptables -F && iptables -X
+iptables -t nat -F && iptables -t nat -X
+iptables -t raw -F && iptables -t raw -X
+iptables -t mangle -F && iptables -t mangle -X
+```
+``restart the Docker service:``
+```
+systemctl restart docker
+```
+
 ---
