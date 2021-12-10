@@ -85,6 +85,13 @@ Kubespray provides:
 * composable attributes
 * support for most popular Linux distributions
 
+``run the download_kubespray.yml playbook:``
+```
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v download_kubespray.yml
+```
+Note: check that the hosts-skytap.yml & extra-vars.yml have been copied.
+
 There is a sample inventory in the inventory folder. You need to copy that and name your whole cluster (e.g. mycluster). The repository has already provided you the inventory builder to update the Ansible inventory file.  
 
 ``copy inventory/sample as inventory/mycluster:``
