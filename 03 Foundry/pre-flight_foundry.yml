@@ -315,8 +315,8 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  # This configures a self-signed Docker Registry, i.e.  the cerificate to authorize users to access the Registry is self-signed. 
-  # Every Docker daemon needs to trust that certificate, so is copied over to the Nodes.
+  # This configures a self-signed private Docker Registry, i.e.  the cerificate to authorize users to access the Registry is self-signed. 
+  # Every Docker daemon needs to trust that certificate, so copied over to the Cluster Nodes.
   tasks:
     - block:
       - name: Create local certificate
