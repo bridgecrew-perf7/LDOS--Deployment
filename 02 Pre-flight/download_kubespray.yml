@@ -6,7 +6,7 @@
   gather_facts: true
   vars:
     release: release-2.14
-    kube_path: /installers
+    kube_path: /installers/kubespray
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
@@ -20,14 +20,14 @@
       tags: [install]  
 
     # Checks for the kubespray directory
-    - name: Check if kubespray is available
+    - name: Check for kubespray directory
       stat:
         path: "{{ kube_path }}/kubespray-{{ release }}"
       register: kubespray
       tags: [info, install]
 
     - debug: 
-        msg: "Kubspray Exists: {{ kubespray.stat.exists }}"
+        msg: "Kubspray directory exists: {{ kubespray.stat.exists }}"
       tags: [info]
 
     # Creates kubespray directory - if required

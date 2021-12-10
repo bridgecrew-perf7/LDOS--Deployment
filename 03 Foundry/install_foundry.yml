@@ -27,39 +27,45 @@
     - name: Update all packages
       yum:
        name: '*'
-      tags: [install] 
+      tags: [info, install] 
 
-    # Create a log directory on the 'installers' volume
+    # Checks for the logs directory
+    - name: Check for 'logs' directory
+      stat:
+        path: "{{ logs_dir }}"
+      register: logs
+      tags: [info] 
+
+    - debug: 
+        msg: "logs Exists: {{ logs.stat.exists }}"
+      tags: [info]           
+
+    # Create a log directory - if required
     - name: Create Log Directory
       file:
        path: "{{ log_dir }}"
        state: directory
-       owner: installer
-       become: false
-      tags: [unpack]
+      when: logs.stat.exists == false
+      tags: [info, install]
 
     # Check for Foundry directory
-    - name: Check if the directory exists
+    - name: Check if the Foundry directory exists
       stat:
         path: "{{ foundry_home }}"
       register: foundry
-      tags: [unpack]
+      tags: [info]
 
-    - name: Foundry Directory located
-      debug:
-        msg: "Directory {{ foundry_home }} present"
-      when: foundry.stat.isdir is defined and foundry.stat.isdir
+    - debug: 
+        msg: "foundry directory exists: {{ foundry.stat.exists }}"
+      tags: [info]
 
     # Creates Foundry install directory -if required
     - name: Create Foundry directory
       file:
-       path: "{{ foundry_home }}"
-       state: directory
-       mode: '0755'
-       group: installer
-       owner: installer
-      when: foundry.stat.isdir is not defined
-      tags: [unpack]
+        path: "{{ foundry_home }}"
+        state: directory
+      when: foundry.stat.exists == false
+      tags: [info, install]
     
     # Unpacks Foundry Solution Control Plane 
     - name: Unpack Foundry
@@ -68,28 +74,24 @@
         dest: "{{ foundry_home }}"
       tags: [unpack] 
     
-    # Check for Istio directory
-    - name: Check if the directory exists
+    # Checks for the Istio directory
+    - name: Check for 'Istio' directory
       stat:
         path: "{{ istio_home }}"
       register: istio
-      tags: [unpack]    
+      tags: [info] 
 
-    - name: Istio Directory located
-      debug:
-        msg: "Directory {{ istio_home }} present"
-      when: istio.stat.isdir is defined and istio.stat.isdir  
+    - debug: 
+        msg: "istio directory exists: {{ istio.stat.exists }}"
+      tags: [info]     
 
     # Creates Istio install directory -if required
     - name: Create Istio directory
       file:
-       path: "{{ istio_home }}"
-       state: directory
-       mode: '0755'
-       group: installer
-       owner: installer
-      when: istio.stat.isdir is not defined
-      tags: [unpack]      
+        path: "{{ istio_home }}"
+        state: directory
+      when: istio.stat.exists == false
+      tags: [info, install]     
 
     # Unpacks Istio 
     - name: Unpack Istio
