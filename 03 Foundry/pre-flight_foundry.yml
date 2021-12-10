@@ -9,12 +9,12 @@
   tasks:
     - name: Ping
       ping:
-      tags: info
+      tags: [info]
 
     - name: Yum update
       raw: yum update -y
       when: ansible_distribution == "CentOS"
-      tags: [prereq]
+      tags: [install]
 
     - name: Yum install epel
       raw: yum install -y epel-release
@@ -132,7 +132,7 @@
       shell: "cp ~/.kube/config /home/{{ ansible_user }}/.kube/"
 
     - name: Change config ownership to {{ ansible_user }}
-      shell: "chown {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
+      shell: "chown -R {{ ansible_user }}:{{ ansible_user }} /home/{{ ansible_user }}/.kube/config"
 
 # Switch to Ansible Controller
 # Setup kubectl for local user and root by copying from the cluster
@@ -230,11 +230,13 @@
       shell: which docker
       ignore_errors: true
       register: docker_exists
+      tags: [info]
       
     - name: Install docker
       apt: 
         name: docker.io
-      when: docker_exists is failed 
+      when: docker_exists is failed
+      tags: [install] 
 
     - name: Stop docker if running
       shell: systemctl stop docker
@@ -254,10 +256,10 @@
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /installers
-      tags: [install, docker]
       when: docker_exists is failed 
+      tags: [install, docker]
 
-    - name: non-root docker directorys
+    - name: Non-root docker directories
       shell: |
         chgrp docker "{{ item }}"
         chmod 775 "{{ item }}"
@@ -373,11 +375,11 @@
   become_method: sudo
   become_user: root
   gather_facts: true
+  any_errors_fatal: true
   tags: [never, continue]
   # Only when the Registry is installed on the installer node.
   # Otherwise, its assumed the registry is external and already defined.
 
-  any_errors_fatal: true
   tasks:
     - block:
       - name: Create Docker cert directory on cluster
