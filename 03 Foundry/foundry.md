@@ -65,21 +65,31 @@ Note:  This will pick up the playbook from the continue tag onwards.
 
 ---
 
-<em>Run the playbook - install  _foundry.yml</em> 
+<em>Run the playbook - install_foundry.yml</em> 
 
 ``run the playbook - install_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_foundry.yml
 ```
-
-
-
-
+Hopefully you should have some logs appearing.
+``tail install-cluster-services.log: (new terminal)``
+```
+cd /installers/logs
+ls
+tail -f install-cluster-services.log
+```
+``check namespaces:``
+```
+kubectl get ns
+```
+Note: wait until all the cluster services have been installed, otherwise not all the namespaces will appear.
+``check the pods:``
+```
+kubectl get pods -A
+```
 
 ---
-
-<em>Run the playbook - pre-flight_foundry.yml</em>    
 
 <em>.kubectl_aliases</em>  
 To save typing out the kubectl commands, in the resources folder there's a kubectl_aliases file which you copy over to your $HOME directory.

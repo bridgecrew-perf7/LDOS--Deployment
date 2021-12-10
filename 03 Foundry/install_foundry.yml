@@ -6,15 +6,12 @@
   gather_facts: true
   remote_user: installer
   vars:
-    base_foundry_dir: /installers/Foundry
-    foundry_root: /installers/Foundry-Control-Plane-2.2.1.tgz
+  vars:
+    installer home: /installers
     foundry_home: /installers/Foundry/Foundry-Control-Plane-2.2.1
-    istio_root: /installers/Foundry/Foundry-Control-Plane-2.2.1/istio/Foundry-Istio-2.2.0.49.tgz
-    istio_home: /installers/Foundry/Foundry-Control-Plane-2.2.1/Foundry-Istio-2.2.0.49
-    metrics_root: /installers/metrics-addon-1.0.0.tgz
-    metrics_home: /installers/Foundry/metrics-addon-1.0.0
-    upload_root: /installers/Foundry-Solution-Upload-2.2.1.tgz
-    upload_home: /installers/Foundry/Foundry-Solution-Upload-2.2.1
+    foundry_root: Foundry-Control-Plane-2.2.1
+    metrics_home: /installers/metrics-addon-1.0.0
+    metrics_root: metrics-addon-1.0.0
     logs_dir: /installers/logs
 
     ansible_python_interpreter: /usr/bin/python3
@@ -65,41 +62,15 @@
         path: "{{ foundry_home }}"
         state: directory
       when: foundry.stat.exists == false
-      tags: [info, install]
-    
-    # Unpacks Foundry Solution Control Plane 
-    - name: Unpack Foundry
-      unarchive: 
-        src: "{{ foundry_root }}"
+      tags: [info]
+
+    # Unarchive Foundry-Control-Plane-2.2.1tgz
+    - name: Unarchive Foundry-Control-Plane-2.2.1.tgz
+      unarchive:
+        src: "{{ installer_home }}/{{ foundry_root }}.tgz"
         dest: "{{ foundry_home }}"
-      tags: [unpack] 
-    
-    # Checks for the Istio directory
-    - name: Check for 'Istio' directory
-      stat:
-        path: "{{ istio_home }}"
-      register: istio
-      tags: [info] 
-
-    - debug: 
-        msg: "istio directory exists: {{ istio.stat.exists }}"
-      tags: [info]     
-
-    # Creates Istio install directory -if required
-    - name: Creates 'Istio' directory
-      file:
-        path: "{{ istio_home }}"
-        state: directory
-      when: istio.stat.exists == false
-      tags: [info, install]     
-
-    # Unpacks Istio 
-    - name: Unpack Istio
-      unarchive: 
-        src: "{{ istio_root }}"
-        dest: "{{ istio_home }}"
       tags: [unpack]  
-
+    
     # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
       shell: 
@@ -122,8 +93,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cs]
 
-    # Install the Soluton Control Plane services
-    - name: Install Foundry Control Plane
+    # Install the Foundry Soluton Control Plane services
+    - name: Install Foundry Solution Control Plane services
       shell: 
         chdir: "{{ foundry_home }}"
         cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/install-control-plane.log
