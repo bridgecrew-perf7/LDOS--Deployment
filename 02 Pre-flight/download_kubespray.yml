@@ -1,8 +1,8 @@
 # Downloads and installs Kubespray 2.14 of Kubernetes 1.18
 # Run from: /etc/ansible/playbooks
-- hosts: "{{ groups['installer'][0] }}"
+- name: Install Kubespray
+  hosts: "{{ groups['installer'][0] }}"
   become: false
-  name: Install Kubespray
   gather_facts: true
   vars:
     release: release-2.14
@@ -23,11 +23,12 @@
     - name: Check for kubespray directory
       stat:
         path: "{{ kube_path }}/kubespray-{{ release }}"
+      ignore_errors: yes
       register: kubespray
       tags: [info, install]
 
     - debug: 
-        msg: "Kubspray directory exists: {{ kubespray.stat.exists }}"
+        msg: "Kubspray directory: {{ kubespray.stat.exists }}"
       tags: [info]
 
     # Creates kubespray directory - if required
