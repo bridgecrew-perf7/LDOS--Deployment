@@ -50,14 +50,15 @@ Note the required vars:
 
 <em>Define the playbook - extra-vars.yml</em>   
 <font color='red'>** This section has already been completed**</font>    
-Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file.  
+Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file. 
 
-open env.properties file:
-open extra-vars-template.yml
-open apply_env_prperties.sh
-open extra-vars.yml 
-
-``edit the file and enter the following values:``
+``browse the following files:``
+```
+sudo cat env.properties
+sudo cat apply_env_properties
+sudo cat extra-vars.yml 
+```
+``edit the env.properties file and enter the following values:``
 ```
 installer_node_hostname=installer.skytap.example
 installer_node_ip=10.0.0.99
@@ -70,6 +71,8 @@ ansible_user=k8s
 ```
 ./apply_env_properties.sh
 ```
+Note: You may have to change the permission: sudo chmod +ax apply_env_properties.sh  
+
 ``check extra-vars.yml``
 
 ---

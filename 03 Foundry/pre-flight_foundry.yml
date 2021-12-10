@@ -332,9 +332,9 @@
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
-      - name: pip docker-py
+      - name: pip docker
         pip: 
-          name: docker-py
+          name: docker
 
       - name: Build registry service
         docker_container:
