@@ -4,10 +4,8 @@
   become: false
   # become_method: sudo
   gather_facts: true
-  remote_user: installer
   vars:
-  vars:
-    installer home: /installers
+    installer_home: /installers
     foundry_home: /installers/Foundry/Foundry-Control-Plane-2.2.1
     foundry_root: Foundry-Control-Plane-2.2.1
     metrics_home: /installers/metrics-addon-1.0.0
