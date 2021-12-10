@@ -1,5 +1,5 @@
 ## <font color='red'>Hitachi Vantara Foundry 2.2.1 Platform</font>
-Ansible playbook installs and configures Hitachi Vantara Foundry Soluti
+Ansible playbooks install and configures Hitachi Vantara Foundry Platform.
 
 Prerequisites for the CentOS7 machines:
 * A public key generated on your Ansible Controller
@@ -29,7 +29,7 @@ The following playbooks are run:
 ---
 
 <em>Run the playbook - pre-flight_foundry.yml</em>    
-This will update, install and configure the various required packages.
+This will update, install and configure the various required packages for the Foudry Platform.
 
 Before you run the playbook ensure that 
 
@@ -37,7 +37,7 @@ Before you run the playbook ensure that
 ``run the playbook - pre-flight_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" --become pre-flight_foundry.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v pre-flight_foundry.yml
 ```
 
 ---

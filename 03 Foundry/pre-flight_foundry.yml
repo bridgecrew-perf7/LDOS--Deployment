@@ -385,7 +385,7 @@
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
       - name: Set ownership of cluster Docker cert directory to 'installer'
-        shell: "chown {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
+        shell: "chown -R {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
 - name: Copy Docker cert from installer node to cluster
@@ -420,7 +420,7 @@
           msg: "{{ cert_path.stdout_lines }}"
       when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
 
-- name: Install Storage Class (if needed)
+- name: Install Storage Class - if required
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
