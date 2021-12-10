@@ -280,13 +280,13 @@
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
+  any_errors_fatal: true
   tags: [registry, continue]
   vars:
     ansible_python_interpreter: /usr/bin/python3
   # Only when the Registry is installed on the installer node.
   # Otherwise, its assumed the registry is external and already defined.
 
-  any_errors_fatal: true
   tasks:
     - block:
       - name: Debug ID getting new group role
@@ -332,9 +332,9 @@
         shell: |
           sed -i "s! }!, \"insecure-registries\" : [\"{{ groups['installer'][0] }}:5000\"]}!1" /etc/docker/daemon.json
 
-      - name: pip docker
+      - name: pip docker-py
         pip: 
-          name: docker
+          name: docker-py
 
       - name: Build registry service
         docker_container:
