@@ -1,5 +1,5 @@
-## <font color='red'>Ansible-Centos7</font>
-Ansible playbook configures the Nodes for Kubespray 2.14
+## <font color='red'>Preflight - Hardware</font>
+The following playbooks configure the cluster nodes and installs k8s-18.10 using kubespray 2.14.
 
 Prerequisites for the CentOS7 machines:
 * A public key generated on your Ansible Controller
@@ -22,7 +22,12 @@ The following playbooks are run:
 * Check the extra-vars.yml values
 
 #### download_kubespray.yml
-* 
+* Create the release directory
+* Unpacks kubespray-2.14
+
+#### cluster.yml
+* installs and configures k8s-18.10
+
 ---
 
 <em>Run the playbook - pre-flight_hardware.yml</em>  
