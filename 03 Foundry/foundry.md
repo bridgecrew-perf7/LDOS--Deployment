@@ -65,6 +65,22 @@ Note:  This will pick up the playbook from the continue tag onwards.
 
 ---
 
+<em>Run the playbook - install  _foundry.yml</em> 
+
+``run the playbook - install_foundry.yml:`` 
+```
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_foundry.yml
+```
+
+
+
+
+
+---
+
+<em>Run the playbook - pre-flight_foundry.yml</em>    
+
 <em>.kubectl_aliases</em>  
 To save typing out the kubectl commands, in the resources folder there's a kubectl_aliases file which you copy over to your $HOME directory.
 

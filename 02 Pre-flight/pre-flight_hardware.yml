@@ -18,7 +18,7 @@
   tasks:
    - name: Ping Nodes
      ping:
-     tags: ['info']
+     tags: [info]
 
    - name: Update all packages
      yum:

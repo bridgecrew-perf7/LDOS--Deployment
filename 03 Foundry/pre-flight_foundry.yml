@@ -13,19 +13,19 @@
 
     - name: Yum update
       raw: yum update -y
-      tags: ['prereq']
       when: ansible_distribution == "CentOS"
+      tags: [prereq]
 
     - name: Yum install epel
       raw: yum install -y epel-release
-      tags: ['prereq', 'never']
       when: ansible_distribution == "CentOS"
+      tags: [prereq, never]
     
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
       register: max_map_count
-      tags: ['elastic']
+      tags: [elastic]
 
     # Elasticsearch requires a max map count > 262144
     # Details: https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
@@ -38,7 +38,7 @@
       when: 
         - max_map_count.stdout | int < 262144 
         # May need check if large enough 
-      tags: ['elastic']
+      tags: [elastic]
 
     - name: Get sudoers secure_path
       shell: cat /etc/sudoers | grep secure_path
@@ -56,7 +56,7 @@
       shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
       ignore_errors: true
       register: dhcp_nameserver_entry
-      tags: ['dhcp']
+      tags: [dhcp]
 
     # dhclient.conf will rebuild the /etc/resolv.conf file on reboot.
     # Leverage the private DNS lookup of the hosting provider
@@ -85,18 +85,18 @@
 
 # Install Helm3 on all hosts 
 - name: Install helm on all hosts 
+  hosts:  all
   become: true
   become_method: sudo
   become_user: root
   gather_facts: false
-  hosts:  all
 
   tasks:
     - name: Check Helm
       shell: helm version
       register: helm_version
       ignore_errors: true
-      tags: ['helm']
+      tags: [helm]
 
     - name: Get Helm
       get_url:
@@ -104,25 +104,24 @@
          dest: ./get_helm.sh
          mode: 700
       when: helm_version.rc != 0
-      tags: [ helm ]
+      tags: [helm]
        
     - name: Install Helm
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
-      tags: ['helm']
+      tags: [helm]
 
 # Switch to Master Nodes
 # Configure kubeconfig on cluster for {{ ansible_user }}
 - name: Prepare Kubeconfig for {{ ansible_user }}
+  hosts:  "{{ groups['kube-master'][0] }}"
   become: true
   become_method: sudo
   gather_facts: false
-  hosts:  "{{ groups['kube-master'][0] }}"
-        
   any_errors_fatal: true
   tags: kubeconfig
+  
   tasks:
-
     - name: Create directory
       file:
         path: ~/.kube
@@ -143,11 +142,10 @@
   become_user: root
   become_method: sudo
   gather_facts: true
-  tags: kubeconfig
-
   any_errors_fatal: true
+  tags: kubeconfig
+  
   tasks:
-
     - name: Install jq 
       apt:
         name: jq
@@ -165,7 +163,7 @@
       local_action: command echo $HOME
       register: local_home
       become: false
-      tags: info
+      tags: [info]
 
     - name: Create directory
       file:
@@ -500,5 +498,5 @@
       - rm -rf /var/lib/docker
       - rm -rf /installers/docker
       - rm -rf ~/.kube;
-      - rm -rf ~installer/.kube;
+      - rm -rf ~/installer/.kube;
       - groupdel docker
