@@ -83,7 +83,7 @@
     # Unarchive Metrics-addon-1.0.0.
     - name: Unpack Metrics
       unarchive: 
-        src: "{{ metrics_home }}/{{ metrics_root }}.tgz"
+        src: "{{ installer_home }}/{{ metrics_root }}.tgz"
         dest: "{{ installer_home }}"
       tags: [unpack] 
  
