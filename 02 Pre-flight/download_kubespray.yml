@@ -18,33 +18,13 @@
       yum:
        name: '*'
       tags: [install]  
-
-    # Checks for the kubespray directory
-    - name: Check for kubespray directory
-      stat:
-        path: "{{ installer_home }}/kubespray-{{ release }}"
-      ignore_errors: yes
-      register: kubespray
-      tags: [info, install]
-
-    - debug: 
-        msg: "Kubspray directory: {{ kubespray.stat.exists }}"
-      tags: [info]
-
-    # Creates kubespray directory - if required
-    - name: Create kubespray directory
-      file:
-        path: "{{ installer_home }}/kubespray-{{ release }}"
-        state: directory
-      when: kubespray.stat.exists == false
-      tags: [info, install]
-      
+  
     # Downloads kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
     - name: Get Kubespray if required
       get_url:
         url: 'https://github.com/kubernetes-sigs/kubespray/archive/refs/heads/{{release}}.zip'
-        dest: "{{ installer_home }}/{{release}}.zip"
+        dest: "{{ installer_home }}/kubespray-{{release}}.zip"
       when: kubespray.stat.exists == false
       tags: [install]
  
@@ -52,8 +32,8 @@
     # This is therefore, persisted on your local filesystem
     - name: Unarchive Kubespray-{{ release }}
       unarchive:
-        src: "{{ installer_home }}/{{release}}.zip"
-        dest: "{{ installer_home }}/kubespray-{{ release }}"
+        src: "{{ installer_home }}/kubespray-{{release}}.zip"
+        dest: "{{ installer_home }}"
       when: kubespray.stat.exists == false
       tags: [install]
 
