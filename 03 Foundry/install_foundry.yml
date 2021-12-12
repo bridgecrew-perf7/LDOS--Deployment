@@ -67,9 +67,27 @@
       unarchive:
         src: "{{ installer_home }}/{{ foundry_root }}.tgz"
         dest: "{{ foundry_home }}"
-      tags: [unpack]  
-    
-    # Foundry requires istio and cert-manager be installed
+      tags: [unpack] 
+
+    # Checks for the Metrics directory
+    - name: Check for 'Metrics' directory
+      stat:
+        path: "{{ metrics_home }}"
+      register: metrics
+      tags: [info] 
+
+    - debug: 
+        msg: "metrics directory exists: {{ metrics.stat.exists }}"
+      tags: [info]     
+
+    # Unarchive Metrics-addon-1.0.0.
+    - name: Unpack Metrics
+      unarchive: 
+        src: "{{ metrics_home }}/{{ metrics_root }}.tgz"
+        dest: "{{ installer_home }}"
+      tags: [unpack] 
+ 
+      # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
@@ -101,24 +119,6 @@
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cp]
-
-    # Checks for the Metrics directory
-    - name: Check for 'Metrics' directory
-      stat:
-        path: "{{ metrics_home }}"
-      register: metrics
-      tags: [info] 
-
-    - debug: 
-        msg: "metrics directory exists: {{ metrics.stat.exists }}"
-      tags: [info]     
-
-    # Unpacks Metrics addon 
-    - name: Unpack Metrics
-      unarchive: 
-        src: "{{ metrics_root }}"
-        dest: "{{ base_foundry_dir }}"
-      tags: [unpack] 
 
     - name: Install Metrics Addon
       shell: 

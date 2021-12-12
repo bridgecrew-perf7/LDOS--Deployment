@@ -121,7 +121,7 @@
   tags: kubeconfig
   
   tasks:
-    - name: Create directory
+    - name: Create ~/.kube directory (root on master)
       file:
         path: ~/.kube
         state: directory
@@ -158,13 +158,13 @@
     - name: Install kubectl
       raw: snap install kubectl --channel=1.18/stable --classic
 
-    - name: get local user home
+    - name: Get local user home
       local_action: command echo $HOME
       register: local_home
       become: false
       tags: [info]
 
-    - name: Create directory
+    - name: Create ~/.kube directory (installer on Ansible Controller)
       file:
         path: ~/.kube
         state: directory
@@ -175,7 +175,7 @@
       become: false
 
     # Now as root get config from {{ local_home.stdout }}
-    - name: Create directory
+    - name: Create ~./kube directory (as root)
       file:
         path: ~/.kube
         state: directory
@@ -225,13 +225,13 @@
         addgroup docker;
         usermod {{ local_user }} -aG docker;
 
-    - name: Check for docker
+    - name: Check for Docker
       shell: which docker
       ignore_errors: true
       register: docker_exists
       tags: [info]
       
-    - name: Install docker
+    - name: Install Docker
       apt: 
         name: docker.io
       when: docker_exists is failed
@@ -242,7 +242,7 @@
       ignore_errors: true
       when: docker_exists is defined 
 
-    - name: Create directory
+    - name: Create /etc/Docker directory
       ignore_errors: true
       file:
         path: "{{ item }}"
@@ -251,14 +251,14 @@
         - /etc/docker
       when: docker_exists is failed
 
-    - name: Create docker daemon.json and data root
+    - name: Create Docker daemon.json and data root
       shell: |
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /installers
       when: docker_exists is failed 
       tags: [install, docker]
 
-    - name: Non-root docker directories
+    - name: Non-root Docker directories
       shell: |
         chgrp docker "{{ item }}"
         chmod 775 "{{ item }}"
