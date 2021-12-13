@@ -148,7 +148,7 @@
       tags: ['never', 'install_cp', 'info']
 
     - name: Confirm Foundry User
-      shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
+      shell: echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
       register: foundry_pass
       tags: ['never', 'install_cp', 'info']
 
@@ -159,4 +159,4 @@
         - "          Logs can be found in {{ log_dir }}"
         - "          URL: https://{{ apiserver_loadbalancer_domain_name }}/hitachi-solutions/hscp-hitachi-solutions/solution-control-plane/"
         - "          as foundry/{{ foundry_pass.stdout }}"
-      tags: ['never', 'install_cp', 'info']
+      tags: [install_cp, info]

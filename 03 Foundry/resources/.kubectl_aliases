@@ -802,3 +802,61 @@ alias kgdepwowidesln='kubectl get deployment --watch -o=wide --show-labels --nam
 alias kgwslowiden='kubectl get --watch --show-labels -o=wide --namespace'
 alias kgpowslowiden='kubectl get pods --watch --show-labels -o=wide --namespace'
 alias kgdepwslowiden='kubectl get deployment --watch --show-labels -o=wide --namespace'
+
+# set namespace so you don't need -n options
+alias ksns='f(){ kubectl config set-context --current --namespace=$1; unset -f f; }; f'
+
+# delete evicted pods
+alias kde='kubectl get pods -A | grep Evicted | while read ns pod rest; do kubectl delete pod -n $ns $pod; done'
+
+# get logs often needs a -c container filter as well.
+alias klog='f(){
+  pod=$1;
+  shift;
+  if [ -z $pod ]; then
+     echo "klog requires a pod"
+  else
+     # find first container
+     c=`kubectl get pod -o jsonpath={.spec.containers[0].name} $pod`
+     kubectl logs $pod -c $c
+  fi;
+  unset -f f;
+}; f'
+alias kfail='kubectl get pods --field-selector "status.phase==Failed"'
+
+# Passwords
+alias foundry='echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")'
+alias admin='echo $(kubectl -n hitachi-solutions get secret/credential-keycloak -o jsonpath="{.data.ADMIN_PASSWORD}" | base64 -d)'
+
+# In progress on removing a namespace that is stuck
+alias DEL-ns='f(){ kubectl proxy &; curl -k -H "Content-Type: application/json" -X PUT --data-binary @$1 http://127.0.0.1:8001/api/v1/namespaces/$2/finalize; unset -f f; }; f'
+
+# Helper pods
+alias kbb='kubectl run busybox -it --rm --image busybox -- sh'
+alias kdns='kubectl run dnsutils -it --rm --image dnsutils -- sh'
+
+# worker nodes / pdi-job pods
+alias wn='kubectl get pods --selector app.kubernetes.io/name=pdi-job'
+# See Events from Pending pods (usually resourcing issues) or the pod passed as $1
+alias wne='f(){ 
+  pod=$1; 
+  shift;
+  if [ -z $pod ]; then
+     pod="--selector app.kubernetes.io/name=pdi-job,status.phase=Pending"; 
+  fi;
+  kubectl describe pod $pod $@ | grep -A100 Events:; 
+  unset -f f; 
+}; f'
+# See resource requests from Pending pods or the pod passed as $1
+alias wnr='f(){ 
+  pod=$1; 
+  shift;
+  if [ -z $pod ]; then
+     pod="--selector app.kubernetes.io/name=pdi-job,status.phase=Pending"; 
+  fi;
+  kubectl describe pod $pod $@ | grep -A2 Requests:; 
+  unset -f f; 
+}; f'
+
+# Open bash into a specified pod
+alias kbash='f(){ kubectl exec -it $1 -- /bin/bash; unset -f f; }; f'
