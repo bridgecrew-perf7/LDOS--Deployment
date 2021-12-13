@@ -96,7 +96,7 @@ There is a sample inventory in the inventory folder. You need to copy that and n
 
 ``copy inventory/sample as inventory/mycluster:``
 ```
-cd Dow  Downloads/Kubespray/kubespray-release-2.14/inventory
+cd /installers/kubespray-release-2.14/inventory
 sudo mkdir mycluster
 cd ..
 sudo cp -rfp inventory/sample inventory/mycluster
@@ -124,8 +124,8 @@ Note: this is going to take about 10 mins..
 
 ``if you need to reset the k8s deployment:``
 ```
-cd installers/kubespray-release-2.14
-ansible-playbook -i hosts-skytap.yaml reset.yml -b --become-user=root
+cd /installers/kubespray-release-2.14
+ansible-playbook -i hosts-skytap.yaml --extra-vars="@extra-vars.yml" reset.yml -b -v --become-user=root
 ```
 Note: This will still keep some residual config files, IP routing tables, etc
 
