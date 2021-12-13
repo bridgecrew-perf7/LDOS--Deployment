@@ -88,6 +88,11 @@ Note: wait until all the cluster services have been installed, otherwise not all
 ```
 kubectl get pods -A
 ```
+``to access the Foundry Solutions Control Plane:``
+```
+username: foundry
+echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
+```
 
 ---
 
