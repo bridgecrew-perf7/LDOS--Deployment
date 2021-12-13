@@ -1,7 +1,7 @@
 ## <font color='red'>Hitachi Vantara Foundry 2.2.1 Platform</font>
 Ansible playbooks install and configures Hitachi Vantara Foundry Platform.
 
-Prerequisites for the CentOS7 machines:
+Prerequisites for the CentOS 7 machines:
 * A public key generated on your Ansible Controller
 * SSH passwordless access on Nodes with root permissions
 * Completed 01 Infrastructure section
@@ -24,7 +24,17 @@ The following playbooks are run:
 
 
 #### install_foundry.yml
-* 
+* Creates a Log directory
+* Creates a Foundry directory
+* Unarchives Foundry Control Plane 2.2.1
+* Creates a Metrics directory
+* Unarchives Metrics 1.0.0
+* Installs Cluster Services
+* Run Hitachi CRDs
+* Install Foundry Control Plane
+* Upload Foundry images
+* Install Metrics Addon
+* Upload Metrics image
 
 ---
 
@@ -116,4 +126,3 @@ For further information:
   > browse to: https://github.com/ahmetb/kubectl-aliases
 
 ---
-
