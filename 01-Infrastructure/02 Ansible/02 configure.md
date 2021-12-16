@@ -69,7 +69,7 @@ Note: Ctrl + c will display line numbers.
 
 ---
 
-<em>add directories</em>
+<em>add directories</em>  
 ``create the following directories:``
 ```
 cd
