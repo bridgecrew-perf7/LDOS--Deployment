@@ -53,8 +53,8 @@ sudo yum update
 
 ---
 
-<em>add a 'k8s' user to the wheel group (log in as root):</em>
-the k8s account has previously been created.
+<em>add a 'k8s' user to the wheel group (log in as root):</em>  
+the k8s account has previously been created.  
 ``add k8s to wheel group:``
 ```
 sudo -i
@@ -75,7 +75,7 @@ ls /home
 
 ---
 
-<em>install nano:</em>
+<em>install nano:</em>  
 ``install editor (nano or vim):``
 ```
 sudo yum install -y nano
@@ -83,7 +83,7 @@ sudo yum install -y nano
 
 ---
 
-<em>allow users in group wheel to run all commands without password:</em>
+<em>allow users in group wheel to run all commands without password:</em>  
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers  
@@ -138,7 +138,7 @@ ls /home
 
 ---
 
-<em>allow users in group sudo to run all commands without password:</em>
+<em>allow users in group sudo to run all commands without password:</em>  
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers
@@ -240,8 +240,8 @@ pip2 --version
 
 ---
 
-<em>install git:</em>  
-used to access the LDOS-Workshop Git repository.
+<em>install git:</em>    
+used to access the LDOS-Workshop Git repository.  
 ``install Git:``
 ```
 sudo apt install git
@@ -253,7 +253,7 @@ git --version
 
 ---
 
-<em>install Visual Studio Code:</em>
+<em>install Visual Studio Code:</em>  
 ``Visual Studio Code is used for workshop Lab Guide:``
 ```
 sudo apt install snapd
@@ -268,7 +268,7 @@ code
 
 ---
 
-<em>install tree:</em>
+<em>install tree:</em>  
 ``to browse directories:``
 ```
 sudo apt-get update -y
@@ -342,7 +342,7 @@ ls /home
 
 ---
 
-<em>allow users in group sudo to run all commands without password:</em>
+<em>allow users in group sudo to run all commands without password:</em>  
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers
