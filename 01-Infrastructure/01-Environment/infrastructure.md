@@ -183,8 +183,8 @@ sudo apt install openssh-server
 ```
 sudo systemctl status sshd
 ```
-Note: By default, your SSH server is listening on port 22.
-if you need further details:
+Note: By default, your SSH server is listening on port 22.  
+`if you need further details:`
 ```
 sudo apt-get install net-tools
 netstat -tulpn | grep 22^
@@ -193,7 +193,7 @@ If you are using UFW as a default firewall on your Ubuntu 18.04 host, it is like
 ```
 sudo ufw status
 ```
-Note: For training purposes it is inactive.
+Note: For training purposes it is inactive.  
 ``to enable SSH connections on your host:``
 ```
 sudo ufw allow ssh
@@ -234,7 +234,7 @@ pip2 --version
 
 ---
 
-<em>install git:</em>
+<em>install git:</em>  
 used to access the LDOS-Workshop Git repository.
 ```
 sudo apt install git
@@ -386,11 +386,6 @@ sudo apt update && sudo apt upgrade -y
 HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
 
 Configure HAProxy to load-balance across the cluster.
-
-``to install haproxy:``
-```
-sudo apt-get install haproxy
-```
 
 the configuration file is located at:  
   /etc/haproxy/haproxy.cfg
