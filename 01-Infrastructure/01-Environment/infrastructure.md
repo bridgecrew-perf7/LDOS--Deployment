@@ -54,6 +54,8 @@ sudo yum update
 ---
 
 <em>add a 'k8s' user to the wheel group (log in as root):</em>
+the k8s account has previously been created.
+``add k8s to wheel group:``
 ```
 sudo -i
 usermod -aG wheel k8s
@@ -74,6 +76,7 @@ ls /home
 ---
 
 <em>install nano:</em>
+``install editor (nano or vim):``
 ```
 sudo yum install -y nano
 ```
@@ -81,6 +84,7 @@ sudo yum install -y nano
 ---
 
 <em>allow users in group wheel to run all commands without password:</em>
+``edit sudoers:``
 ```
 sudo nano /etc/sudoers  
 ```
@@ -135,6 +139,7 @@ ls /home
 ---
 
 <em>allow users in group sudo to run all commands without password:</em>
+``edit sudoers:``
 ```
 sudo nano /etc/sudoers
 ```
@@ -202,6 +207,7 @@ sudo ufw allow ssh
 ---
 
 <em>install pip3 & pip:</em>
+``ensure python is installed:``
 ```
 sudo apt install python3-pip
 ```
@@ -236,6 +242,7 @@ pip2 --version
 
 <em>install git:</em>  
 used to access the LDOS-Workshop Git repository.
+``install Git:``
 ```
 sudo apt install git
 ```
@@ -247,6 +254,7 @@ git --version
 ---
 
 <em>install Visual Studio Code:</em>
+``Visual Studio Code is used for workshop Lab Guide:``
 ```
 sudo apt install snapd
 sudo snap install --classic code
@@ -261,6 +269,7 @@ code
 ---
 
 <em>install tree:</em>
+``to browse directories:``
 ```
 sudo apt-get update -y
 sudo apt-get install -y tree
@@ -334,6 +343,7 @@ ls /home
 ---
 
 <em>allow users in group sudo to run all commands without password:</em>
+``edit sudoers:``
 ```
 sudo nano /etc/sudoers
 ## Allows users in group admin to gain root privileges
