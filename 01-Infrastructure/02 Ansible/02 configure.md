@@ -72,7 +72,6 @@ Note: Ctrl + c will display line numbers.
 <em>add directories</em>  
 ``create the following directories:``
 ```
-cd
 cd /etc/ansible
 sudo mkdir playbooks
 ```
