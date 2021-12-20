@@ -1,4 +1,4 @@
-# Downloads and installs Kubespray 2.14 of Kubernetes 1.18
+# Downloads and installs Kubespray 2.14 - Kubernetes 1.18
 # Run from: /etc/ansible/playbooks
 - name: Install Kubespray
   hosts: "{{ groups['installer'][0] }}"

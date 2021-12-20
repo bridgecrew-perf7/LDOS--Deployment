@@ -183,7 +183,7 @@
     - name: Copy config to root home
       shell: "cp {{ local_home.stdout }}/.kube/config ~/.kube"
 
-    # As local user, test kubectl config
+    # Test kubectl config
     - name: Check kubectl connectivity from installer node to cluster
       shell: "kubectl get nodes"
       register: nodes

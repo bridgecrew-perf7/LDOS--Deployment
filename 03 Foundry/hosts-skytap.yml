@@ -39,4 +39,6 @@ all:
       hosts: {}
     installer:
       hosts:
-        installer.skytap.example:        
+        installer.skytap.example:
+        
+                
