@@ -164,18 +164,18 @@
       become: false
       tags: [info]
 
-    - name: Create ~/.kube directory (installer on Ansible Controller)
+    - name: Create ~/.kube directory (root on Ansible Controller)
       file:
         path: ~/.kube
         state: directory
       become: false
 
-    - name: Transfer config file from cluster to 'installer'
+    - name: Transfer config file from master cluster to 'root' .kube
       raw: scp -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ groups['kube-master'][0] }}:/home/{{ ansible_user }}/.kube/config ~/.kube/config
       become: false
 
-    # Now as root get config from {{ local_home.stdout }}
-    - name: Create ~./kube directory (as root)
+    # Now get config from {{ local_home.stdout }}
+    - name: Create ~./kube directory
       file:
         path: ~/.kube
         state: directory
