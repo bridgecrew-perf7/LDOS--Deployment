@@ -110,7 +110,7 @@
       when: "'not found' in helm_version.stderr"
       tags: [helm]
 
-# Switch to Master Nodes
+# Switch to Master Node 1
 # Configure kubeconfig on cluster for {{ ansible_user }}
 - name: Prepare Kubeconfig for {{ ansible_user }}
   hosts:  "{{ groups['kube-master'][0] }}"
