@@ -17,7 +17,17 @@
     - name: Update all packages
       yum:
        name: '*'
-      tags: [install]  
+      tags: [install]
+
+    - name: Check if kubespray is available
+      stat:
+        path: "{{ installer_home }}/{{ release }}"
+      register: kubespray
+      tags: [info, install]
+
+    - debug: 
+        msg: "Kubspray Exists: {{ kubespray.stat.exists }}"
+      tags: [info]      
   
     # Downloads kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
