@@ -56,9 +56,11 @@
     - name: Re-Check if Kubespray has extracted
       stat:
         path: "{{ installer_home }}/{{release}}"
-      register: kubespray
-      #when: kubespray.stat.exists == false
       tags: [install]
+
+    - debug: 
+        msg: "Kubspray Exists: {{ kubespray }}-{{release}}"
+      tags: [install]  
 
     # May need to update path  
     - name: Copy extra-vars.yml
@@ -75,7 +77,8 @@
       tags: [install]
 
     - debug: 
-        msg: "Kubspray Exists: {{ kubespray }}-{{release}}"
+        msg: "Config files copied: {{ kubespray }}-{{release}}"
+        when: kubespray.stat.exists == true
       tags: [install]
       
     # Run the kubespray playbook on the hosts
