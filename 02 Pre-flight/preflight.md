@@ -105,7 +105,8 @@ There is a sample inventory in the inventory folder. You need to copy that and n
 cd /installers/kubespray-release-2.14/inventory
 sudo mkdir mycluster
 cd ..
-sudo cp -rfp inventory/sample inventory/mycluster
+sudo chown -R installer mycluster
+sudo cp -rfp sample mycluster
 declare -a IPS=(10.0.0.101 10.0.0.102 10.0.0.103)
 CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 ```
