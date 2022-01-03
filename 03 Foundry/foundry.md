@@ -52,7 +52,7 @@ Pre-requistes:
 
 ``run the cluster.yml playbook:``
 ```
-cd installers/kubespray-release-2.14
+cd /installers/kubespray-release-2.14
 ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b -v cluster.yml
 ```
 Note: this is going to take about 10 mins..
