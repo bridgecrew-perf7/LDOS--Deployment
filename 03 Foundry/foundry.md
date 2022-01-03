@@ -9,6 +9,9 @@ Prerequisites for the CentOS 7 machines:
 
 The following playbooks are run:  
 
+#### cluster.yml
+* 
+
 #### pre-flight_foundry.yml
 * Update packages
 * Ensure Map Max count > 262144
@@ -37,6 +40,53 @@ The following playbooks are run:
 * Upload Metrics image
 
 ---
+
+
+<em>Run the playbook - kubespray-release-2.14/cluster.yml</em>   
+Its is important that you explicitly include all the parameters when running the kubespray-release-2.14/cluster.yml playbook. 
+Kubespray release 2.14 installs and configures the Foundry Platform supported version: kubernetes 1.18.10
+
+Pre-requistes:
+* Firewalls are not managed by kubespray. You'll need to implement appropriate rules as needed. You should disable your firewall in order to avoid any issues during deployment.  
+* If kubespray is ran from a non-root user account, correct privilege escalation method should be configured in the target servers and the ansible_become flag or command parameters --become or -b should be specified. 
+
+``run the cluster.yml playbook:``
+```
+cd installers/kubespray-release-2.14
+ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b cluster.yml  -t info
+```
+Note: this is going to take about 10 mins..
+
+``if you need to reset the k8s deployment:``
+```
+cd /installers/kubespray-release-2.14
+ansible-playbook -i hosts-skytap.yaml --extra-vars="@extra-vars.yml" reset.yml -b -v --become-user=root
+```
+Note: This will still keep some residual config files, IP routing tables, etc
+
+``rest kubernetes cluster using kubeadm:``
+```
+kubeadm reset -f
+```
+``remove all the data from all below locations:``
+```
+sudo rm -rf /etc/cni /etc/kubernetes /var/lib/dockershim /var/lib/etcd /var/lib/kubelet /var/run/kubernetes ~/.kube/*
+```
+``flush all the firewall (iptables) rules (as root):``
+```
+sudo -i
+iptables -F && iptables -X
+iptables -t nat -F && iptables -t nat -X
+iptables -t raw -F && iptables -t raw -X
+iptables -t mangle -F && iptables -t mangle -X
+```
+``restart the Docker service:``
+```
+systemctl restart docker
+```
+
+---
+
 
 <em>Run the playbook - pre-flight_foundry.yml</em>    
 This will update, install and configure the various required packages for the Foudry Platform.
