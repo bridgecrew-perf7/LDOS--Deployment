@@ -121,7 +121,7 @@
   tags: kubeconfig
   
   tasks:
-    - name: Create ~/.kube directory (root on master)
+    - name: Create ~/.kube directory (root on master1)
       file:
         path: ~/.kube
         state: directory
@@ -180,7 +180,7 @@
         path: ~/.kube
         state: directory
 
-    - name: Copy config to root home
+    - name: Copy config from root to home
       shell: "cp {{ local_home.stdout }}/.kube/config ~/.kube"
 
     # Test kubectl config
