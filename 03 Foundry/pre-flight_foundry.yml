@@ -242,7 +242,7 @@
       ignore_errors: true
       when: docker_exists is defined 
 
-    - name: Create /etc/Docker directory
+    - name: Create /etc/docker directory
       ignore_errors: true
       file:
         path: "{{ item }}"
