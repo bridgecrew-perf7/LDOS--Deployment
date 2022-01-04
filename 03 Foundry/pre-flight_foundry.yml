@@ -438,7 +438,7 @@
       register: sc
       ignore_errors: true
 
-    # Switch to Ansible Controller to install OpenEBS    
+    # Install OpenEBS    
     - name: Install openebs default storage (if needed)
       shell: "{{ item }}"
       with_items:
