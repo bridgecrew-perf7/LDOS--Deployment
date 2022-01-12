@@ -27,7 +27,7 @@ The following playbooks are run:
 * Unpacks kubespray-2.14
 
 #### cluster.yml
-* installs and configures k8s-18.10
+* installs and configures k8s-1.18.10
 
 ---
 
