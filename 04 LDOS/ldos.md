@@ -17,6 +17,8 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
     - The default installation is: LDOS.  To change this, manually edit the "install_mode" in env.properties.
     - Additional editing of the default helm charts or install.sh itself may be needed for a custom installation of the product components.
 
+Please read the documentation: LDOS 1.1.1 Installation & Configuration    
+
 #### <font color='red'>Downloads</font>
 All files required for installation are available in the release folder and can be found in the link below.
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
@@ -28,5 +30,25 @@ To properly access the kubernetes cluster, you need to configure your kubeconfig
 The default location:  
 ``~/.kube/config ``
 
+#### <font color='red'>Access the Solution management UI</font>
+In order to access the Solution management UI, you need to get the password for the admin user foundry. 
+```
+# get password for foundry user:
+echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o 
+jsonpath='{.spec.user.credentials[0].value}')
+```
+Keep this password for later.
+
 
 ---
+
+
+<em>Check Foundry Platform</em>
+Before you start the LDOS installation, check that the Foundry Platform is healthy.
+
+``check the nodes (from the Ansible Controller box):``
+```
+kubectl get nodes -o wide (alias: kgn -o wide)
+
+```
+<em>Download and unpack the Metrics Add-On</em>
