@@ -11,6 +11,10 @@ This reference section covers:
 
   * Generate SSH keys & deploy
 
+#### Downloads
+All files required for installation are available in the release folder and can be found in the link below.
+https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
+
 <font color='red'>** This section has already been completed**</font>  
 
 ---
@@ -27,7 +31,7 @@ Domain Name: skytap.example
 | LDOS 1.2.0 Master Node 1  | k8s-master-node-1 | 10.0.0.101  | CentOS 7.5       |    
 | LDOS 1.2.0 Master Node 2  | k8s-master-node-2 | 10.0.0.102  | CentOS 7.5       |
 | LDOS 1.2.0 Master Node 3  | k8s-master-node-3 | 10.0.0.103  | CentOS 7.5       |
-| LDOS 1.2.0 Installer      | installer         | 10.0.0.99   | Unbuntu 18.04.6  | 
+| Ansible Controller        | installer         | 10.0.0.99   | Unbuntu 18.04.6  | 
 |
 
 VM sequence: 
