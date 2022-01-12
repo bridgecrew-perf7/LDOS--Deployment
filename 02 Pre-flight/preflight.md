@@ -1,5 +1,5 @@
 ## <font color='red'>Preflight - Hardware</font>
-The following playbooks configure the cluster nodes and installs k8s-18.10 using kubespray-2.14.
+The following playbooks configure the cluster nodes and installs k8s-1.18.10 using kubespray-2.14.
 
 Prerequisites for the CentOS7 machines:
 * A public key generated on your Ansible Controller
