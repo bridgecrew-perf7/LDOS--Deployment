@@ -8,6 +8,17 @@ LDOS is installed over an existing k8s cluster running cluster services (a defau
 
 * NFS Server:   
 The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.properties. These will be mounted, into the containers, via NFS from an external NFS Server mount point. 
+
+Install NFS server:  
+``update system packages:``
+```
+sudo apt update
+```
+``install server:``
+```
+sudo apt install nfs-kernel-server
+```
+
 * Object Storage Service: 
  The Catalog leverages an object store to manage it's fingerprinting and Spark logs.  The default internal minio pod is not sufficient to handle production workloads (as it will fill up the clusters filesystem).   A thrid party object store, such as S3 or an external mino cluster should be used in production installations.
 
@@ -46,9 +57,13 @@ Keep this password for later.
 <em>Check Foundry Platform</em>
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
-``check the nodes (from the Ansible Controller box):``
+``check nodes (from the Ansible Controller box):``
 ```
 kubectl get nodes -o wide (alias: kgn -o wide)
-
 ```
+``check pods:``
+```
+kubectl get pods -o wide
+```
+
 <em>Download and unpack the Metrics Add-On</em>
