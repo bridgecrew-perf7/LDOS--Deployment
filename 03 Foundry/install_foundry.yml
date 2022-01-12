@@ -63,7 +63,7 @@
       tags: [info]
 
     # Unarchive Foundry-Control-Plane-2.2.1.tgz
-    - name: Unarchive Foundry-Control-Plane-2.2.1.tgz
+    - name: Unarchive {{ foundry_root }}.tgz
       unarchive:
         src: "{{ installer_home }}/{{ foundry_root }}.tgz"
         dest: "{{ foundry_home }}"
@@ -81,7 +81,7 @@
       tags: [info]     
 
     # Unarchive Metrics-addon-1.0.0.
-    - name: Unpack Metrics
+    - name: Unpack {{ metrics_root }}
       unarchive: 
         src: "{{ installer_home }}/{{ metrics_root }}.tgz"
         dest: "{{ installer_home }}"
