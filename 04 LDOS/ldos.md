@@ -3,44 +3,13 @@ DataOps unlocks business value by operationalizing data management with automati
 
 #### <font color='red'>Prerequisites for LDOS:</font>
 * Foundry Platform:   
-LDOS is installed over an existing k8s cluster running cluster services (a default storage class, istio and  cert-manager) and the Hitachi Vantara Solution Control Plane. 
+LDOS is installed over an existing k8s cluster running cluster services (a default storage class, istio and  cert-manager) and the Hitachi Vantara Solution Control Plane.  
+
 * Metrics-addon: 
+
 
 * NFS Server:   
 The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.properties. These will be mounted, into the containers, via NFS from an external NFS Server mount point. 
-
-Install NFS server on the HA Proxy:  
-``update system packages:``
-```
-sudo apt update
-```
-``install server:``
-```
-sudo apt install nfs-kernel-server
-```
-``create the NFS directory:``
-```
-cd /data
-sudo mkdir -p pdi
-```
-permissions for accessing the NFS server are defined in the /etc/exports file.  
-``edit exports, add the following:``
-```
-/data/pdi *(rw,sync,no_subtree_check,insecure)
-```
-Explanation about the options used in the above command.
-
-*: allows any client IP to connect to the server.
-rw: Stands for Read/Write.
-sync: Requires changes to be written to the disk before they are applied.
-no_subtree_check: Eliminates subtree checking.
-
-``export the NFS Share Directory:``
-```
-sudo exportfs -a
-sudo systemctl restart nfs-kernel-server
-```
-
 
 * Object Storage Service: 
  The Catalog leverages an object store to manage it's fingerprinting and Spark logs.  The default internal minio pod is not sufficient to handle production workloads (as it will fill up the clusters filesystem).   A thrid party object store, such as S3 or an external mino cluster should be used in production installations.

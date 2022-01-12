@@ -54,7 +54,7 @@
         msg: "foundry directory exists: {{ foundry.stat.exists }}"
       tags: [info]
 
-    # Creates Foundry install directory -if required
+    # Creates Foundry install directory - if required
     - name: Creates 'Foundry' directory
       file:
         path: "{{ foundry_home }}"
@@ -62,7 +62,7 @@
       when: foundry.stat.exists == false
       tags: [info]
 
-    # Unarchive Foundry-Control-Plane-2.2.1tgz
+    # Unarchive Foundry-Control-Plane-2.2.1.tgz
     - name: Unarchive Foundry-Control-Plane-2.2.1.tgz
       unarchive:
         src: "{{ installer_home }}/{{ foundry_root }}.tgz"
