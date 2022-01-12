@@ -49,13 +49,19 @@ Keep this password for later.
 <em>Check Foundry Platform</em>
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
-``check nodes (from the Ansible Controller box):``
+``check namespaces (from the Ansible Controller box):``
 ```
-kubectl get nodes -o wide (alias: kgn -o wide)
+kubectl get namespaces -o wide (alias: kgns -o wide)
 ```
-``check pods:``
+``check nodes:``
 ```
-kubectl get pods -o wide
+kubectl get namespaces -o wide (alias: kgno -o wide)
 ```
+``check Pods in hitachi-solutions:``
+```
+kubectl get pods -n hitachi-solutions -o wide
+```
+
+---
 
 <em>Download and unpack the Metrics Add-On</em>
