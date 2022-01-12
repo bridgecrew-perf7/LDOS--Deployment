@@ -17,7 +17,7 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
     - The default installation is: LDOS.  To change this, manually edit the "install_mode" in env.properties.
     - Additional editing of the default helm charts or install.sh itself may be needed for a custom installation of the product components.
 
-Please read the documentation: LDOS 1.1.1 Installation & Configuration    
+Please read the documentation: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)    
 
 #### <font color='red'>Downloads</font>
 All files required for installation are available in the release folder and can be found in the link below.
