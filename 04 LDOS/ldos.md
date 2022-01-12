@@ -1,7 +1,7 @@
 ## <font color='red'>Lumada DataOps Suite 1.1.1</font>
 DataOps unlocks business value by operationalizing data management with automation and collaboration. Lumada DataOps Suite helps you build your DataOps practice for more business agility with an intelligent data operations platform.
 
-#### Prerequisites for LDOS:
+#### <font color='red'>Prerequisites for LDOS:</font>
 * Foundry Platform:   
 LDOS is installed over an existing k8s cluster running cluster services (a default storage class, istio and  cert-manager) and the Hitachi Vantara Solution Control Plane. 
 * Metrics-addon: 
@@ -17,15 +17,16 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
     - The default installation is: LDOS.  To change this, manually edit the "install_mode" in env.properties.
     - Additional editing of the default helm charts or install.sh itself may be needed for a custom installation of the product components.
 
-#### Downloads
+#### <font color='red'>Downloads</font>
 All files required for installation are available in the release folder and can be found in the link below.
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
 
-Kubernetes Management
+You’ll need your Hitachi Vantara credentials or ask Customer Success.
+
+#### <font color='red'>Kubernetes Management</font>
 To properly access the kubernetes cluster, you need to configure your kubeconfig.
-Know where your kubeconfig is located - this is a YAML file that determines which cluster your kubectl will talk to. It is usually located under 
-.kube/config at your home user folder. You will need the path later.
-Double check that your kubectl is talking to the correct kubernetes cluster by running:
-You’ll need your Hitachi Vantara credentials or ask Customer Success
+The default location:  
+``~/.kube/config ``
+
 
 ---
