@@ -314,7 +314,7 @@ Installation of the Foundry Platform and LDOS requires that the images are uploa
 
 ---
 
-### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
+#### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
 ``update (log in as root):``
@@ -371,7 +371,7 @@ sudo -v
 
 ---
 
-### <font color='red'>HA Proxy</font>
+#### <font color='red'>HA Proxy</font>
 Install the latest HAProxy using a PPA.
 
   > browse to: https://haproxy.debian.net/
@@ -428,7 +428,7 @@ sudo systemctl restart haproxy
 
 ---
 
-#### <font color='red'>data volume</font>
+#### <font color='red'>Data Volume</font>
 You will require a /data volume which gets mapped to LDOS, as a Pentaho File Repository.
 
 ---
