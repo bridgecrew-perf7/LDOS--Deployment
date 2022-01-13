@@ -32,7 +32,6 @@
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-
     # Checks for the logs directory
     - name: Check if 'logs' directory exists
       stat:
@@ -147,7 +146,7 @@
       tags: [install, upload_ldos]
 
     # Install LDOS
-    Lumada- name: Install LDOS
+    - name: Install LDOS
       shell: 
         chdir: /installers/installer
         cmd: "./install.sh 2>&1 | tee -a {{ log_dir }}/install-ldos.log"
