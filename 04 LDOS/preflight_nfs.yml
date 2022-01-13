@@ -39,7 +39,9 @@
   become_method: sudo
   gather_facts: false
   hosts: "{{ groups['kube-master'][0] }}"
-
+  
+  any_errors_fatal: true
+  tasks:
     - name: Install NFS
       shell: yum install -y nfs-utils
       tags: [ 'install' ]

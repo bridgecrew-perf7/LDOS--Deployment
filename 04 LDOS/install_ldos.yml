@@ -28,11 +28,11 @@
     ldos_home: /installers/LumadaDataOpsSuite-1.1.1
     ldos_archive: Lumada-DataOps-Suite-1.1.1.tgz
     installer_archive: Lumada-DataOps-Suite-Installer-1.1.1.zip
-
+    
     ansible_python_interpreter: /usr/bin/python3
     
-    
   tasks:
+
     # Checks for the logs directory
     - name: Check if 'logs' directory exists
       stat:
@@ -147,7 +147,7 @@
       tags: [install, upload_ldos]
 
     # Install LDOS
-    - name: Install LDOS
+    Lumada- name: Install LDOS
       shell: 
         chdir: /installers/installer
         cmd: "./install.sh 2>&1 | tee -a {{ log_dir }}/install-ldos.log"
