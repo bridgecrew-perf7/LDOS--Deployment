@@ -55,7 +55,6 @@ The following playbooks are run:
 * Check the Health of the Foundry Platform
 * Install Metrics-addon 1.0.0
 * Install NFS Server
-* Install LDOS
 
 <em>Check Foundry Platform</em>
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
@@ -97,11 +96,16 @@ Installs a NFS server that is required by the DataFlow Engine and DataFlow Impor
 cd /etc/ansible/playbooks
 ansible-playbook pre-flight_nfs.yml
 ```
+The /etc/exports file controls which file systems are exported to remote hosts and specifies options.
+``verify the export configuration file:``
+```
+sudo nano /etc/export
+```
 
 
 ---
 
-<em>Install LDOS - install_ldos.yml</em>  
+#### <font color='red'>Install LDOS - install_ldos.yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts.   Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the HELM chart template, so they reflect this installaion.
