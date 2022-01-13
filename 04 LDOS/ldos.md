@@ -87,17 +87,44 @@ http://docs.foundry.wal.hds.com/addons/metricsaddon/docs/1.0.0/UserManuals/Insta
 
 ---
 
-<em>Install NFS Server - preflight_nfs.yml</em>
+<em>Install NFS Server - preflight_nfs.yml</em>  
 Installs a NFS server that is required by the DataFlow Engine and DataFlow Importer.
 
+<font color='red'>** This step has already been completed**</font>
+
+``run the playbook - pre-flight_nfs.yml:``
+```
+cd /etc/ansible/playbooks
+ansible-playbook pre-flight_nfs.yml
+```
 
 
+---
+
+<em>Install LDOS - install_ldos.yml</em>  
+The install playbook (install.yml) will perform these tasks.
+- Install NFS utilities on all hosts.   Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
+- Run update-hostname.sh to update the hostnames within the HELM chart template, so they reflect this installaion.
+- Run upload-solutions.sh to load the modified helm charts into the Solution Control Plane, to make them available for installation.
+- Configure env.properties values based on the local environment (see env.properties.template for additonal context)
+    ###
+    |Variable|Value|From|
+    |-|-|-|
+    | hostname|{{ apiserver_loadbalancer_domain_name }}|                            from extra-vars.yml|
+    | registry|{{ master_node_for_registry }}:{{ master_node_for_registry_port }}|  from extra-vars.yml|
+    | foundry_client_secret|{{ scp_client_secret }}    |                            extracted from the installation|
+    | username|foundry                                 |                            hardcoded|
+    | password|{{ foundry_password }}                  |                            extracted from the installation|
+    | volume_host|{{ nfs_host }}                       |                            from extra-vars.yml|
+    | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
+- Run install.sh to install the components.
 
 
-
-
-
-
+``run the playbook - install_ldos.yml:``
+```
+cd /etc/ansible/playbooks
+ansible-playbook install_ldos.yml
+```
 
 
 #### <font color='red'>Access the Solution management UI</font>
