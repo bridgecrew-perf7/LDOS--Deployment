@@ -42,12 +42,10 @@ jsonpath='{.spec.user.credentials[0].value}')
 ```
 Keep this password for later.
 
-
 ---
 
-
 #### <font color='red'>Pre-requisties</font>
- 
+
 
 <em>Check Foundry Platform</em>
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
