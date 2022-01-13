@@ -102,7 +102,7 @@ ansible-playbook pre-flight_nfs.yml
 ---
 
 <em>Install LDOS - install_ldos.yml</em>  
-The install playbook (install.yml) will perform these tasks.
+The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts.   Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the HELM chart template, so they reflect this installaion.
 - Run upload-solutions.sh to load the modified helm charts into the Solution Control Plane, to make them available for installation.
@@ -126,17 +126,3 @@ cd /etc/ansible/playbooks
 ansible-playbook install_ldos.yml
 ```
 
-
-#### <font color='red'>Access the Solution management UI</font>
-In order to access the Solution management UI, you need to get the password for the admin user foundry.
-``type foundry at the prompt (Ansible Controller):`` 
-```
-$ foundry
-```
-or
-```
-# get password for foundry user:
-echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o 
-jsonpath='{.spec.user.credentials[0].value}')
-```
-Keep this password for later.
