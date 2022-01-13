@@ -6,7 +6,7 @@ DataOps unlocks business value by operationalizing data management with automati
 LDOS is installed over an existing k8s cluster running cluster services (a default storage class, istio and  cert-manager) and the Hitachi Vantara Solution Control Plane.  
 
 * Metrics-addon: 
-
+The Metrics Add-On is a generic extension for Foundry. It will be installed as a common solution in Foundry that will silently and transparently collect generic kubernetes metrics about any resource in the cluster.
 
 * NFS Server:   
 The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.properties. These will be mounted, into the containers, via NFS from an external NFS Server mount point. 
@@ -28,13 +28,13 @@ https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941
 
 You’ll need your Hitachi Vantara credentials or ask Customer Success.
 
-#### <font color='red'>Kubernetes Management</font>
-To properly access the kubernetes cluster, you need to configure your kubeconfig.
-The default location:  
-``~/.kube/config ``
-
 #### <font color='red'>Access the Solution management UI</font>
-In order to access the Solution management UI, you need to get the password for the admin user foundry. 
+In order to access the Solution management UI, you need to get the password for the admin user foundry.
+``type foundry at the prompt (Ansible Controller):`` 
+```
+$ foundry
+```
+or
 ```
 # get password for foundry user:
 echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o 
@@ -65,3 +65,17 @@ kubectl get pods -n hitachi-solutions -o wide
 ---
 
 <em>Download and unpack the Metrics Add-On</em>
+If you have completed the Installation & Configuration of the Foundry Platform, the Metrics-addon 1.0.0. image and chart has been uploaded into the Registry.  
+Please refer to: Lab - Install Metrics-addon
+
+Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)  
+
+
+Please refer to the official Metrics Add-On documentation for details and additional troubleshooting: 
+http://docs.foundry.wal.hds.com/addons/metricsaddon/docs/1.0.0/UserManuals/InstallingMetricsAddonSolutionAtControlPlane/
+
+
+---
+
+
+<em>Install NFS Server - preflight_install_nfs.yml</em>
