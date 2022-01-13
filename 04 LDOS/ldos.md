@@ -28,24 +28,34 @@ https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941
 
 You’ll need your Hitachi Vantara credentials or ask Customer Success.
 
-#### <font color='red'>Access the Solution management UI</font>
-In order to access the Solution management UI, you need to get the password for the admin user foundry.
-``type foundry at the prompt (Ansible Controller):`` 
-```
-$ foundry
-```
-or
-```
-# get password for foundry user:
-echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o 
-jsonpath='{.spec.user.credentials[0].value}')
-```
-Keep this password for later.
+The following playbooks are run:
+
+#### pre-flight_nfs.yml
+* Install NFS
+* Create exports configuration file
+* Start NFS
+* Check NFS mounts
+* Show mounts   
+
+#### install_ldos.yml
+* Install NFS utils
+* Create directories
+* Prepare env.properties
+* Get foundry password
+* Populate env.properties template
+* Apply CRDs
+* Update Hostnames in Helm Charts
+* Install LDOS
+* Check Pods
 
 ---
 
 #### <font color='red'>Pre-requisties</font>
 
+* Check the Health of the Foundry Platform
+* Install Metrics-addon 1.0.0
+* Install NFS Server
+* Install LDOS
 
 <em>Check Foundry Platform</em>
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
@@ -65,7 +75,7 @@ kubectl get pods -n hitachi-solutions -o wide
 
 ---
 
-<em>Download and unpack the Metrics Add-On</em>
+<em>Download and unpack the Metrics Add-On</em>  
 If you have completed the Installation & Configuration of the Foundry Platform, the Metrics-addon 1.0.0. image and chart has been uploaded into the Registry.  
 Please refer to: Lab - Install Metrics-addon
 
@@ -75,8 +85,31 @@ Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation &
 Please refer to the official Metrics Add-On documentation for details and additional troubleshooting: 
 http://docs.foundry.wal.hds.com/addons/metricsaddon/docs/1.0.0/UserManuals/InstallingMetricsAddonSolutionAtControlPlane/
 
-
 ---
 
+<em>Install NFS Server - preflight_nfs.yml</em>
+Installs a NFS server that is required by the DataFlow Engine and DataFlow Importer.
 
-<em>Install NFS Server - preflight_install_nfs.yml</em>
+
+
+
+
+
+
+
+
+
+
+#### <font color='red'>Access the Solution management UI</font>
+In order to access the Solution management UI, you need to get the password for the admin user foundry.
+``type foundry at the prompt (Ansible Controller):`` 
+```
+$ foundry
+```
+or
+```
+# get password for foundry user:
+echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o 
+jsonpath='{.spec.user.credentials[0].value}')
+```
+Keep this password for later.

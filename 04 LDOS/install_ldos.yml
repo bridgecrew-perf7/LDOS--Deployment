@@ -88,12 +88,12 @@
       tags: [unpack]  
 
     # Prepare env.properties for install
-    ## Why:  env.properties is missing local enviornment values and needs to be configured.
     - name: get secret for solution-control-plane-sso-client
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
       register: scp_sso_client_secret
       tags: [env]
-    # Require the Foundry password 
+
+    # Get the 'foundry' password 
     - name: get foundry password
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
       register: foundry
@@ -147,7 +147,6 @@
       tags: [install, upload_ldos]
 
     # Install LDOS
-    ## Why:  With the HELM charts in foundry and the configuration done, we can now push each solution through the install process.
     - name: Install LDOS
       shell: 
         chdir: /installers/installer
