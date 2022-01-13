@@ -22,9 +22,11 @@ sudo reboot
 ```
 
 ---
+ 
 
-#### <font color='red'>Install Ansible</font> 
-This installs Ansible on Ubuntu 18.04  
+<em>Install Ansible<em> 
+This installs Ansible on Ubuntu 18.04.
+
 ``install ansible:``
 ```
 sudo apt update
