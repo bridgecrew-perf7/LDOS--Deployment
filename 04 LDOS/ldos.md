@@ -139,4 +139,11 @@ cd /etc/ansible/playbooks
 ansible-playbook install_ldos.yml
 ```
 
+``verfify solution packages:``
+```
+kubectl get solutionpackage -n hitachi-solutions
+```
+
+The script install the default users and roles. Please refer to documentation.
+
 ---
