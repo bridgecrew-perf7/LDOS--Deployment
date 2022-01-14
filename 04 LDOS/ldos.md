@@ -84,6 +84,16 @@ Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation &
 Please refer to the official Metrics Add-On documentation for details and additional troubleshooting: 
 http://docs.foundry.wal.hds.com/addons/metricsaddon/docs/1.0.0/UserManuals/InstallingMetricsAddonSolutionAtControlPlane/
 
+
+``verfify Metrics-addon CRDs:``
+```
+kubectl get CrdPackage -n foundry-crds | grep "metrics"
+```
+``verfify Metrics-addon:``
+```
+kubectl get solutionpackage -n hitachi-solutions | grep "metrics"
+```
+
 ---
 
 <em>Install NFS Server - preflight_nfs.yml</em>  
@@ -97,19 +107,18 @@ cd /etc/ansible/playbooks
 ansible-playbook pre-flight_nfs.yml
 ```
 The /etc/exports file controls which file systems are exported to remote hosts and specifies options.
-``verify the export configuration file:``
+``verify the export configuration file (HA Proxy Server):``
 ```
-sudo nano /etc/export
+sudo nano /etc/exports
 ```
-
 
 ---
 
 #### <font color='red'>Install LDOS - install_ldos.yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts.   Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
-- Run update-hostname.sh to update the hostnames within the HELM chart template, so they reflect this installaion.
-- Run upload-solutions.sh to load the modified helm charts into the Solution Control Plane, to make them available for installation.
+- Run update-hostname.sh to update the hostnames within the Helm chart templates.
+- Run upload-solutions.sh to load the modified Helm charts into the Solution Control Plane, to make them available for installation.
 - Configure env.properties values based on the local environment (see env.properties.template for additonal context)
     ###
     |Variable|Value|From|
@@ -130,3 +139,4 @@ cd /etc/ansible/playbooks
 ansible-playbook install_ldos.yml
 ```
 
+---

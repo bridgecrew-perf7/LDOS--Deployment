@@ -134,7 +134,7 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout or 'not found' in ret.stdout"
       tags: [update_hostname, ldos]
 
-    # Upload LDOS solutions. Foundry Platform needs the Charts
+    # Upload LDOS solutions to Registry.
     - name: Upload LDOS Solutions to Foundry
       shell: 
         chdir: /installers/lumada-dataops-suite
