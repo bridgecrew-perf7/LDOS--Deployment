@@ -86,7 +86,7 @@
         creates: "{{ ldos_home }}/installer"
       tags: [unpack]  
 
-    # Prepare env.properties for install
+    # Prepare env.properties
     - name: get secret for solution-control-plane-sso-client
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
       register: scp_sso_client_secret
