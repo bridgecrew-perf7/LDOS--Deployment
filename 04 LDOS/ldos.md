@@ -30,7 +30,7 @@ You’ll need your Hitachi Vantara credentials or ask Customer Success.
 
 The following playbooks are run:
 
-#### pre-flight_nfs.yml
+#### preflight_nfs.yml
 * Install NFS
 * Create exports configuration file
 * Start NFS
@@ -56,7 +56,7 @@ The following playbooks are run:
 * Install Metrics-addon 1.0.0
 * Install NFS Server
 
-<em>Check Foundry Platform</em>
+<em>Check Foundry Platform</em>  
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
 ``check namespaces (from the Ansible Controller box):``
@@ -76,7 +76,7 @@ kubectl get pods -n hitachi-solutions -o wide
 
 <em>Download and unpack the Metrics Add-On</em>  
 If you have completed the Installation & Configuration of the Foundry Platform, the Metrics-addon 1.0.0. image and chart has been uploaded into the Registry.  
-Please refer to: Lab - Install Metrics-addon
+Please refer to: Lab - LDOS Pre-flight
 
 Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)  
 
