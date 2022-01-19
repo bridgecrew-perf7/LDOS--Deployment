@@ -69,7 +69,7 @@ kubectl get namespaces -o wide (alias: kgno -o wide)
 ```
 ``check Pods in hitachi-solutions:``
 ```
-kubectl get pods -n hitachi-solutions -o wide
+kubectl get pods -n hitachi-solutions -o wide (alias: kgpo -n hitachi-solutions -o wide)
 ```
 
 ---
