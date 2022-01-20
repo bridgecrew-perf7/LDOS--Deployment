@@ -70,7 +70,7 @@
       when: ldos.stat.exists == false
       tags: [info]
 
-    # Unarchive Lumada-DataOps_suite-1.1.1.tgz
+    # Unarchive Lumada-DataOps_suite-1.1.1.zip
     - name: Unarchive {{ lodos_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ ldos_archive }}"
@@ -97,7 +97,8 @@
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
       register: foundry
       tags: [env]
-
+    
+    # Replace the variables in env.properties
     - name: Replace variables in {{ env_file }} before install
       shell: | 
         cp {{ env_file }} {{ log_dir }}/{{ env_file | basename }}.{{ 10000 | random }}.bak
