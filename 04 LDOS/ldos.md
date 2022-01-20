@@ -106,7 +106,7 @@ Installs a NFS server that is required by the DataFlow Engine and DataFlow Impor
 cd /etc/ansible/playbooks
 ansible-playbook pre-flight_nfs.yml
 ```
-The /etc/exports file controls which file systems are exported to remote hosts and specifies options.
+The /etc/exports file controls which file systems are exported to remote hosts and specifies options.  
 ``verify the export configuration file (HA Proxy Server):``
 ```
 sudo nano /etc/exports
