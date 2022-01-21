@@ -136,7 +136,7 @@ The install-ldos.yml playbook performs the following tasks.
 ``run the playbook - install_ldos.yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook install_ldos.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos.yml
 ```
 
 ``verfify solution packages:``
