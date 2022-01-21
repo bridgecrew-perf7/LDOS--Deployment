@@ -127,8 +127,8 @@
     # Careful as once defined there's no going back..!
     - name: Update LDOS Hostname
       shell: 
-        chdir: "{{ ldos_home }}/installer"
-        cmd: "./update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
+        chdir: "{{ ldos_home }}"
+        cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
       async: 2500
       poll: 30
       register: ret
