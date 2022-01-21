@@ -38,7 +38,7 @@ The following playbooks are run:
 * Show mounts   
 
 #### install_ldos.yml
-* Install NFS utils
+* Install NFS utils=
 * Create directories
 * Prepare env.properties
 * Get foundry password
@@ -130,7 +130,7 @@ The install-ldos.yml playbook performs the following tasks.
     | password|{{ foundry_password }}                  |                            extracted from the installation|
     | volume_host|{{ nfs_host }}                       |                            from extra-vars.yml|
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
-- Run install.sh to install the components.
+- Run install_ldos.sh to install the components.
 
 
 ``run the playbook - install_ldos.yml:``
