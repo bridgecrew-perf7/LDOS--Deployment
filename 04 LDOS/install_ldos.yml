@@ -143,7 +143,7 @@
       async: 2500
       poll: 30
       register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout or 'not found' in ret.stdout"
+      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, upload_ldos]
 
     # Install LDOS
