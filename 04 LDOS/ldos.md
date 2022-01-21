@@ -130,7 +130,7 @@ The install-ldos.yml playbook performs the following tasks.
     | password|{{ foundry_password }}                  |                            extracted from the installation|
     | volume_host|{{ nfs_host }}                       |                            from extra-vars.yml|
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
-- Run install_ldos.sh to install the components.
+- Run install.sh to install the components.
 
 
 ``run the playbook - install_ldos.yml:``
