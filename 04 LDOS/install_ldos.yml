@@ -32,23 +32,23 @@
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    # Checks for the logs directory
-    - name: Check if 'logs' directory exists
+    # Checks for the log directory
+    - name: Check if 'log' directory exists
       stat:
-        path: "{{ logs_dir }}"
-      register: logs
+        path: "{{ log_dir }}"
+      register: log
       tags: [info] 
 
     - debug: 
-        msg: "logs directory exists: {{ logs.stat.exists }}"
+        msg: "log directory exists: {{ log.stat.exists }}"
       tags: [info]           
 
     # Create a log directory - if required
-    - name: Creates 'logs' Directory
+    - name: Creates 'log' Directory
       file:
-       path: "{{ logs_dir }}"
+       path: "{{ log_dir }}"
        state: directory
-      when: logs.stat.exists == false
+      when: log.stat.exists == false
       tags: [info, install]
     
     # Check for LDOS directory
