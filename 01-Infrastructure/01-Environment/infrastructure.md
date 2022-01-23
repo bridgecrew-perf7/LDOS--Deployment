@@ -37,7 +37,7 @@ Domain Name: skytap.example
 VM sequence: 
 * LDOS Master 1-3 
 * HAProxy 
-* LDOS 1.2.0 Installer   
+* Ansible Controller 
 
 ![SkyTap Lab](../assets/skytap_lab.png)
 
