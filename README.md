@@ -28,3 +28,6 @@ The following workshop is intended to highlight an on-premise bare-metal install
 #### <font color='red'>Module 05 - Upgrades</font>
 * Upgrade LDOS 1.1.1 -> 1.2.0
 * Simple dataflows
+* ElasticSearch
+* Kibana
+* Prometheus
