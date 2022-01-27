@@ -130,7 +130,6 @@ The install-ldos.yml playbook performs the following tasks.
     | password|{{ foundry_password }}                  |                            extracted from the installation|
     | volume_host|{{ nfs_host }}                       |                            from extra-vars.yml|
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
-- Run install.sh to install the components.
 
 
 ``run the playbook - install_ldos.yml:``
@@ -138,6 +137,7 @@ The install-ldos.yml playbook performs the following tasks.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos.yml
 ```
+Note: This will take about 30mins to complete.
 
 ``verfify solution packages:``
 ```
