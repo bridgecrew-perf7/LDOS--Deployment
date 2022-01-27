@@ -6,7 +6,8 @@
   gather_facts: true
   vars:
     installer_home: /installers
-    release: release-2.14
+    release: kubespray-release-2.14
+    version: release-2.14
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
@@ -50,7 +51,7 @@
     - name: Update pip dependancies
       pip:
         requirements: requirements.txt
-        chdir: "{{ installer_home }}/{{release}}"
+        chdir: "{{ installer_home }}/{{kubespray}}"
       tags: [cluster]
   
     - name: Re-Check if Kubespray has extracted
@@ -59,7 +60,7 @@
       tags: [install]
 
     - debug: 
-        msg: "Kubspray Exists: {{ kubespray }}-{{release}}"
+        msg: "Kubspray Exists: {{ kubespray }}"
       tags: [install]  
 
     # May need to update path  
@@ -77,8 +78,7 @@
       tags: [install]
 
     - debug: 
-        msg: "Config files copied: {{ kubespray }}-{{release}}"
-        when: kubespray.stat.exists == true
+        msg: "Config files copied over: {{release}}"
       tags: [install]
       
     # Run the kubespray playbook on the hosts
