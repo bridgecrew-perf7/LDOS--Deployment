@@ -34,14 +34,14 @@
     # This is therefore, persisted on your local filesystem
     - name: Get Kubespray if required
       get_url:
-        url: 'https://github.com/kubernetes-sigs/kubespray/archive/refs/heads/{{release}}.zip'
+        url: 'https://github.com/kubernetes-sigs/kubespray/archive/refs/heads/{{version}}.zip'
         dest: "{{ installer_home }}/{{release}}.zip"
       when: kubespray.stat.exists == false
       tags: [install]
  
     # Extracts kubespray into the mounted playbooks folder
     # This is therefore, persisted on your local filesystem
-    - name: Unarchive Kubespray-{{ release }}
+    - name: Unarchive Kubespray-{{ version }}
       unarchive:
         src: "{{ installer_home }}/{{release}}.zip"
         dest: "{{ installer_home }}"
@@ -51,7 +51,7 @@
     - name: Update pip dependancies
       pip:
         requirements: requirements.txt
-        chdir: "{{ installer_home }}/{{kubespray}}"
+        chdir: "{{ installer_home }}/{{release}}"
       tags: [cluster]
   
     - name: Re-Check if Kubespray has extracted
@@ -60,7 +60,7 @@
       tags: [install]
 
     - debug: 
-        msg: "Kubspray Exists: {{ kubespray }}"
+        msg: "Kubspray Exists: {{ release }}"
       tags: [install]  
 
     # May need to update path  
