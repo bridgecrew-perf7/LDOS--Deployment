@@ -156,7 +156,7 @@
       debug:
         msg: 
         - " Installation complete.... "
-        - "          Logs can be found in {{ log_dir }}"
+        - "          Logs can be found in {{ logs_dir }}"
         - "          URL: https://{{ apiserver_loadbalancer_domain_name }}/hitachi-solutions/hscp-hitachi-solutions/solution-control-plane/"
         - "          as foundry/{{ foundry_pass.stdout }}"
       tags: [install_cp, info]
