@@ -47,6 +47,8 @@ VM sequence:
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
+<font color='red'>** This section has already been completed**</font>  
+
 ``update all nodes:``
 ```
 sudo yum check-update
@@ -58,7 +60,10 @@ sudo yum update
 ---
 
 <em>add a 'k8s' user to the wheel group (log in as root):</em>  
-the k8s account has previously been created.  
+The k8s account has previously been created. 
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``add k8s to wheel group:``
 ```
 sudo -i
@@ -80,6 +85,10 @@ ls /home
 ---
 
 <em>install nano:</em>  
+Nano is a text editor.
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``install editor (nano or vim):``
 ```
 sudo yum install -y nano
@@ -88,6 +97,9 @@ sudo yum install -y nano
 ---
 
 <em>allow users in group wheel to run all commands without password:</em>  
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers  
@@ -109,7 +121,9 @@ Ctrl + x
 ---
 
 ### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
-This server has been configured with an 'installer' user with sudo privileges.  
+This server has been configured with an 'installer' user with sudo privileges. 
+
+<font color='red'>** This section has already been completed**</font>  
 
 ``update (log in as root):``
 ```
@@ -143,6 +157,9 @@ ls /home
 ---
 
 <em>allow users in group sudo to run all commands without password:</em>  
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers
@@ -176,6 +193,8 @@ Enusre that the following packages are also installed and configured:
 * git
 * visual studio code - just for training purposes
 * tree - visualize directories
+
+<font color='red'>** This section has already been completed**</font>  
 
 ---
 
@@ -211,6 +230,9 @@ sudo ufw allow ssh
 ---
 
 <em>install pip3 & pip:</em>
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``ensure python is installed:``
 ```
 sudo apt install python3-pip
@@ -246,6 +268,9 @@ pip2 --version
 
 <em>install git:</em>    
 used to access the LDOS-Workshop Git repository.  
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``install Git:``
 ```
 sudo apt install git
@@ -257,7 +282,10 @@ git --version
 
 ---
 
-<em>install Visual Studio Code:</em>  
+<em>install Visual Studio Code:</em> 
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``Visual Studio Code is used for workshop Lab Guide:``
 ```
 sudo apt install snapd
@@ -272,7 +300,10 @@ code
 
 ---
 
-<em>install tree:</em>  
+<em>install tree:</em> 
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``to browse directories:``
 ```
 sudo apt-get update -y
@@ -285,6 +316,8 @@ reboot
 #### <font color='red'>SSH Keys</font>
 Generate the required SSH keys to connect to LDOS nodes.  
 You will need the IPs of the Cluster Nodes - refer to table above.
+
+<font color='red'>** This section has already been completed**</font>  
 
 ``generate ssh key:``
 ```
@@ -317,6 +350,8 @@ Installation of the Foundry Platform and LDOS requires that the images are uploa
 #### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
+<font color='red'>** This section has already been completed**</font>  
+
 ``update (log in as root):``
 ```
 apt update -y
@@ -346,7 +381,10 @@ ls /home
 
 ---
 
-<em>allow users in group sudo to run all commands without password:</em>  
+<em>allow users in group sudo to run all commands without password:</em> 
+
+<font color='red'>** This section has already been completed**</font>  
+
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers
@@ -378,6 +416,8 @@ Install the latest HAProxy using a PPA.
 
  Note: use the wizard to generate commands.
 
+ <font color='red'>** This section has already been completed**</font>  
+
 ``enable PPA (log in as root):``
 ```
  apt-get install --no-install-recommends software-properties-common
@@ -398,6 +438,8 @@ sudo apt update && sudo apt upgrade -y
 
 #### <font color='red'>Configure HAProxy</font>
 HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
+
+<font color='red'>** This section has already been completed**</font>  
 
 Configure HAProxy to load-balance across the cluster.
 
@@ -430,5 +472,5 @@ sudo systemctl restart haproxy
 
 #### <font color='red'>Data Volume</font>
 You will require a /data volume which gets mapped to LDOS, as a Pentaho File Repository.
-
+NFS server has already been installed.
 ---
