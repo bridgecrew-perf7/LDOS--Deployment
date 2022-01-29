@@ -181,6 +181,10 @@ The PENTAHO_INSTALLED_LICENSE_PATH variable is now set.
 ``upload the Pentaho EE license file:`` 
 to the NFS volume under /<volume_path>/licenses/.installedLicenses.xml
 
+---
+
+<em>Lumada Data Catalog License</em>  
+
 The Lumada Data Catalog is by default a light version (some functions are disabled).
 
 ``upgrade the Catalog license:``
