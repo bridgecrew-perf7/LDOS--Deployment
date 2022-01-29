@@ -21,30 +21,23 @@ The following playbook is run:
 
 ---
 
-<em>Run the playbook - pre-flight_foundry.yml</em>  
-This will update, install and configure the various required packages.
+<em>Run the playbook - upgarde_ldos.yml</em>  
+This will upgrade and configure the various required packages.
 
 
-
-run the playbook - pre-flight_foundry.yml: 
+``run the playbook - upgrade_ldos.yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" --become pre-flight_foundry.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v upgrade_ldos.yml
 ```
-Note the required vars:  
-    ansible_ssh_private_key_file: "~/.ssh/id_rsa"  
-    ansible_ssh_private_key_file_name: "id_rsa"  
-    ansible_user: k8s  
-    change_dns: true  
-    dns_server: 10.0.0.254 <font color='green'># SkyTap DNS</font>  
-    ansible_python_interpreter: /usr/bin/python
 
 ---
+
+#### <font color='red'>Post Upgrade Tasks</font>
 
 
 Update Catalog app switcher endpoint
 After successfully upgrading LDOS, using a browser open Lumada Data Catalog and change the app switcher configuration by going to Manage 
-> Configuration > app-server: MISC, and editing the option "Absolute API endpoint of control plane app switcher to return all app configs"
-to the following value, replacing <HOSTNAME> and <NAMESPACE> by the cluster hostname and Foundry namespace respectively:
+> Configuration > app-server: MISC, and editing the option "Absolute API endpoint of control plane app switcher to return all app configs" to the following value, replacing <HOSTNAME> and <NAMESPACE> by the cluster hostname and Foundry namespace respectively:
 https://<HOSTNAME>/<NAMESPACE>/app-switcher/app-switcher-lap-app/api/v1/apps
 Save the change and then restart the app-server by going to Manage > Configuration > app-server > Restart app-server.
