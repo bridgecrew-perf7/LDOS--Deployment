@@ -1,5 +1,4 @@
 ## <font color='red'>Lumada DataOps Suite 1.2.0</font>
-Ansible playbook installs and configures Hitachi Vantara Foundry Soluti
 
 Prerequisites for the CentOS7 machines:
 * A public key generated on your Ansible Controller

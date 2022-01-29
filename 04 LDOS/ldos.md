@@ -8,10 +8,10 @@ LDOS is installed over an existing k8s cluster running cluster services (a defau
 * Metrics-addon: 
 The Metrics Add-On is a generic extension for Foundry. It will be installed as a common solution in Foundry that will silently and transparently collect generic kubernetes metrics about any resource in the cluster.
 
-* NFS Server:   
+* NFS Server:     
 The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.properties. These will be mounted, into the containers, via NFS from an external NFS Server mount point. 
 
-* Object Storage Service: 
+* Object Storage Service:   
  The Catalog leverages an object store to manage it's fingerprinting and Spark logs.  The default internal minio pod is not sufficient to handle production workloads (as it will fill up the clusters filesystem).   A thrid party object store, such as S3 or an external mino cluster should be used in production installations.
 
   - The LDOS installation requires configuraiton for the local environment.  Many of these are already set/used to install the control-plane.   Others can be discovered from the cluster.
