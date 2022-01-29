@@ -147,3 +147,56 @@ kubectl get solutionpackage -n hitachi-solutions
 The script install the default users and roles. Please refer to documentation.
 
 ---
+
+#### <font color='red'>Post-Installation Tasks</font>  
+
+The following post-installation tasks need to be completed:
+* Licenses for Lumada Data Integration
+* License for Lumada Data Catalog
+
+<em>Lumada Data Integration Licenses</em>  
+The LDOS package doesn’t contain licenses.   
+Please contact Customer Success or Product Management on how to get a license.  
+
+The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
+
+To ensure that the Pentaho Server uses the same location to store and retrieve your Pentaho licenses, you must create a PENTAHO_INSTALLED_LICENSE_PATH system environment variable. It does not matter what location you choose; however, the location needs to be available to the user account(s) that run the Pentaho Server. 
+
+``edit your /etc/environment file:`` 
+```
+sudo nano /etc/environment
+```
+``add this line (changing the path as explained above, if necessary):`` 
+```
+export PENTAHO_INSTALLED_LICENSE_PATH=/home/pentaho/.installedLicenses.xml
+```
+You must log out and log back into the operating system for the change to take effect.
+
+``verify the variable is set:``
+```
+env | grep PENTAHO_INSTALLED_LICENSE_PATH
+```
+The PENTAHO_INSTALLED_LICENSE_PATH variable is now set. 
+
+``upload the Pentaho EE license file:`` 
+to the NFS volume under /<volume_path>/licenses/.installedLicenses.xml
+
+The Lumada Data Catalog is by default a light version (some functions are disabled).
+
+``upgrade the Catalog license:``
+```
+kubectl create secret generic ldc-license --from-file=license-features.yaml --from-file=ldc-license-public-keystore.p12 -n hitachi-solutions
+```
+Note: Files must be named license-features.yaml and ldc-license-public-keystore.p12
+
+Navigate to the Solution management UI -> Installed -> Lumada Data Catalog  
+``add the following lines to values.yml``
+```
+global:
+  coreSiteSecret: {}
+  ldc:                           # line 4
+    licenseSecret: ldc-license   # line 5
+ ``` 
+ Click: Save and the Lumada Data Catalog will activate the license.
+
+---
