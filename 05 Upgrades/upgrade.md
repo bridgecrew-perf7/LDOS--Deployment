@@ -1,4 +1,13 @@
 ## <font color='red'>Lumada DataOps Suite 1.2.0</font>
+Lumada DataOps Suite 1.2.0 includes a newer version of the following solutions:
+* App Switcher
+* Control Plane
+* Data Transformation Editor
+* Dataflow Engine
+* Dataflow Engine Broker
+* Dataflow Importer
+* Dataflow Studio
+* Messaging Service
 
 Please read the documentation: [LDOS 1.2.0 Upgrade & Configuration](resources/LDOS-1.2.1_Upgrade_and_Configuration_Guide.pdf)    
 
