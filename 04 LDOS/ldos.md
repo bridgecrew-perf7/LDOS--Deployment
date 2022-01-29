@@ -38,7 +38,7 @@ The following playbooks are run:
 * Show mounts   
 
 #### install_ldos.yml
-* Install NFS utils=
+* Install NFS utils
 * Create directories
 * Prepare env.properties
 * Get foundry password

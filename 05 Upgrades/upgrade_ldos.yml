@@ -91,17 +91,6 @@
         sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
       tags: [env]
 
-    # Run apply-crds.sh
-    - name: Run Custom Resource Definitions Script
-      shell: 
-        chdir: "{{ ldos_home }}/lumada-dataops-suite"
-        cmd: ./control-plane/bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ logs_dir }}/install-ldos.log
-      async: 2500
-      poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [crds, ldos]
-    
     # Update Hostnames in HELM charts. Hostname is defined with {{placeholder}} in Helm Charts.  
     # Careful as once defined there's no going back..!
     - name: Update LDOS Hostname
@@ -126,7 +115,7 @@
       tags: [install, upload_ldos]
 
     # Upgrade to LDOS 1.2.0
-    - name: Install LDOS
+    - name: Upgrade to LDOS 1.2.0
       shell: 
         chdir: "{{ ldos_home }}/installer"
         cmd: "./upgrade.sh 2>&1 | tee -a {{ logs_dir }}/upgrade-ldos.log"
