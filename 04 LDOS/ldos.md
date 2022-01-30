@@ -154,10 +154,28 @@ The following post-installation tasks need to be completed:
 * Licenses for Lumada Data Integration
 * License for Lumada Data Catalog
 
+---
+
+<em>Install or Update License Files from the Command Line</em>
+
+To install or update license files, follow the steps below.
+``download and copy the .lic file(s) (Ansible Controller):`
+```
+cd ../license-installer/
+sudo cp -rfp Downloads/*lic .
+```
+``run the license installation script:``
+Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.
+```
+ ./install_license.sh install Pentaho\ BI\ Platform\ Enterprise\ Edition.lic 
+```
+``repeat the previous step for all required licenses:`` 
+
+---
+
 <em>Lumada Data Integration Licenses</em>  
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
-
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
 
 To ensure that the Pentaho Server uses the same location to store and retrieve your Pentaho licenses, you must create a PENTAHO_INSTALLED_LICENSE_PATH system environment variable. It does not matter what location you choose; however, the location needs to be available to the user account(s) that run the Pentaho Server. 
@@ -179,24 +197,9 @@ env | grep PENTAHO_INSTALLED_LICENSE_PATH
 The PENTAHO_INSTALLED_LICENSE_PATH variable is now set. 
 
 ``upload the Pentaho EE license file:`` 
-to the NFS volume under /<volume_path>/licenses/.installedLicenses.xml
-
----
-
-<em>Install or Update License Files from the Command Line</em>
-
-To install or update license files, follow the steps below.
-``download and copy the .lic file(s) (Ansible Controller):`
+ ``` 
+ /data/licenses/.installedLicenses.xml
 ```
-cd ../license-installer/
-sudo cp -rfp Downloads/*lic .
-```
-``run the license installation script:``
-Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.
-```
- ./install_license.sh install Pentaho\ BI\ Platform\ Enterprise\ Edition.lic 
-```
-``repeat the previous step for all required licenses:`` 
 
 ---
 
