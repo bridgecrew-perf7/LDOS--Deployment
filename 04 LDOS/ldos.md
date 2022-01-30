@@ -165,10 +165,10 @@ cd ../license-installer/
 sudo cp -rfp Downloads/*lic .
 ```
 ``run the license installation script:``
-Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.
 ```
  ./install_license.sh install Pentaho\ BI\ Platform\ Enterprise\ Edition.lic 
 ```
+Note: Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.  
 ``repeat the previous step for all required licenses:`` 
 
 ---
