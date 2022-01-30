@@ -183,6 +183,38 @@ to the NFS volume under /<volume_path>/licenses/.installedLicenses.xml
 
 ---
 
+<em>Install or Update License Files from the Command Line</em>
+
+To install or update license files, follow the steps below.
+``download and copy the .lic file(s) (Ansible Controller):`
+```
+cd ../license-installer/
+sudo cp -rfp Downloads/*lic .
+```
+``run the license installation script:``
+Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.
+```
+ ./install_license.sh install Pentaho\ BI\ Platform\ Enterprise\ Edition.lic 
+```
+``repeat the previous step for all required licenses:`` 
+
+---
+
+<em>List or Remove License Files from the Command Line</em>
+
+To list or remove license files, follow the steps below.
+
+Navigate to the /pentaho/server/license-installer/ directory.
+Run the following scripts with the display switch:
+./install_license.sh display
+If you have installed any Enterprise Edition license files, a list of them will appear, along with the products they cover and the duration of the license.
+
+To remove a license, run the same script with the uninstall switch. A list of installed licenses will appear, followed by a prompt for the license ID you would like to remove. If you press Enter at this prompt, it will exit without taking any action.  
+Type in the license ID number that you want to remove, then press Enter.   
+After removing a file, if you had more than one installed, the list will regenerate and the prompt will reappear. You can choose to remove another license file, or you can press Enter to exit the script. 
+
+---
+
 <em>Lumada Data Catalog License</em>  
 
 The Lumada Data Catalog is by default a light version (some functions are disabled).
