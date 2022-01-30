@@ -1,32 +1,12 @@
-- name: Install NFS tools on all hosts
-  become: true
-  become_method: sudo
-  gather_facts: true
-  hosts: "all"
-  vars:
-    ansible_python_interpreter: /usr/bin/python
-    
-  tasks:
-    # Install NFS. DFM requires an NFS mount point for .kettle with the KTR and KJB content.
-    - name: Yum install nfs-utils
-      raw: yum install -y nfs-utils
-      when: ansible_distribution == "CentOS"
-      tags: [ prereq ]
-
-    - name: apt install nfs-common
-      raw: apt install -y nfs-common
-      when: ansible_distribution == "Ubuntu"
-      tags: [ prereq ]
-
-- name: Install LDOS over running Foundry cluster
+- name: Install Dataflow Designer over running Foundry cluster
   become: false
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
     env_file: /installers/LumadaDataOpsSuite-1.1.1/installer/env.properties
-    ldos_home: /installers/LumadaDataOpsSuite-1.1.1
-    ldos_archive: Lumada-DataOps-Suite-1.1.1.tgz
+    designer_home: /installers/LumadaDataOpsSuite-1.1.1
+    designer_archive: .tgz
     installer_archive: Lumada-DataOps-Suite-installer-1.1.1.zip
     
     ansible_python_interpreter: /usr/bin/python3
@@ -51,31 +31,31 @@
       when: logs.stat.exists == false
       tags: [info, install]
     
-    # Check for LDOS directory
-    - name: Check if the 'LDOS' directory exists
+    # Check for Dataflow Designer directory
+    - name: Check if the 'Dataflow Designer' directory exists
       stat:
-        path: "{{ ldos_home }}"
-      register: ldos
+        path: "{{ designer_home }}"
+      register: designer
       tags: [info]
 
     - debug: 
-        msg: "LDOS directory exists: {{ ldos.stat.exists }}"
+        msg: "Dataflow Designer directory exists: {{ designer.stat.exists }}"
       tags: [info]
 
-    # Creates LDOS install directory - if required
-    - name: Creates 'LDOS' directory
+    # Creates Dataflow Designer install directory - if required
+    - name: Creates 'Dataflow Designer' directory
       file:
-        path: "{{ ldos_home }}"
+        path: "{{ designer_home }}"
         state: directory
-      when: ldos.stat.exists == false
+      when: designer.stat.exists == false
       tags: [info]
 
-    # Unarchive Lumada-DataOps_suite-1.1.1.zip
-    - name: Unarchive {{ ldos_archive }}
+    # Unarchive Dataflow Designer 0.7.0
+    - name: Unarchive {{ designer_archive }}
       unarchive:
-        src: "{{ ldos_home }}/{{ ldos_archive }}"
-        dest: "{{ ldos_home }}"
-        creates: "{{ ldos_home }}/lumada-dataops-suite"
+        src: "{{ designer_home }}/{{ designer_archive }}"
+        dest: "{{ designer_home }}"
+        creates: "{{ designer_home }}/lumada-dataops-suite"
       tags: [unpack]  
 
     # Unarchive Lumada-DataOps-Suite-Installer-1.1.1.zip
@@ -111,83 +91,49 @@
         sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
       tags: [env]
 
-    # Run apply-crds.sh
-    - name: Run Custom Resource Definitions Script
-      shell: 
-        chdir: "{{ ldos_home }}/lumada-dataops-suite"
-        cmd: ./control-plane/bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ logs_dir }}/install-ldos.log
-      async: 2500
-      poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [crds, ldos]
-    
-
     # Update Hostnames in HELM charts. Hostname is defined with {{placeholder}} in Helm Charts.  
     # Careful as once defined there's no going back..!
-    - name: Update LDOS Hostname
+    - name: Update Dataflow Designer Hostname
       shell: 
-        chdir: "{{ ldos_home }}"
+        chdir: "{{ designer_home }}"
         cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
       async: 2500
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [update_hostname, ldos]
+      tags: [update_hostname, designer]
 
-    # Upload LDOS solutions to Registry.
-    - name: Upload LDOS Solutions to Foundry
+    # Upload Dataflow Designer 0.7.0 solutions to Registry.
+    - name: Upload Dataflow Designer Solutions to Foundry
       shell: 
-        chdir: "{{ ldos_home }}/lumada-dataops-suite"
+        chdir: "{{ designer_home }}/lumada-dataops-suite"
         cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
       async: 2500
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, upload_ldos]
+      tags: [install, upload_designer]
 
-    # Install LDOS
-    - name: Install LDOS
+    # Install Dataflow Designer 0.7.0
+    - name: Install Dataflow Designer 0.7.0
       shell: 
-        chdir: "{{ ldos_home }}/installer"
-        cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-ldos.log"
+        chdir: "{{ designer_home }}/installer"
+        cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-dataflow-designer.log"
       async: 1000
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [ldos]
+      tags: [designer]
 
     # Check for Running and Complete Pods
     - name: Confirm Install
       shell: "kubectl get pods -n hitachi-solutions | grep -i -e '[RC][uo][nm][np][il][ne]' | wc -l"
-      register: foundry_pods
-      tags: [ldos, info]
+      register: designer_pods
+      tags: [designer, info]
 
     #Check for Non-Running or Failing Pods
     - name: Confirm application status (URL or pods?)
       shell: "kubectl get pods -n hitachi-solutions | grep -iv -e '[RC][uo][nm][np][il][ne]'"
       register: results
-      tags: [ldos, info]
+      tags: [designer, info]
 
-    # Output URLs
-    - name: LDOS URLs
-      debug:
-        msg: 
-        - " Installation complete.... "
-        - " {{ foundry_pods.stdout }} running pods"
-        - " FAILING PODS: "
-        - "     {{ results.stdout }}"
-        - ""
-        - "URL: https://{{ apiserver_loadbalancer_domain_name }}/"
-        - "     as cmoore/cmoore"
-      tags: [ldos, info]
-      failed_when: results.stdout is defined
-
-# Install metrics server
-# The metrics server enables 'kubectl top nodes|pods'.   If this was not installed via the K8s provider you can do it after the fact.
-#
-# kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-# Optional it needs these switches added to the image: to set the params for a self-signed/insecure cluster  
-# Add these to the args: section of the metrics-server image (kubectl edit deployment metrics-server):
-#    --kubelet-insecure-tls
-#    --kubelet-preferred-address-types=InternalIP
