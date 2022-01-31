@@ -11,7 +11,6 @@ Lumada DataOps Suite 1.2.0 includes a newer version of the following solutions:
 
 Please read the documentation: [LDOS 1.2.0 Upgrade & Configuration](resources/LDOS-1.2.0_Upgrade_and_Configuration_Guide.pdf)    
 
-#### <font color='red'>Downloads</font>
 All files required for installation are available in the release folder and can be found in the link below.
 https://hcpanywhere.hitachivantara.com/a/QDDm7tWw5sBSMObK/4cc9f82c-08a8-4895-93d3-71bb0694374c?l
 

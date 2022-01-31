@@ -22,7 +22,6 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
 
 Please read the documentation: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)    
 
-#### <font color='red'>Downloads</font>
 All files required for installation are available in the release folder and can be found in the link below.
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
 
