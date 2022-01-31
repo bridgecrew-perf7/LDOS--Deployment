@@ -30,7 +30,7 @@ The following playbook is run:
 ---
 
 <em>Run the playbook - upgrade_ldos.yml</em>  
-This will upgrade and configure the various required packages.
+This will upgrade and configure the various required packages.  
 ``run the playbook - upgrade_ldos.yml:``
 ```
 cd /etc/ansible/playbooks
@@ -43,19 +43,26 @@ ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v upgrad
 * Update Catalog app switcher endpoint  
 
 After successfully upgrading LDOS, using a browser open Lumada Data Catalog and change the app switcher configuration.  
-``navigate to:``  
-Manage > Configuration > app-server: MISC  
-``editing the option:``  
- "Absolute API endpoint of control plane app switcher to return all app configs"   
-  ``replace the following settings:``   
+``navigate to:`` 
+```
+Manage > Configuration > app-server: MISC
+```
+``editing the option:``
+```
+ "Absolute API endpoint of control plane app switcher to return all app configs"
+```
+``replace the following settings:``  
+```
   <HOSTNAME>   - pentaho-server-1.skytap.example
   <NAMESPACE>  - hitachi-solutions
 
 https://<HOSTNAME>/<NAMESPACE>/app-switcher/app-switcher-lap-app/api/v1/apps
-
+```
 Save the change and restart the app-server.
 
-``navigate to:`` 
+``navigate to:``
+ ```
 Manage > Configuration > app-server > Restart app-server.
+```
 
 ---

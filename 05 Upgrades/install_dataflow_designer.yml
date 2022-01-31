@@ -1,13 +1,13 @@
-- name: Install Dataflow Designer over running Foundry cluster
+- name: Install Dataflow Designer 0.7.0
   become: false
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
-    env_file: /installers/LumadaDataOpsSuite-1.1.1/installer/env.properties
-    designer_home: /installers/LumadaDataOpsSuite-1.1.1
-    designer_archive: .tgz
-    installer_archive: Lumada-DataOps-Suite-installer-1.1.1.zip
+    env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
+    designer_home: /installers/Dataflow-Designer-0.7.0
+    designer_archive: dataflow-designer-0.7.0.tgz
+    installer_archive: installer-ldd.zip
     
     ansible_python_interpreter: /usr/bin/python3
     
@@ -58,12 +58,12 @@
         creates: "{{ designer_home }}/lumada-dataops-suite"
       tags: [unpack]  
 
-    # Unarchive Lumada-DataOps-Suite-Installer-1.1.1.zip
+    # Unarchive Dataflow-Designer-Installer-0.7.0.zip
     - name: Unarchive {{ installer_archive }}
       unarchive:
-        src: "{{ ldos_home }}/{{ installer_archive }}"
-        dest: "{{ ldos_home }}"
-        creates: "{{ ldos_home }}/installer"
+        src: "{{ designer_home }}/{{ installer_archive }}"
+        dest: "{{ designer_home }}"
+        creates: "{{ designer_home }}/installer"
       tags: [unpack]  
 
     # Prepare env.properties
