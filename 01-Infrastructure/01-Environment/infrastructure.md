@@ -12,10 +12,10 @@ This reference section covers:
   * Generate SSH keys & deploy
 
 #### Downloads
-All files required for installation are available in the release folder and can be found in the link below.
+All files required for installation are available in the release folder and can be found in the link below.  
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>The required packages have been downloaded.</font>  
 
 ---
 
@@ -47,7 +47,7 @@ VM sequence:
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>The Master and Worker Nodes have been configured with the required user.</font>  
 
 ``update all nodes:``
 ```
@@ -61,8 +61,6 @@ sudo yum update
 
 <em>add a 'k8s' user to the wheel group (log in as root):</em>  
 The k8s account has previously been created. 
-
-<font color='red'>** This section has already been completed**</font>  
 
 ``add k8s to wheel group:``
 ```
@@ -87,8 +85,6 @@ ls /home
 <em>install nano:</em>  
 Nano is a text editor.
 
-<font color='red'>** This section has already been completed**</font>  
-
 ``install editor (nano or vim):``
 ```
 sudo yum install -y nano
@@ -97,8 +93,6 @@ sudo yum install -y nano
 ---
 
 <em>allow users in group wheel to run all commands without password:</em>  
-
-<font color='red'>** This section has already been completed**</font>  
 
 ``edit sudoers:``
 ```
@@ -123,7 +117,7 @@ Ctrl + x
 ### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
 This server has been configured with an 'installer' user with sudo privileges. 
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>The Ansible Controller has been installed and configured.</font>  
 
 ``update (log in as root):``
 ```
@@ -157,8 +151,6 @@ ls /home
 ---
 
 <em>allow users in group sudo to run all commands without password:</em>  
-
-<font color='red'>** This section has already been completed**</font>  
 
 ``edit sudoers:``
 ```
@@ -194,7 +186,7 @@ Enusre that the following packages are also installed and configured:
 * visual studio code - just for training purposes
 * tree - visualize directories
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>The packages have been installed and configured.</font>  
 
 ---
 
@@ -230,8 +222,6 @@ sudo ufw allow ssh
 ---
 
 <em>install pip3 & pip:</em>
-
-<font color='red'>** This section has already been completed**</font>  
 
 ``ensure python is installed:``
 ```
@@ -269,8 +259,6 @@ pip2 --version
 <em>install git:</em>    
 used to access the LDOS-Workshop Git repository.  
 
-<font color='red'>** This section has already been completed**</font>  
-
 ``install Git:``
 ```
 sudo apt install git
@@ -283,8 +271,6 @@ git --version
 ---
 
 <em>install Visual Studio Code:</em> 
-
-<font color='red'>** This section has already been completed**</font>  
 
 ``Visual Studio Code is used for workshop Lab Guide:``
 ```
@@ -302,8 +288,6 @@ code
 
 <em>install tree:</em> 
 
-<font color='red'>** This section has already been completed**</font>  
-
 ``to browse directories:``
 ```
 sudo apt-get update -y
@@ -317,7 +301,7 @@ reboot
 Generate the required SSH keys to connect to LDOS nodes.  
 You will need the IPs of the Cluster Nodes - refer to table above.
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>The SSH keys have been generated and copied to all Nodes.</font>  
 
 ``generate ssh key:``
 ```
@@ -343,14 +327,14 @@ exit
 ```
 
 #### <font color='red'>Docker Registry Volume</font>
-Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on /installers volume. One of the post-installation tasks is to enter the Regsitry credentials to enable versioning, upgrades and rollbacks to be performed.
+Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on ``/installers`` volume. 
 
 ---
 
 #### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
-<font color='red'>** This section has already been completed**</font>  
+<font color='red'>Pentaho server has been installed and configured.</font>  
 
 ``update (log in as root):``
 ```
@@ -383,8 +367,6 @@ ls /home
 
 <em>allow users in group sudo to run all commands without password:</em> 
 
-<font color='red'>** This section has already been completed**</font>  
-
 ``edit sudoers:``
 ```
 sudo nano /etc/sudoers
@@ -416,7 +398,7 @@ Install the latest HAProxy using a PPA.
 
  Note: use the wizard to generate commands.
 
- <font color='red'>** This section has already been completed**</font>  
+ <font color='red'>HA Proxy server has been installed and configured.</font>
 
 ``enable PPA (log in as root):``
 ```
@@ -436,17 +418,17 @@ haproxy -v
 sudo apt update && sudo apt upgrade -y
 ```
 
-#### <font color='red'>Configure HAProxy</font>
-HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
+---
 
-<font color='red'>** This section has already been completed**</font>  
+<em>Configure HAProxy</em>
+HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
 
 Configure HAProxy to load-balance across the cluster.
 
 the configuration file is located at:  
   /etc/haproxy/haproxy.cfg
 
-Details can be found at: 
+Details can be found at:   
   > browse to: https://www.haproxy.com/documentation/hapee/latest/configuration/config-sections/defaults/
 
 
@@ -473,4 +455,5 @@ sudo systemctl restart haproxy
 #### <font color='red'>Data Volume</font>
 You will require a /data volume which gets mapped to LDOS, as a Pentaho File Repository.
 NFS server has already been installed.
+
 ---
