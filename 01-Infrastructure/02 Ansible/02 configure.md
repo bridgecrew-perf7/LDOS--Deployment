@@ -78,6 +78,6 @@ Note: Ctrl + c will display line numbers.
 cd /etc/ansible
 sudo mkdir playbooks
 ```
-Note: you will have to copy over the playbooks to: /etc/ansible/playbooks
+Note: you will have to copy over the playbooks to: ``/etc/ansible/playbooks``
             
 ---
