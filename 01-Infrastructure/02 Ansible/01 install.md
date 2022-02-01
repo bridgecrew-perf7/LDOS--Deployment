@@ -6,6 +6,8 @@ In this lab we're going to:
 
 #### If you're new to Ansible you may want to take the course: [LDS3013S](https://learning.lumada.hitachivantara.com/course/introduction-to-ansible-lds3013s) - Introduction to Ansible.
 
+<font color='green'>Ansible has been installed and configured - Reference only.</font>
+
 ---
 
 #### <font color='red'>Pre-requisties</font> 
@@ -24,7 +26,7 @@ sudo reboot
 ---
  
 
-<em>Install Ansible<em> 
+<em>Install Ansible</em> 
 This installs Ansible on Ubuntu 18.04.
 
 ``install ansible:``
@@ -50,7 +52,7 @@ Note: the directory & configuration files.
 * hosts - inventory file
 * ansible.cfg - ansible configuration file
 
-  > for further information: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#
+> for further information: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#
 
 
 ``to remove ansible:``

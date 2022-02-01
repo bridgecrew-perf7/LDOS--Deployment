@@ -398,7 +398,7 @@ Install the latest HAProxy using a PPA.
 
  Note: use the wizard to generate commands.
 
- <font color='green'>HA Proxy server has been installed and configured.</font>
+<font color='green'>HA Proxy server has been installed and configured.</font>
 
 ``enable PPA (log in as root):``
 ```
