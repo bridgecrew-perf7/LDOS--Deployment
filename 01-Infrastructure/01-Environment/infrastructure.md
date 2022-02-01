@@ -15,7 +15,7 @@ This reference section covers:
 All files required for installation are available in the release folder and can be found in the link below.  
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
 
-<font color='red'>The required packages have been downloaded.</font>  
+<font color='green'>The required packages have been downloaded.</font>  
 
 ---
 
@@ -47,7 +47,7 @@ VM sequence:
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
-<font color='red'>The Master and Worker Nodes have been configured with the required user.</font>  
+<font color='green'>The Master and Worker Nodes have been configured with the required user.</font>  
 
 ``update all nodes:``
 ```
@@ -117,7 +117,7 @@ Ctrl + x
 ### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
 This server has been configured with an 'installer' user with sudo privileges. 
 
-<font color='red'>The Ansible Controller has been installed and configured.</font>  
+<font color='green'>The Ansible Controller has been installed and configured.</font>  
 
 ``update (log in as root):``
 ```
@@ -186,7 +186,7 @@ Enusre that the following packages are also installed and configured:
 * visual studio code - just for training purposes
 * tree - visualize directories
 
-<font color='red'>The packages have been installed and configured.</font>  
+<font color='green'>The packages have been installed and configured.</font>  
 
 ---
 
@@ -301,7 +301,7 @@ reboot
 Generate the required SSH keys to connect to LDOS nodes.  
 You will need the IPs of the Cluster Nodes - refer to table above.
 
-<font color='red'>The SSH keys have been generated and copied to all Nodes.</font>  
+<font color='green'>The SSH keys have been generated and copied to all Nodes.</font>  
 
 ``generate ssh key:``
 ```
@@ -334,7 +334,7 @@ Installation of the Foundry Platform and LDOS requires that the images are uploa
 #### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
-<font color='red'>Pentaho server has been installed and configured.</font>  
+<font color='green'>Pentaho server has been installed and configured.</font>  
 
 ``update (log in as root):``
 ```
@@ -398,7 +398,7 @@ Install the latest HAProxy using a PPA.
 
  Note: use the wizard to generate commands.
 
- <font color='red'>HA Proxy server has been installed and configured.</font>
+ <font color='green'>HA Proxy server has been installed and configured.</font>
 
 ``enable PPA (log in as root):``
 ```
