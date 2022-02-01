@@ -6,7 +6,7 @@
     logs_dir: /installers/logs
     env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
     ldos_home: /installers/LumadaDataOpsSuite-1.2.0
-    ldos_archive: Lumada-DataOps-Suite-1.2.0.tgz
+    ldos_archive: Lumada-DataOps-Suite-1.2.0.gz
     installer_archive: Lumada-DataOps-Suite-installer-1.2.0.zip
     
     ansible_python_interpreter: /usr/bin/python3
@@ -50,7 +50,7 @@
       when: ldos.stat.exists == false
       tags: [info]
 
-    # Unarchive Lumada-DataOps_suite-1.2.0.zip
+    # Unarchive Lumada-DataOps-Suite-1.2.0.gz
     - name: Unarchive {{ ldos_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ ldos_archive }}"
