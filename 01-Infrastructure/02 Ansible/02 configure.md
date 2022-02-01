@@ -7,6 +7,9 @@ In this lab we're going to:
 
 * update Inventory hosts
 * add workshop directories
+
+<font color='green'>Ansible has been installed and configured - Reference only.</font>
+
 ---
 
 #### <font color='red'>Ansible Controller Configuration</font>
