@@ -57,6 +57,8 @@ ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b -v clust
 ```
 Note: this is going to take about 10 mins..
 
+<font color='green'>The following section is for Reference only.</font>
+
 ``if you need to reset the k8s deployment:``
 ```
 cd /installers/kubespray-release-2.14
@@ -132,7 +134,7 @@ Note:  This will pick up the playbook from the continue tag onwards.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_foundry.yml
 ```
-Hopefully you should have some logs appearing.  
+you should have some logs appearing.  
 ``tail install-cluster-services.log: (new terminal)``
 ```
 cd /installers/logs
@@ -159,6 +161,8 @@ echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath=
 <em>.kubectl_aliases</em>  
 To save typing out the kubectl commands, in the resources folder there's a kubectl_aliases file which you copy over to your $HOME directory.
 
+<font color='green'>The .kubectl_alias has been configured.</font>
+
 ``add the following to your .bashrc/.zshrc file:``
 ```
 [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
@@ -173,6 +177,6 @@ function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
 
 For further information:
 
-  > browse to: https://github.com/ahmetb/kubectl-aliases
+> browse to: https://github.com/ahmetb/kubectl-aliases
 
 ---
