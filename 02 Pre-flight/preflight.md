@@ -55,8 +55,9 @@ sudo python3 -m pip install --upgrade requests
 ---
 
 <em>Define the playbook - extra-vars.yml</em>   
-<font color='red'>** This section has already been completed**</font>    
-Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file. 
+Kubespray has a bunch a defualt values that need to be replaced by the required values defined a s placeholders in the env.properties file.
+
+<font color='green'>The extra-vars.yml has been created.</font>
 
 ``browse the following files:``
 ```
