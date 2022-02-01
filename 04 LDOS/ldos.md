@@ -157,6 +157,8 @@ The following post-installation tasks need to be completed:
 
 <em>Install or Update License Files from the Command Line</em>
 
+#### <font color='red'>This section is for reference only.</font>  
+
 To install or update license files, follow the steps below.
 ``download and copy the .lic file(s) (Ansible Controller):`
 ```
@@ -169,13 +171,6 @@ sudo cp -rfp Downloads/*lic .
 ```
 Note: Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.  
 ``repeat the previous step for all required licenses:`` 
-
----
-
-<em>Lumada Data Integration Licenses</em>  
-The LDOS package doesn’t contain licenses.   
-Please contact Customer Success or Product Management on how to get a license.  
-The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
 
 To ensure that the Pentaho Server uses the same location to store and retrieve your Pentaho licenses, you must create a PENTAHO_INSTALLED_LICENSE_PATH system environment variable. It does not matter what location you choose; however, the location needs to be available to the user account(s) that run the Pentaho Server. 
 
@@ -195,11 +190,6 @@ env | grep PENTAHO_INSTALLED_LICENSE_PATH
 ```
 The PENTAHO_INSTALLED_LICENSE_PATH variable is now set. 
 
-``upload the Pentaho EE license file:`` 
- ``` 
- /data/licenses/.installedLicenses.xml
-```
-
 ---
 
 <em>List or Remove License Files from the Command Line</em>
@@ -217,24 +207,39 @@ After removing a file, if you had more than one installed, the list will regener
 
 ---
 
+<em>Lumada Data Integration Licenses</em>  
+The LDOS package doesn’t contain licenses.   
+Please contact Customer Success or Product Management on how to get a license.  
+The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
+
+#### <font color='red'>The .installedLicenses.xml file has already been generated.</font>
+
+``copy Pentaho EE license file (HA Proxy):`` 
+ ```
+ cd Dowmloads
+ sudo cp -rfp .installedLicenses.xml /data/licenses/
+```
+
+---
+
 <em>Lumada Data Catalog License</em>  
 
 The Lumada Data Catalog is by default a light version (some functions are disabled).
 
-``upgrade the Catalog license:``
+``upgrade the Catalog license (Ansible Controller):``
 ```
 kubectl create secret generic ldc-license --from-file=license-features.yaml --from-file=ldc-license-public-keystore.p12 -n hitachi-solutions
 ```
 Note: Files must be named license-features.yaml and ldc-license-public-keystore.p12
 
 Navigate to the Solution management UI -> Installed -> Lumada Data Catalog  
-``add the following lines to values.yml``
-```
-global:
-  coreSiteSecret: {}
-  ldc:                           # line 4
-    licenseSecret: ldc-license   # line 5
- ``` 
+``add the following lines to values.yml:``
+
+<pre><code>global:  
+  coreSiteSecret: {}  
+  ldc:                          <font color='green'> # line 4 </font>  
+    licenseSecret: ldc-license  <font color='green'> # line 5 </font> </code></pre> 
+ 
  Click: Save and the Lumada Data Catalog will activate the license.
 
 ---
