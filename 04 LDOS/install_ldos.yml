@@ -26,7 +26,7 @@
     logs_dir: /installers/logs
     env_file: /installers/LumadaDataOpsSuite-1.1.1/installer/env.properties
     ldos_home: /installers/LumadaDataOpsSuite-1.1.1
-    ldos_archive: Lumada-DataOps-Suite-1.1.1.tgz
+    ldos_archive: Lumada-DataOps-Suite-1.1.1.gz
     installer_archive: Lumada-DataOps-Suite-installer-1.1.1.zip
     
     ansible_python_interpreter: /usr/bin/python3
