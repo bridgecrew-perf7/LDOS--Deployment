@@ -155,6 +155,7 @@ kubectl get pods -A
 username: foundry
 echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
 ```
+or if you have configured .kubectl_aliases, just type ``foundry`` at command prompt.
 
 ---
 
