@@ -51,8 +51,8 @@
       when: logs.stat.exists == false
       tags: [info, install]
     
-    # Check for LDOS directory
-    - name: Check if the 'LDOS' directory exists
+    # Check for LDOS 1.1.1 directory
+    - name: Check for 'LDOS 1.1.1' directory exists
       stat:
         path: "{{ ldos_home }}"
       register: ldos
@@ -62,8 +62,8 @@
         msg: "LDOS directory exists: {{ ldos.stat.exists }}"
       tags: [info]
 
-    # Creates LDOS install directory - if required
-    - name: Creates 'LDOS' directory
+    # Creates LDOS 1.1.1 install directory - if required
+    - name: Creates 'LDOS 1.1.1' directory
       file:
         path: "{{ ldos_home }}"
         state: directory
@@ -135,8 +135,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [update_hostname, ldos]
 
-    # Upload LDOS solutions to Registry.
-    - name: Upload LDOS Solutions to Foundry
+    # Upload LDOS 1.1.1 solutions to Registry.
+    - name: Upload LDOS 1.1.1 Solutions to Foundry
       shell: 
         chdir: "{{ ldos_home }}/lumada-dataops-suite"
         cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
@@ -146,8 +146,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, upload_ldos]
 
-    # Install LDOS
-    - name: Install LDOS
+    # Install LDOS 1.1.1
+    - name: Install LDOS 1.1.1
       shell: 
         chdir: "{{ ldos_home }}/installer"
         cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-ldos.log"
