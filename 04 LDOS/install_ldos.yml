@@ -59,7 +59,7 @@
       tags: [info]
 
     - debug: 
-        msg: "LDOS directory exists: {{ ldos.stat.exists }}"
+        msg: "LDOS 1.1.1 directory exists: {{ ldos.stat.exists }}"
       tags: [info]
 
     # Creates LDOS 1.1.1 install directory - if required
