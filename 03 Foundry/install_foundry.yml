@@ -120,7 +120,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cp]
 
-    - name: Install Metrics Addon
+    # Install CRDs
+    - name: Install CRDs
       shell: 
         chdir: "{{ foundry_home }}"
         cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ logs_dir }}/install-metrics-add-on.log
@@ -130,6 +131,7 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, metrics]
 
+    # Upload Metrics
     - name: Upload Metrics Add-On Solution
       shell: 
         chdir: "{{ foundry_home }}"
