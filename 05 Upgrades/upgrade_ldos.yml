@@ -104,7 +104,7 @@
       tags: [update_hostname, ldos]
 
     # Upload LDOS 1.2.0 solutions to Registry.
-    - name: Upload LDOS Solutions to Foundry
+    - name: Upload LDOS 1.2.0 Solutions to Registry
       shell: 
         chdir: "{{ ldos_home }}/lumada-dataops-suite"
         cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
