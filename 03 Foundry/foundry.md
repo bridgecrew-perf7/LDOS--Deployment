@@ -145,7 +145,7 @@ tail -f install-cluster-services.log
 ```
 kubectl get ns
 ```
-Note: wait until all the cluster services have been installed, otherwise not all the namespaces will appear.
+Note: wait until all the cluster services have been installed, otherwise not all the namespaces will appear.  
 ``check the pods:``
 ```
 kubectl get pods -A
