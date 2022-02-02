@@ -163,7 +163,7 @@
       register: foundry_pods
       tags: [ldos, info]
 
-    #Check for Non-Running or Failing Pods
+    # Check for Non-Running or Failing Pods
     - name: Confirm application status (URL or pods?)
       shell: "kubectl get pods -n hitachi-solutions | grep -iv -e '[RC][uo][nm][np][il][ne]'"
       register: results
