@@ -98,7 +98,7 @@ kubectl get solutionpackage -n hitachi-solutions | grep "metrics"
 <em>Install NFS Server - preflight_nfs.yml</em>  
 Installs a NFS server that is required by the DataFlow Engine and DataFlow Importer.
 
-<font color='green'>The NFS server has  been installed and configured.</font>
+<font color='green'>The NFS server has been installed and configured.</font>
 
 ``run the playbook - pre-flight_nfs.yml:``
 ```
