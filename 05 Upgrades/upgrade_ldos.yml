@@ -121,8 +121,6 @@
         cmd: "./upgrade.sh 2>&1 | tee -a {{ logs_dir }}/upgrade-ldos.log"
       async: 1000
       poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [ldos]
 
     # Check for Running and Complete Pods
