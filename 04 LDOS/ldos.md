@@ -155,69 +155,15 @@ The following post-installation tasks need to be completed:
 
 ---
 
-<em>Install or Update License Files from the Command Line</em>
-
-#### <font color='red'>This section is for reference only.</font>  
-
-To install or update license files, follow the steps below.
-``download and copy the .lic file(s) (Ansible Controller):`
-```
-cd ../license-installer/
-sudo cp -rfp Downloads/*lic .
-```
-``run the license installation script:``
-```
- ./install_license.sh install Pentaho\ BI\ Platform\ Enterprise\ Edition.lic 
-```
-Note: Run install_license.sh with the install switch and the location and name of your .lic file as a parameter. You can specify multiple .lic files separated by spaces. Be sure to use backslashes (\) to escape any spaces in the path or file name.  
-``repeat the previous step for all required licenses:`` 
-
-To ensure that the Pentaho Server uses the same location to store and retrieve your Pentaho licenses, you must create a PENTAHO_INSTALLED_LICENSE_PATH system environment variable. It does not matter what location you choose; however, the location needs to be available to the user account(s) that run the Pentaho Server. 
-
-``edit your /etc/environment file:`` 
-```
-sudo nano /etc/environment
-```
-``add this line (changing the path as explained above, if necessary):`` 
-```
-export PENTAHO_INSTALLED_LICENSE_PATH=/home/pentaho/.installedLicenses.xml
-```
-You must log out and log back into the operating system for the change to take effect.
-
-``verify the variable is set:``
-```
-env | grep PENTAHO_INSTALLED_LICENSE_PATH
-```
-The PENTAHO_INSTALLED_LICENSE_PATH variable is now set. 
-
----
-
-<em>List or Remove License Files from the Command Line</em>
-
-To list or remove license files, follow the steps below.
-
-Navigate to the /pentaho/server/license-installer/ directory.
-Run the following scripts with the display switch:
-./install_license.sh display
-If you have installed any Enterprise Edition license files, a list of them will appear, along with the products they cover and the duration of the license.
-
-To remove a license, run the same script with the uninstall switch. A list of installed licenses will appear, followed by a prompt for the license ID you would like to remove. If you press Enter at this prompt, it will exit without taking any action.  
-Type in the license ID number that you want to remove, then press Enter.   
-After removing a file, if you had more than one installed, the list will regenerate and the prompt will reappear. You can choose to remove another license file, or you can press Enter to exit the script. 
-
----
-
 <em>Lumada Data Integration Licenses</em>  
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
 
-#### <font color='red'>The .installedLicenses.xml file has already been generated.</font>
-
 ``copy Pentaho EE license file (HA Proxy):`` 
  ```
  cd Dowmloads
- sudo cp -rfp .installedLicenses.xml /data/licenses/
+ sudo cp -rfp Pentaho PDI Enterprise Edition.lic /data/licenses/
 ```
 
 ---
