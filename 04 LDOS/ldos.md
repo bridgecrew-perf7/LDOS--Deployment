@@ -113,14 +113,14 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS 1.1.1 - install_ldos.yml</font>  
+#### <font color='red'>Install LDOS 1.1.1- install_ldos.yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
 - Run upload-solutions.sh to load the modified Helm charts into the Solution Control Plane, to make them available for installation.
 - Configure env.properties values based on the local environment (see env.properties.template for additonal context)
-
-####
+    
+    ####
     |Variable|Value|From|
     |-|-|-|
     | hostname|{{ apiserver_loadbalancer_domain_name }}|                            from extra-vars.yml|
@@ -137,7 +137,7 @@ The install-ldos.yml playbook performs the following tasks.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos.yml
 ```
-Note: This will take about 30mins to complete.
+Note: This will take about 30mins to complete.  You may need to run this playbook twice ..  There's some Pods that are in a 'CrashLoopBackOff' status, which results in a timeout. Its quicker on the second run as the Images and charts have already been loaded. 
 
 ``verfify solution packages:``
 ```
@@ -161,10 +161,12 @@ The LDOS package doesn’t contain licenses.
 Please contact Customer Success or Product Management on how to get a license.  
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
 
+ensure you are on the HA Proxy server.
+
 ``copy Pentaho EE license file (HA Proxy):`` 
  ```
  cd Dowmloads
- sudo cp -rfp Pentaho PDI Enterprise Edition.lic /data/licenses/
+ sudo cp -rfp *.lic /data/licenses/
 ```
 
 ---
