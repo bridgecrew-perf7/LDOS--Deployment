@@ -113,13 +113,14 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS - install_ldos.yml</font>  
+#### <font color='red'>Install LDOS 1.1.1 - install_ldos.yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
 - Run upload-solutions.sh to load the modified Helm charts into the Solution Control Plane, to make them available for installation.
 - Configure env.properties values based on the local environment (see env.properties.template for additonal context)
-    ###
+
+####
     |Variable|Value|From|
     |-|-|-|
     | hostname|{{ apiserver_loadbalancer_domain_name }}|                            from extra-vars.yml|
