@@ -141,7 +141,7 @@
     - name: LDOS URLs
       debug:
         msg: 
-        - " Installation complete.... "
+        - " Upgrade complete.... "
         - " {{ foundry_pods.stdout }} running pods"
         - " FAILING PODS: "
         - "     {{ results.stdout }}"
