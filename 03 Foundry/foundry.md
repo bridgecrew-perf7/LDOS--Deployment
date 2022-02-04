@@ -95,7 +95,6 @@ This will update, install and configure the various required packages for the Fo
 
 Before you run the playbook ensure that 
 
-
 ``run the playbook - pre-flight_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
@@ -114,7 +113,7 @@ systemctl restart docker
 ```
 Note: This is really just a check of the docker service.
 
-to 'log' the 'installer' user out and in: 
+``to 'log' the 'installer' user out and in:`` 
 ```
 sudo su - installer 
 ```
