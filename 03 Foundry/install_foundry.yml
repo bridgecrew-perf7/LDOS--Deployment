@@ -87,7 +87,7 @@
         dest: "{{ installer_home }}"
       tags: [unpack] 
  
-      # Foundry requires istio and cert-manager be installed
+    # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
