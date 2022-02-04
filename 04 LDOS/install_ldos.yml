@@ -153,8 +153,6 @@
         cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-ldos.log"
       async: 2500
       poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [ldos]
 
     # Check for Running and Complete Pods
@@ -182,12 +180,3 @@
         - "     as cmoore/cmoore"
       tags: [ldos, info]
       failed_when: results.stdout is defined
-
-# Install metrics server
-# The metrics server enables 'kubectl top nodes|pods'.   If this was not installed via the K8s provider you can do it after the fact.
-#
-# kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-# Optional it needs these switches added to the image: to set the params for a self-signed/insecure cluster  
-# Add these to the args: section of the metrics-server image (kubectl edit deployment metrics-server):
-#    --kubelet-insecure-tls
-#    --kubelet-preferred-address-types=InternalIP
