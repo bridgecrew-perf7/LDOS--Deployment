@@ -119,7 +119,7 @@
       shell: 
         chdir: "{{ ldos_home }}/installer"
         cmd: "./upgrade.sh 2>&1 | tee -a {{ logs_dir }}/upgrade-ldos.log"
-      async: 2000
+      async: 2500
       poll: 30
       tags: [ldos]
 

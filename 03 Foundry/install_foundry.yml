@@ -69,8 +69,8 @@
         dest: "{{ foundry_home }}"
       tags: [unpack] 
 
-    # Checks for the Metrics directory
-    - name: Check for 'Metrics' directory
+    # Checks for the Metrics-addon-1.0.0. directory
+    - name: Check for 'Metrics 1.0.0' directory
       stat:
         path: "{{ metrics_home }}"
       register: metrics
