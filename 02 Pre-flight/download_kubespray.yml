@@ -89,11 +89,11 @@
           - "kubespray is available in {{ installer_home }}/{{release}}"
           - "cd {{ installer_home }}/{{release}}"
           - "ansible-playbook -b -v -i hosts-skytap.yml --extra-vars='@extra-vars.yml' cluster.yml"
-      when: kubespray.stat.exists == true
+      when: kubespray.stat.exists == false
       tags: [info, install]
     
     - debug:
         msg:
           - "kubespray download and unpack failed!"
-      when: kubespray.stat.exists == false
+      when: kubespray.stat.exists == true
       tags: [info, install]

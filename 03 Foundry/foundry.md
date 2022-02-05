@@ -55,7 +55,7 @@ Pre-requistes:
 cd /installers/kubespray-release-2.14
 ansible-playbook -i hosts-skytap.yml --extra-vars "@extra-vars.yml"  -b -v cluster.yml
 ```
-Note: this is going to take about 10 mins..
+Note: this is going to take about 5-7 mins..
 
 <font color='green'>The following section is for Reference only.</font>
 
@@ -155,6 +155,18 @@ username: foundry
 echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
 ```
 or if you have configured .kubectl_aliases, just type ``foundry`` at command prompt.
+
+---
+
+<em>Check Private Docker Registry</em> 
+The LDOS images and charts are upload and associated with a token. The token is based on the Registry credentials
+
+docker images -a |  grep "pattern"
+
+helm list --filter [a-z]+
+
+kg secrets |  grep cred
+
 
 ---
 
