@@ -24,10 +24,10 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
-    env_file: /installers/LumadaDataOpsSuite-1.1.1/installer/env.properties
-    ldos_home: /installers/LumadaDataOpsSuite-1.1.1
-    ldos_archive: Lumada-DataOps-Suite-1.1.1.gz
-    installer_archive: Lumada-DataOps-Suite-installer-1.1.1.zip
+    env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
+    ldos_home: /installers/LumadaDataOpsSuite-1.2.0
+    ldos_archive: Lumada-DataOps-Suite-1.2.0.gz
+    installer_archive: Lumada-DataOps-Suite-installer-1.2.0.zip
     
     ansible_python_interpreter: /usr/bin/python3
     
@@ -51,26 +51,26 @@
       when: logs.stat.exists == false
       tags: [info, install]
     
-    # Check for LDOS 1.1.1 directory
-    - name: Check for 'LDOS 1.1.1' directory exists
+    # Check for LDOS 1.2.0 directory
+    - name: Check for 'LDOS 1.2.0' directory exists
       stat:
         path: "{{ ldos_home }}"
       register: ldos
       tags: [info]
 
     - debug: 
-        msg: "LDOS 1.1.1 directory exists: {{ ldos.stat.exists }}"
+        msg: "LDOS 1.2.0 directory exists: {{ ldos.stat.exists }}"
       tags: [info]
 
-    # Creates LDOS 1.1.1 install directory - if required
-    - name: Creates 'LDOS 1.1.1' directory
+    # Creates LDOS 1.2.0 install directory - if required
+    - name: Creates 'LDOS 1.2.0' directory
       file:
         path: "{{ ldos_home }}"
         state: directory
       when: ldos.stat.exists == false
       tags: [info]
 
-    # Unarchive Lumada-DataOps_suite-1.1.1.zip
+    # Unarchive Lumada-DataOps_suite-1.2.0.zip
     - name: Unarchive {{ ldos_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ ldos_archive }}"
@@ -78,7 +78,7 @@
         creates: "{{ ldos_home }}/lumada-dataops-suite"
       tags: [unpack]  
 
-    # Unarchive Lumada-DataOps-Suite-Installer-1.1.1.zip
+    # Unarchive Lumada-DataOps-Suite-Installer-1.2.0.zip
     - name: Unarchive {{ installer_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ installer_archive }}"
@@ -135,8 +135,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [update_hostname, ldos]
 
-    # Upload LDOS 1.1.1 solutions to Registry.
-    - name: Upload LDOS 1.1.1 Solutions to Registry
+    # Upload LDOS 1.2.0 solutions to Registry.
+    - name: Upload LDOS 1.2.0 Solutions to Registry
       shell: 
         chdir: "{{ ldos_home }}/lumada-dataops-suite"
         cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
@@ -146,8 +146,8 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, upload_ldos]
 
-    # Install LDOS 1.1.1
-    - name: Install LDOS 1.1.1
+    # Install LDOS 1.2.0
+    - name: Install LDOS 1.2.0
       shell: 
         chdir: "{{ ldos_home }}/installer"
         cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-ldos.log"
