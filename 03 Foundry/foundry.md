@@ -89,8 +89,7 @@ systemctl restart docker
 
 ---
 
-
-<em>Run the playbook - pre-flight_foundry.yml</em>    
+<em>Run the playbook - pre-flight_foundry.yml</em>      
 This will update, install and configure the various required packages for the Foudry Platform.
 
 Before you run the playbook ensure that 
@@ -158,8 +157,8 @@ or if you have configured .kubectl_aliases, just type ``foundry`` at command pro
 
 ---
 
-<em>Check Private Docker Registry</em> 
-The LDOS images and charts are upload and associated with a token. The token is based on the Registry credentials
+<em>Check Private Docker Registry</em>   
+The LDOS images and charts are upload and associated with a token. The token is based on the Registry certs.
 
 docker images -a |  grep "pattern"
 
