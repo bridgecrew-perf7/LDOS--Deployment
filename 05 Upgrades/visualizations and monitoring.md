@@ -69,8 +69,35 @@ Grafana connects with every possible data source, commonly referred to as databa
 
 ``check Grafana service:``
 ````
-kubectl -n istio-system get svc grafana
+kubectl -n hitachi-solutions get svc grafana
 ````
 
+https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
+
+
+
+For further details: >
 
 For further details: > https://grafana.com/
+
+---
+
+#### <font color='red'>Elasticsearch</font>  
+Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch. Kibana enables you to interactively explore, visualize, and share insights into your data and manage and monitor the stack. Elasticsearch is where the indexing, search, and analysis happens.
+
+
+
+
+
+For further details: >
+
+---
+
+#### <font color='red'>Kibana</font>
+
+
+
+
+---
+
+#### <font color='red'>Jaeger</font>
