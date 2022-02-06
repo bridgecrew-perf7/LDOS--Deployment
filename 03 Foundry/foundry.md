@@ -157,18 +157,6 @@ or if you have configured .kubectl_aliases, just type ``foundry`` at command pro
 
 ---
 
-<em>Check Private Docker Registry</em>   
-The LDOS images and charts are upload and associated with a token. The token is based on the Registry certs.
-
-docker images -a |  grep "pattern"
-
-helm list --filter [a-z]+
-
-kg secrets |  grep cred
-
-
----
-
 <em>.kubectl_aliases</em>  
 To save typing out the kubectl commands, in the resources folder there's a kubectl_aliases file which you copy over to your $HOME directory.
 
