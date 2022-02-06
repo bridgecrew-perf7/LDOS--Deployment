@@ -73,8 +73,11 @@ kubectl get pods -n hitachi-solutions -o wide (alias: kgpo -n hitachi-solutions 
 
 ---
 
-<em>Download and unpack the Metrics Add-On</em>  
+<em>Download and unpack the Metrics Add-On (Optional)</em>  
 If you have completed the Installation & Configuration of the Foundry Platform, the Metrics-addon 1.0.0. image and chart has been uploaded into the Registry.  
+
+Recommended to let the LDOS install script install the Metrics-addon.
+
 Please refer to: Lab - LDOS Pre-flight
 
 Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)  
