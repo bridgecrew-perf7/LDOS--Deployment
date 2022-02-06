@@ -135,9 +135,9 @@ The install-ldos.yml playbook performs the following tasks.
 ``run the playbook - install_ldos.yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-<version>.yml
 ```
-Note: This will take about 30mins to complete.  You may need to run this playbook twice ..  There's some Pods that are in a 'CrashLoopBackOff' status, which results in a timeout. Its quicker on the second run as the Images and charts have already been loaded. 
+Note: This will take about 30mins to complete.
 
 ``verfify solution packages:``
 ```
