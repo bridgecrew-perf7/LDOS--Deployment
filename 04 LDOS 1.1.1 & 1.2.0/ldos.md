@@ -1,4 +1,4 @@
-## <font color='red'>Lumada DataOps Suite 1.1.1</font>
+## <font color='red'>Lumada DataOps Suite 1.1.1 & 1.2.0</font>
 DataOps unlocks business value by operationalizing data management with automation and collaboration. Lumada DataOps Suite helps you build your DataOps practice for more business agility with an intelligent data operations platform.
 
 #### <font color='red'>Prerequisites for LDOS:</font>
@@ -22,7 +22,13 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
 
 Please read the documentation: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)    
 
-All files required for installation are available in the release folder and can be found in the link below.
+All files required for installation are available in the release folder and can be found in the link below.  
+https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
+
+
+Please read the documentation: [LDOS 1.2.0 Installation & Configuration](resources/LDOS-1.2.0_Installation_and_Configuration_Guide.pdf)
+
+All files required for installation are available in the release folder and can be found in the link below.  
 https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
 
 You’ll need your Hitachi Vantara credentials or ask Customer Success.
@@ -36,7 +42,7 @@ The following playbooks are run:
 * Check NFS mounts
 * Show mounts   
 
-#### install_ldos.yml
+#### install_ldos-<version>.yml
 * Install NFS utils
 * Create directories
 * Prepare env.properties
@@ -52,7 +58,7 @@ The following playbooks are run:
 #### <font color='red'>Pre-requisties</font>
 
 * Check the Health of the Foundry Platform
-* Install Metrics-addon 1.0.0
+* Install Metrics-addon 1.0.0 (Optional)
 * Install NFS Server
 
 <em>Check Foundry Platform</em>  
@@ -116,7 +122,7 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS 1.1.1- install_ldos.yml</font>  
+#### <font color='red'>Install LDOS <version> - install_ldos-<version>.yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
@@ -135,12 +141,12 @@ The install-ldos.yml playbook performs the following tasks.
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
 
 
-``run the playbook - install_ldos.yml:``
+``run the playbook - install_ldos-<version>.yml:``
 ```
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-<version>.yml
 ```
-Note: This will take about 30mins to complete.
+Note: This will take about 30mins to complete. Enter the <version> of LDOS you wish to install - 1.1.1 or 1.2.0
 
 ``verfify solution packages:``
 ```
