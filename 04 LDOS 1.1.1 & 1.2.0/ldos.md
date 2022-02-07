@@ -59,7 +59,8 @@ The following playbooks are run:
 * Install Metrics-addon 1.0.0 (Optional)
 * Install NFS Server
 
-<em>Check Foundry Platform</em>  
+<em>Check Foundry Platform</em> 
+ 
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
 ``check namespaces (from the Ansible Controller box):``
