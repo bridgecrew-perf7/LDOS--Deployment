@@ -63,7 +63,7 @@ The following playbooks are run:
 
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
-``check namespaces (from the Ansible Controller box):``
+``check namespaces (Ansible Controller box):``
 ```
 kubectl get namespaces -o wide (alias: kgns -o wide)
 ```
