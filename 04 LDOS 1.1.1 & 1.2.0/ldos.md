@@ -137,10 +137,10 @@ The install-ldos.yml playbook performs the following tasks.
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
 
 
-``run the playbook - install_ldos-<version>.yml:``
+``run the playbook - install_ldos-[version].yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-<version>.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-[version].yml
 ```
 Note: This will take about 30mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
 
