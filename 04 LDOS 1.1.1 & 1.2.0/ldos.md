@@ -22,10 +22,6 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
 
 Please read the documentation: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)    
 
-All files required for installation are available in the release folder and can be found in the link below.  
-https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941b-c304c2b108b2?l
-
-
 Please read the documentation: [LDOS 1.2.0 Installation & Configuration](resources/LDOS-1.2.0_Installation_and_Configuration_Guide.pdf)
 
 All files required for installation are available in the release folder and can be found in the link below.  
@@ -42,7 +38,7 @@ The following playbooks are run:
 * Check NFS mounts
 * Show mounts   
 
-#### install_ldos-<version>.yml
+#### install_ldos-[version].yml
 * Install NFS utils
 * Create directories
 * Prepare env.properties
@@ -122,7 +118,7 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS <version> - install_ldos-<version>.yml</font>  
+#### <font color='red'>Install LDOS [version] - install_ldos-[version].yml</font>  
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
@@ -146,7 +142,7 @@ The install-ldos.yml playbook performs the following tasks.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-<version>.yml
 ```
-Note: This will take about 30mins to complete. Enter the <version> of LDOS you wish to install - 1.1.1 or 1.2.0
+Note: This will take about 30mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
 
 ``verfify solution packages:``
 ```
@@ -165,7 +161,8 @@ The following post-installation tasks need to be completed:
 
 ---
 
-<em>Lumada Data Integration Licenses</em>  
+<em>Lumada Data Integration Licenses</em>
+
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
