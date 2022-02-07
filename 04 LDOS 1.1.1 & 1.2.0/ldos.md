@@ -60,7 +60,7 @@ The following playbooks are run:
 * Install NFS Server
 
 <em>Check Foundry Platform</em> 
- 
+
 Before you start the LDOS installation, check that the Foundry Platform is healthy.
 
 ``check namespaces (from the Ansible Controller box):``
