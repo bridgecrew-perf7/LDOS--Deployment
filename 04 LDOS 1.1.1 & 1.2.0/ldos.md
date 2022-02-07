@@ -1,7 +1,9 @@
 ## <font color='red'>Lumada DataOps Suite 1.1.1 & 1.2.0</font>
+
 DataOps unlocks business value by operationalizing data management with automation and collaboration. Lumada DataOps Suite helps you build your DataOps practice for more business agility with an intelligent data operations platform.
 
 #### <font color='red'>Prerequisites for LDOS:</font>
+
 * Foundry Platform:   
 LDOS is installed over an existing k8s cluster running cluster services (a default storage class, istio and  cert-manager) and the Hitachi Vantara Solution Control Plane.  
 
@@ -76,6 +78,7 @@ kubectl get pods -n hitachi-solutions -o wide (alias: kgpo -n hitachi-solutions 
 ---
 
 <em>Download and unpack the Metrics Add-On (Optional)</em>  
+
 If you have completed the Installation & Configuration of the Foundry Platform, the Metrics-addon 1.0.0. image and chart has been uploaded into the Registry.  
 
 Recommended to let the LDOS install script install the Metrics-addon.
@@ -101,6 +104,7 @@ kubectl get solutionpackage -n hitachi-solutions | grep "metrics"
 ---
 
 <em>Install NFS Server - preflight_nfs.yml</em>  
+
 Installs a NFS server that is required by the DataFlow Engine and DataFlow Importer.
 
 <font color='green'>The NFS server has been installed and configured.</font>
@@ -118,7 +122,8 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS [version] - install_ldos-[version].yml</font>  
+#### <font color='red'>Install LDOS [version] - install_ldos-[version].yml</font>
+
 The install-ldos.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
