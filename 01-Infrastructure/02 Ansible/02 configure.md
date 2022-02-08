@@ -8,7 +8,7 @@ In this lab we're going to:
 * update Inventory hosts
 * add workshop directories
 
-<font color='green'>Ansible has been installed and configured - Reference only.</font>
+<font color='green'>This section is for reference only - Ansible has been installed and configured.</font>
 
 ---
 
@@ -63,7 +63,8 @@ sudo nano ansible.cfg
 ```
 uncomment the line (14): inventory = /etc/ansible/hosts-skytap.yml  
 uncomment the line (68): roles_path = /etc/ansible/roles  
-uncomment the line (71): host_key_checking = False  
+uncomment the line (71): host_key_checking = False
+uncomment the line (83): callback_whitelist = profile_tasks (adds a timer to the tasks) 
 uncomment the line (103): timeout=180  
 uncomment the line (375): ssh_args = -C -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=30m -o ConnectionAttempts=100  
 uncomment the line (401): pipelining = False  set to True (disable requiretty in /etc/sudoers) 
