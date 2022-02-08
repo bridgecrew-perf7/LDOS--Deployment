@@ -169,6 +169,8 @@ The following post-installation tasks need to be completed:
 
 <em>Lumada Data Integration Licenses</em>
 
+<font color='green'>The PDI EE licenses have been copied over.</font>
+
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
@@ -180,7 +182,7 @@ ensure you are on the HA Proxy server.
  cd Dowmloads
  sudo cp -rfp *.lic /data/licenses/
 ```
-
+Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
 ---
 
 <em>Lumada Data Catalog License</em>  

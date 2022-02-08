@@ -84,8 +84,7 @@
         src: "{{ ldos_home }}/{{ installer_archive }}"
         dest: "{{ ldos_home }}"
         creates: "{{ ldos_home }}/installer"
-        mode: u+rwx
-      tags: [unpack]  
+      tags: [unpack]
 
     # Prepare env.properties
     - name: get secret for solution-control-plane-sso-client
