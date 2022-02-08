@@ -1,4 +1,5 @@
-## <font color='red'>Lumada DataOps Suite 1.2.0</font>
+## <font color='red'>Lumada DataOps Suite 1.2.0</font>  
+
 Lumada DataOps Suite 1.2.0 includes a newer version of the following solutions:
 * App Switcher
 * Control Plane
@@ -39,7 +40,8 @@ ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v upgrad
 
 ---
 
-#### <font color='red'>Post Upgrade Tasks</font>
+#### <font color='red'>Post Upgrade Tasks</font>  
+
 * Update Catalog app switcher endpoint  
 
 After successfully upgrading LDOS, using a browser open Lumada Data Catalog and change the app switcher configuration.  

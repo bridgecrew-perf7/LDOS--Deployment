@@ -1,4 +1,5 @@
-## <font color='red'>Installation of Ansible 2.9.6</font>
+## <font color='red'>Installation of Ansible 2.9.6</font>  
+
 Ansible is an open source IT Configuration Management, Deployment & Orchestration tool. It aims to provide large productivity gains to a wide variety of automation challenges. This tool is very simple to use yet powerful enough to automate complex multi-tier IT application environments. 
 
 In this lab we're going to:
@@ -10,7 +11,8 @@ In this lab we're going to:
 
 ---
 
-#### <font color='red'>Pre-requisties</font> 
+#### <font color='red'>Pre-requisties</font>  
+ 
 Please ensure that the Environment has been configured as outlined in the previous section - 01-Environment:
 * installer user added - with sudo & passwordless privileges
 * openssh server - check ssh

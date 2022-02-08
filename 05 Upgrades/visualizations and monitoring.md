@@ -1,4 +1,5 @@
-## <font color='red'>Visualize and Monitoring your Mesh</font>
+## <font color='red'>Visualize and Monitoring your Mesh</font>  
+
 The following 
 * Kiali
 * Prometheus
@@ -16,7 +17,8 @@ kgsvc -n istio-system
 Note the ports.
 ---
 
-#### <font color='red'>Kiali</font>
+#### <font color='red'>Kiali</font>  
+
 Kiali is an observability console for Istio with service mesh configuration and validation capabilities.It helps you understand the structure and health of your service mesh by monitoring traffic flow to infer the topology and report errors. Kiali provides detailed metrics and a basic Grafana integration, which can be used for advanced queries. Distributed tracing is provided by integration with Jaeger.
 
 ``check Kiali service:``
@@ -44,7 +46,8 @@ For further details: > https://kiali.io/docs/
 
 ---
 
-#### <font color='red'>Prometheus</font>
+#### <font color='red'>Prometheus</font>  
+
 Prometheus is an open-source systems monitoring and alerting toolkit. Prometheus collects and stores its metrics as time series data, i.e. metrics information is stored with the timestamp at which it was recorded, alongside optional key-value pairs called labels.
 
 ``check Prometheus service:``
@@ -63,7 +66,8 @@ For further details: >
 
 ---
 
-#### <font color='red'>Grafana</font>
+#### <font color='red'>Grafana</font>  
+
 Grafana is an open source solution for running data analytics, pulling up metrics that make sense of the massive amount of data & to monitor our apps with customizable dashboards.  
 Grafana connects with every possible data source, commonly referred to as databases such as Graphite, Prometheus, Influx DB, ElasticSearch, MySQL, PostgreSQL etc.
 
@@ -74,15 +78,15 @@ kubectl -n hitachi-solutions get svc grafana
 
 https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
 
+User: admin
+Password: password
 
-
-For further details: >
-
-For further details: > https://grafana.com/
+> For further details: https://grafana.com/
 
 ---
 
-#### <font color='red'>Elasticsearch</font>  
+#### <font color='red'>Elasticsearch</font>
+
 Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch. Kibana enables you to interactively explore, visualize, and share insights into your data and manage and monitor the stack. Elasticsearch is where the indexing, search, and analysis happens.
 
 
@@ -93,9 +97,9 @@ For further details: >
 
 ---
 
-#### <font color='red'>Kibana</font>
+#### <font color='red'>Kibana</font>  
 
-
+Kibana is a visual interface tool that allows you to explore, visualize, and build a dashboard over the log data massed in Elasticsearch Clusters.
 
 
 ---

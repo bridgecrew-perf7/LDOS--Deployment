@@ -1,4 +1,5 @@
-## <font color='red'>Configure Ansible</font>
+## <font color='red'>Configure Ansible</font>  
+
 Ansible is an open source IT Configuration Management, Deployment & Orchestration tool. It aims to provide large productivity gains to a wide variety of automation challenges. This tool is very simple to use yet powerful enough to automate complex multi-tier IT application environments. 
 
 In this lab we're going to:
@@ -12,7 +13,8 @@ In this lab we're going to:
 
 ---
 
-#### <font color='red'>Ansible Controller Configuration</font>
+#### <font color='red'>Ansible Controller Configuration</font>  
+
 Ensure that the required pre-requisites have been completed as outlined in the previous section - 01-Infrastructure.
 * create 'installer' account for ansible controller
 * ensure 'installer' has root priviledges
