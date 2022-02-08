@@ -98,7 +98,7 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install_cs]
 
-    # Install Hitachi CRDs
+    # Install Hitachi Foundry CRDs
     - name: Run Custom Resource Definitions Script
       shell: 
         chdir: "{{ foundry_home }}"
@@ -120,7 +120,7 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cp]
 
-    # Install CRDs
+    # Install Metrics-addon CRDs
     - name: Install CRDs
       shell: 
         chdir: "{{ foundry_home }}"
@@ -131,11 +131,11 @@
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, metrics]
 
-    # Upload Metrics
+    # Upload Metrics addon
     - name: Upload Metrics Add-On Solution
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{metrics_home }}/charts/ -I {{metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/install-metrics-add-on.log
+        cmd: ./bin/upload-solutions.sh -C {{metrics_home }}/charts/ -I {{metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
