@@ -70,13 +70,12 @@
       when: ldos.stat.exists == false
       tags: [info]
 
-    # Unarchive Lumada-DataOps_suite-1.2.0.zip
+    # Unarchive Lumada-DataOps_suite-1.2.0.gz
     - name: Unarchive {{ ldos_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ ldos_archive }}"
         dest: "{{ ldos_home }}"
         creates: "{{ ldos_home }}/lumada-dataops-suite"
-        mode: 0755
       tags: [unpack]  
 
     # Unarchive Lumada-DataOps-Suite-Installer-1.2.0.zip
@@ -85,7 +84,7 @@
         src: "{{ ldos_home }}/{{ installer_archive }}"
         dest: "{{ ldos_home }}"
         creates: "{{ ldos_home }}/installer"
-        mode: 0755
+        mode: u+rwx
       tags: [unpack]  
 
     # Prepare env.properties
