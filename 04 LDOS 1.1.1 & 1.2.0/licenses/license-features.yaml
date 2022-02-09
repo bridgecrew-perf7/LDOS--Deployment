@@ -1,0 +1,46 @@
+---
+licensedTo: "support@hitachivantara.com"
+description: "LDC611 Full License for internal usage within Hitachi Vantara"
+creationDate: "2021-08-30"
+expiryDate: "2022-12-31"
+licenseKey: "RVNOugW+/yB/GraPy9im2C6mIkMUK0GIffE4qVpO/PH+oBtLdb0EXxwOQ5uBaDFy2CIHkgrLxG4EydHTVl4dFXioEzIZr/ck05anHK+UNJRdNlSFH+wr3SWiDzdNZeTN1CAWpk953Qmnm4deBJdRvNINDdkwCL/gWPE6ZELJDMuIQwbAYr7gqJYQKoVtfJXRoTN0BosJQ2Co8AuZ4Y78AvfPgNDpBtCO1muXyUKWSWnQN234gaElUDMVtMQUbMqnIVvHugT0Zei/v0TJDHTOE/ljbrtaZAxHdCohnsZe0AippgDc31/AAD7EopLYJoEu24qu1qbqVMZY1UDxUgvaXw=="
+licenseFeatureBits:
+- feature: "core"
+  enabled: true
+  valueLimit: 0
+- feature: "format.job"
+  enabled: true
+  valueLimit: 0
+- feature: "profile.job"
+  enabled: true
+  valueLimit: 0
+- feature: "schema.job"
+  enabled: true
+  valueLimit: 0
+- feature: "tag.job"
+  enabled: true
+  valueLimit: 0
+- feature: "lineage.job"
+  enabled: true
+  valueLimit: 0
+- feature: "rulesEngine.job"
+  enabled: true
+  valueLimit: 0
+- feature: "rulesEngine.feature"
+  enabled: true
+  valueLimit: 0
+- feature: "dataObject.feature"
+  enabled: true
+  valueLimit: 0
+- feature: "dataSet.feature"
+  enabled: true
+  valueLimit: 0
+- feature: "dashboard.feature"
+  enabled: true
+  valueLimit: 0
+- feature: "rationalization.feature"
+  enabled: true
+  valueLimit: 0
+- feature: "ldo.feature"
+  enabled: true
+  valueLimit: 0
