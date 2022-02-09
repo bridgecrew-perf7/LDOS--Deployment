@@ -72,14 +72,19 @@ Grafana is an open source solution for running data analytics, pulling up metric
 Grafana connects with every possible data source, commonly referred to as databases such as Graphite, Prometheus, Influx DB, ElasticSearch, MySQL, PostgreSQL etc.
 
 ``check Grafana service:``
-````
+```
 kubectl -n hitachi-solutions get svc grafana
-````
+```
 
 https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
 
 User: admin
-Password: password
+Password: mypassword
+
+``to retrieve the password:``
+```
+kubectl get secret -n hitachi-solutions metrics-addon-solution-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+```
 
 > For further details: https://grafana.com/
 
