@@ -148,7 +148,7 @@ The install-ldos.yml playbook performs the following tasks.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-[version].yml
 ```
-Note: This will take about 30mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
+Note: This will take about 40mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
 
 ``verfify solution packages:``
 ```
@@ -192,7 +192,8 @@ The Lumada Data Catalog is by default a light version (some functions are disabl
 
 ``upgrade the Catalog license (Ansible Controller):``
 ```
-kubectl create secret generic ldc-license --from-file=license-features.yaml --from-file=ldc-license-public-keystore.p12 -n hitachi-solutions
+kubectl create secret generic ldc-license --from-file=license-features.yaml
+ --from-file=ldc-license-public-keystore.p12 -n hitachi-solutions
 ```
 Note: Files must be named license-features.yaml and ldc-license-public-keystore.p12
 
