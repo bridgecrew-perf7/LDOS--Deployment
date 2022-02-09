@@ -1,12 +1,13 @@
 ## <font color='red'>Visualize and Monitoring your Mesh</font>  
 
-The following 
+The following services are exposed in the Foundry Platform. 
 * Kiali
 * Prometheus
 * Grafana
 * Elasticsearch
 * Kibana
 * Jaeger
+* Swagger
 
 To display a list of exposed services in the istio-system:
 
@@ -25,10 +26,7 @@ Kiali is an observability console for Istio with service mesh configuration and 
 ```
 kubectl -n istio-system get svc kiali
 ```
-``to access the Kiali UI:``
-```
-istioctl dashboard kiali
-```
+Note: its exposed on the default port: 20001
 ``using kubectl to port-forward:``
 ```
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
@@ -73,8 +71,9 @@ Grafana connects with every possible data source, commonly referred to as databa
 
 ``check Grafana service:``
 ```
-kubectl -n hitachi-solutions get svc grafana
+kubectl -n hitachi-solutions get svc
 ```
+Note: look for anything grafana
 
 https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
 
@@ -94,9 +93,16 @@ kubectl get secret -n hitachi-solutions metrics-addon-solution-grafana -o jsonpa
 
 Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch. Kibana enables you to interactively explore, visualize, and share insights into your data and manage and monitor the stack. Elasticsearch is where the indexing, search, and analysis happens.
 
+``check Elasticsearch service:``
+```
+kubectl -n hitachi-solutions get svc 
+```
+Note: look for anything elasticsearch. The elasticsearch-master sits on port 9200
 
-
-
+``using kubectl to port-forward:``
+```
+kubectl port-forward svc/elasticsearch-master 9200:9200 -n hitachi-solutions
+```
 
 For further details: >
 
@@ -106,6 +112,17 @@ For further details: >
 
 Kibana is a visual interface tool that allows you to explore, visualize, and build a dashboard over the log data massed in Elasticsearch Clusters.
 
+``check Kibana service:``
+```
+kubectl -n hitachi-solutions get svc
+```
+Note: look for anything kibana
+
+https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/kibana/app/kibana
+
+You will need to 'Discover' your data and enter an 'Index pattern': ``hitachi-solutions.*`` 
+
+For further details: > https://www.elastic.co/kibana/
 
 ---
 
@@ -114,5 +131,16 @@ The Jaeger tracing system is an open-source tracing system for microservices, an
 
 
 
+
+---
+
+#### <font color='red'>Swagger</font>  
+
+The Swagger Editor is an open source editor to design, define and document RESTful APIs in the Swagger Specification. The source code for the Swagger Editor can be found in GitHub.
+
+https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/swagger-ui/ui/doc/
+
+
+For further details: > https://github.com/swagger-api/swagger-editor
 
 ---

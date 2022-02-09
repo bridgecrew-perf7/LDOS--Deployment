@@ -148,7 +148,7 @@ The install-ldos.yml playbook performs the following tasks.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-[version].yml
 ```
-Note: This will take about 40mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
+Note: This will take about 65mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
 
 ``verfify solution packages:``
 ```
@@ -164,6 +164,10 @@ The script install the default users and roles. Please refer to documentation.
 The following post-installation tasks need to be completed:
 * Licenses for Lumada Data Integration
 * License for Lumada Data Catalog
+You should be able to log in with:
+
+User: cmoore
+Password: cmoore
 
 ---
 
