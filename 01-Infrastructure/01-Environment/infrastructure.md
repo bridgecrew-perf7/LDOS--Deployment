@@ -1,4 +1,4 @@
-## <font color='red'>Pre-requisites</font>
+## <font color='red'>Infrastructure Pre-requisites</font>
 The following pre-requiste steps have been completed and are listed just for Lab reference. 
 
 This reference section covers:

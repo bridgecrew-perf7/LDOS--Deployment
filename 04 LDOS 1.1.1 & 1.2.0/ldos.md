@@ -183,6 +183,7 @@ ensure you are on the HA Proxy server.
  sudo cp -rfp *.lic /data/licenses/
 ```
 Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
+
 ---
 
 <em>Lumada Data Catalog License</em>  
