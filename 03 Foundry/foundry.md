@@ -1,4 +1,5 @@
-## <font color='red'>Hitachi Vantara Foundry 2.2.1 Platform</font>
+## <font color='red'>Hitachi Vantara Foundry 2.2.1 Platform</font>  
+
 Ansible playbooks install and configures Hitachi Vantara Foundry Platform.
 
 Prerequisites for the CentOS 7 machines:

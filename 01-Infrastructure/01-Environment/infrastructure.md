@@ -19,7 +19,8 @@ https://hcpanywhere.hitachivantara.com/a/PWPVYtZj1UovY9VO/e52a0db2-ad14-4673-941
 
 ---
 
-### <font color='red'>Skytap Lab</font>
+### <font color='red'>Skytap Lab</font>  
+
 The SkyTap Lab environment is configured with: 
 
 SkyTap DNS: 10.0.0.254 - This is automatically assigned.  
@@ -43,7 +44,8 @@ VM sequence:
 
 ---
 
-### <font color='red'>LDOS 1.2.0 Master / Worker Nodes</font>
+### <font color='red'>LDOS 1.2.0 Master / Worker Nodes</font>  
+
 These servers were deployed as CentOS 7.5 Firstboot images.
 Each of the nodes in the cluster has been configured with a 'k8s' user with sudo priviliges.
 
@@ -114,7 +116,8 @@ Ctrl + x
 
 ---
 
-### <font color='red'>LDOS 1.2.0 Ansible Controller</font>
+### <font color='red'>LDOS 1.2.0 Ansible Controller</font>  
+
 This server has been configured with an 'installer' user with sudo privileges. 
 
 <font color='green'>The Ansible Controller has been installed and configured.</font>  
@@ -178,7 +181,8 @@ sudo -v
 
 ---
 
-### <font color='red'>Other Required Packages on Ansible Controller</font>
+### <font color='red'>Other Required Packages on Ansible Controller</font>  
+
 Enusre that the following packages are also installed and configured:
 * openssh server
 * pip & pip3
@@ -297,7 +301,8 @@ reboot
 
 ---
 
-#### <font color='red'>SSH Keys</font>
+#### <font color='red'>SSH Keys</font>  
+
 Generate the required SSH keys to connect to LDOS nodes.  
 You will need the IPs of the Cluster Nodes - refer to table above.
 
@@ -326,12 +331,14 @@ ssh -i ~/.ssh/id_rsa  k8s@10.0.0.101
 exit
 ```
 
-#### <font color='red'>Docker Registry Volume</font>
+#### <font color='red'>Docker Registry Volume</font>  
+
 Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on ``/installers`` volume. 
 
 ---
 
-#### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>
+#### <font color='red'>HA-Proxy - Pentaho Server 9.2</font>  
+
 This server has been configured with an 'pentaho' user with sudo privileges.  
 
 <font color='green'>Pentaho server has been installed and configured.</font>  
@@ -391,7 +398,8 @@ sudo -v
 
 ---
 
-#### <font color='red'>HA Proxy</font>
+#### <font color='red'>HA Proxy</font>  
+
 Install the latest HAProxy using a PPA.
 
   > browse to: https://haproxy.debian.net/
@@ -452,7 +460,8 @@ sudo systemctl restart haproxy
 
 ---
 
-#### <font color='red'>Data Volume</font>
+#### <font color='red'>Data Volume</font>  
+
 You will require a /data volume which gets mapped to LDOS, as a Pentaho File Repository.
 NFS server has already been installed.
 
