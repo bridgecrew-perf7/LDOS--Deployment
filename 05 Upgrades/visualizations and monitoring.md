@@ -4,8 +4,7 @@ The following services are exposed in the Foundry Platform.
 * Kiali
 * Prometheus
 * Grafana
-* Elasticsearch
-* Kibana
+* Elasticsearch & Kibana
 * Jaeger
 * Swagger
 
@@ -54,7 +53,7 @@ kubectl -n istio-system get svc prometheus
 ````
 ``using kubectl to port-forward:``
 ```
-kubectl port-forward svc/prometheus 9090:9090 -n istio-system
+kubectl port-forward -n istio-system  svc/prometheus 9090:9090 
 ```
 > browse to: https://localhost:9090
 
@@ -89,26 +88,9 @@ kubectl get secret -n hitachi-solutions metrics-addon-solution-grafana -o jsonpa
 
 ---
 
-#### <font color='red'>Elasticsearch</font>
+#### <font color='red'>Elasticsearch & Kibana</font>
 
 Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch. Kibana enables you to interactively explore, visualize, and share insights into your data and manage and monitor the stack. Elasticsearch is where the indexing, search, and analysis happens.
-
-``check Elasticsearch service:``
-```
-kubectl -n hitachi-solutions get svc 
-```
-Note: look for anything elasticsearch. The elasticsearch-master sits on port 9200
-
-``using kubectl to port-forward:``
-```
-kubectl port-forward svc/elasticsearch-master 9200:9200 -n hitachi-solutions
-```
-
-For further details: >
-
----
-
-#### <font color='red'>Kibana</font>  
 
 Kibana is a visual interface tool that allows you to explore, visualize, and build a dashboard over the log data massed in Elasticsearch Clusters.
 
@@ -126,11 +108,22 @@ For further details: > https://www.elastic.co/kibana/
 
 ---
 
-#### <font color='red'>Jaeger</font>
+#### <font color='red'>Jaeger</font>  
+
 The Jaeger tracing system is an open-source tracing system for microservices, and it supports the OpenTracing standard.
+``check Kiali service:``
+```
+kubectl -n istio-system get svc jaeger-query
+```
+Note: its exposed on the default port: 16686
+``using kubectl to port-forward:``
+```
+kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
+```
 
+> browse to: https://localhost:9090/jaeger/search
 
-
+For further details: > https://www.jaegertracing.io/
 
 ---
 
