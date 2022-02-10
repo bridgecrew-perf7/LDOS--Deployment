@@ -15,6 +15,7 @@ To display a list of exposed services in the istio-system:
 kgsvc -n istio-system
 ```
 Note the ports.
+
 ---
 
 #### <font color='red'>Kiali</font>  
@@ -74,7 +75,7 @@ kubectl -n hitachi-solutions get svc
 ```
 Note: look for anything grafana
 
-https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
+> browse to: https://pentaho-server-1.skytap.example/hitachi-solutions/metrics-addon-solution/metrics-addon-solution-grafana/login
 
 User: admin
 Password: mypassword
@@ -100,7 +101,7 @@ kubectl -n hitachi-solutions get svc
 ```
 Note: look for anything kibana
 
-https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/kibana/app/kibana
+> browse to: https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/kibana/app/kibana
 
 You will need to 'Discover' your data and enter an 'Index pattern': ``hitachi-solutions.*`` 
 
@@ -131,7 +132,7 @@ For further details: > https://www.jaegertracing.io/
 
 The Swagger Editor is an open source editor to design, define and document RESTful APIs in the Swagger Specification. The source code for the Swagger Editor can be found in GitHub.
 
-https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/swagger-ui/ui/doc/
+> browse to: https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/swagger-ui/ui/doc/
 
 
 For further details: > https://github.com/swagger-api/swagger-editor
