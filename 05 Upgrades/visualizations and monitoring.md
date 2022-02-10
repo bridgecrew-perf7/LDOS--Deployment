@@ -6,6 +6,7 @@ The following services are exposed in the Foundry Platform.
 * Grafana
 * Elasticsearch & Kibana
 * Jaeger
+* Zipkin
 * Swagger
 
 To display a list of exposed services in the istio-system:
@@ -38,6 +39,11 @@ Password: admin
 
 Please note that this method exposes Kiali only to the local machine, no external users. You must have the necessary privileges to perform port forwarding.
 
+You could patch and externally expose the service.  Only do this if you know what you're doing.. :)
+```
+kubectl patch svc kiali -n istio-system -p '{"spec": {"type": "NodePort"}}'
+```
+
 * You can visualize the services and their connections in a given namespace by clicking on the “Go To Graph” button.
 
 For further details: > https://kiali.io/docs/
@@ -60,7 +66,7 @@ kubectl port-forward -n istio-system  svc/prometheus 9090:9090
 
 * navigate to: Status --> Targets
 
-For further details: > 
+For further details: > https://prometheus.io/
 
 ---
 
@@ -112,7 +118,7 @@ For further details: > https://www.elastic.co/kibana/
 #### <font color='red'>Jaeger</font>  
 
 The Jaeger tracing system is an open-source tracing system for microservices, and it supports the OpenTracing standard.
-``check Kiali service:``
+``check Jaeger service:``
 ```
 kubectl -n istio-system get svc jaeger-query
 ```
@@ -123,6 +129,25 @@ kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
 ```
 
 > browse to: https://localhost:9090/jaeger/search
+
+For further details: > https://www.jaegertracing.io/
+
+---
+
+#### <font color='red'>Zipkin</font>  
+
+Zipkin is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures.
+``check Zipkin service:``
+```
+kubectl -n istio-system get svc zipkin
+```
+Note: its exposed on the default port: 9411
+``using kubectl to port-forward:``
+```
+kubectl port-forward -n istio-system svc/zipkin 9411:9411
+```
+
+> browse to: https://localhost:9411/jaeger/search
 
 For further details: > https://www.jaegertracing.io/
 
