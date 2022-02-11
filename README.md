@@ -18,16 +18,16 @@ The following workshop is intended to highlight an on-premise bare-metal install
 * Run pre-flight_foundry.yml playbook
 * Run install_foundry.yml playbook
 
-#### <font color='red'>Module 04 - LDOS</font>
-* Install Metrics-addon server
+#### <font color='red'>Module 04 - LDOS 1.2.0</font>
+* Upload Metrics-addon server
 * Run pre-flight_nfs.yml (optional)
 * Configure env.properties
-* Run install_ldos.yml playbook
+* Run install_ldos-1.2.0.yml playbook
 * Post Installation tasks
 
-#### <font color='red'>Module 05 - Upgrades</font>
-* Upgrade LDOS 1.1.1 -> 1.2.0
-* Simple dataflows
-* ElasticSearch
-* Kibana
+#### <font color='red'>Module 05 - Post Installation</font>
+* Licenses
+* Kiali
 * Prometheus
+* Grafana
+* ElasticSearch & Kibana 
