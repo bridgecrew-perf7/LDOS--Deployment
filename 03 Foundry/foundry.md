@@ -133,6 +133,8 @@ Note:  This will pick up the playbook from the continue tag onwards.
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_foundry.yml
 ```
+Note: It will take about 10mins to unachive the Founadry Platform package.  
+
 you should have some logs appearing.  
 ``tail install-cluster-services.log: (new terminal)``
 ```

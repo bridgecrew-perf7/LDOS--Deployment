@@ -11,15 +11,18 @@
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
+    # Check Nodes
     - name: Ping Nodes
       ping:
       tags: ['info']
 
+    # Update packages
     - name: Update all packages
       yum:
        name: '*'
       tags: [install]
 
+    # Check for previous Kubespray download
     - name: Check if kubespray is available
       stat:
         path: "{{ installer_home }}/{{ release }}"
@@ -47,13 +50,15 @@
         dest: "{{ installer_home }}"
       when: kubespray.stat.exists == false
       tags: [install]
-
+    
+    # Update pip
     - name: Update pip dependancies
       pip:
         requirements: requirements.txt
         chdir: "{{ installer_home }}/{{release}}"
       tags: [cluster]
-  
+    
+    # Check Kubespray has unarchived
     - name: Re-Check if Kubespray has extracted
       stat:
         path: "{{ installer_home }}/{{release}}"
