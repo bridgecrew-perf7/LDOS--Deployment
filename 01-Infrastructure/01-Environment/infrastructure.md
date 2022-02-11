@@ -411,11 +411,11 @@ Install the latest HAProxy using a PPA.
 ``enable PPA (log in as root):``
 ```
  apt-get install --no-install-recommends software-properties-common
- add-apt-repository ppa:vbernat/haproxy-2.4
+ add-apt-repository ppa:vbernat/haproxy-2.5
 ```
 ``then install:``
 ```
-apt-get install haproxy=2.4.\*
+apt-get install haproxy=2.5.\*
 ```
 ``verify installation:``
 ```
