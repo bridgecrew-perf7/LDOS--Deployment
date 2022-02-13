@@ -41,7 +41,7 @@
        state: disabled
      register: selinux_status
      tags: [selinux]
-     
+
    # Check Selinx status   
    - name: Check SELINUX Reboot Status
      debug:  
@@ -101,7 +101,8 @@
         echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
      register: dhcp_update       
      when: change_dns and ("dhcp_nameserver_entry is not defined" or "'{{ dns_server }}' not in dhcp_nameserver_entry.stdout")
-
+   
+   # Reboot the Nodes
    - name: Reboot the Nodes with all defaults
      shell: sleep 5 && reboot
      async: 1
