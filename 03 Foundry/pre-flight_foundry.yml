@@ -7,20 +7,24 @@
   gather_facts: true
   
   tasks:
+    # Ping Nodes
     - name: Ping
       ping:
       tags: [info]
 
+    # Update all packages
     - name: Yum update
       raw: yum update -y
       when: ansible_distribution == "CentOS"
       tags: [install]
 
+    # Install extra packages
     - name: Yum install epel
       raw: yum install -y epel-release
       when: ansible_distribution == "CentOS"
       tags: [install, never]
     
+    # Configure various Linux networking and system settings
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
@@ -40,6 +44,7 @@
         # May need check if large enough 
       tags: [elastic]
 
+    # Retrieve sudoers path
     - name: Get sudoers secure_path
       shell: cat /etc/sudoers | grep secure_path
       register: sudoers_path
@@ -67,6 +72,7 @@
         echo "supersede domain-name-servers {{ dns_server }};" >> /etc/dhcp/dhclient.conf
       register: dhcp_update
 
+    # Reboot Nodes and test
     - name: Reboot hosts if required
       reboot:
         msg: "Reboot initiated by Ansible"
