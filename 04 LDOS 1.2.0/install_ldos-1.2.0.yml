@@ -11,12 +11,12 @@
     - name: Yum install nfs-utils
       raw: yum install -y nfs-utils
       when: ansible_distribution == "CentOS"
-      tags: [ prereq ]
+      tags: [prereq]
 
     - name: apt install nfs-common
       raw: apt install -y nfs-common
       when: ansible_distribution == "Ubuntu"
-      tags: [ prereq ]
+      tags: [prereq]
 
 - name: Install LDOS over running Foundry cluster
   become: false
