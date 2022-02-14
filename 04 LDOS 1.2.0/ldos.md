@@ -1,4 +1,4 @@
-## <font color='red'>Lumada DataOps Suite 1.1.1 & 1.2.0</font>
+## <font color='red'>Lumada DataOps Suite 1.2.0</font>
 
 DataOps unlocks business value by operationalizing data management with automation and collaboration. Lumada DataOps Suite helps you build your DataOps practice for more business agility with an intelligent data operations platform.
 
@@ -21,8 +21,6 @@ The Dataflow engine needs access to the Pentaho ETL files, plug-ins and kettle.p
     - The Object Store needs to be configured at install.   The default configuration for minio can be used and then changed after install, or the HELM chart for catalog can be modified prior to installation.
     - The default installation is: LDOS.  To change this, manually edit the "install_mode" in env.properties.
     - Additional editing of the default helm charts or install.sh itself may be needed for a custom installation of the product components.
-
-Please read the documentation: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)    
 
 Please read the documentation: [LDOS 1.2.0 Installation & Configuration](resources/LDOS-1.2.0_Installation_and_Configuration_Guide.pdf)
 
@@ -86,7 +84,7 @@ Recommended to let the LDOS install script install the Metrics-addon.
 
 Please refer to: Lab - LDOS Pre-flight
 
-Please refer to the documentation to manually upload: [LDOS 1.1.1 Installation & Configuration](resources/LDOS-1.1.1_Installation_and_Configuration_Guide.pdf)  
+Please refer to the documentation to manually upload: [LDOS 1.2.0 Installation & Configuration](resources/LDOS-1.2.0_Installation_and_Configuration_Guide.pdf)  
 
 
 Please refer to the official Metrics Add-On documentation for details and additional troubleshooting: 
@@ -123,9 +121,9 @@ sudo nano /etc/exports
 
 ---
 
-#### <font color='red'>Install LDOS [version] - install_ldos-[version].yml</font>
+#### <font color='red'>Install LDOS 1.2.0</font>
 
-The install-ldos.yml playbook performs the following tasks.
+The install-ldos-1.2.0.yml playbook performs the following tasks.
 - Install NFS utilities on all hosts. Again, this is needed to be able to mount the shared directory for KTR, KJB and additional content.
 - Run update-hostname.sh to update the hostnames within the Helm chart templates.
 - Run upload-solutions.sh to load the modified Helm charts into the Solution Control Plane, to make them available for installation.
@@ -143,12 +141,12 @@ The install-ldos.yml playbook performs the following tasks.
     | volume_path|{{ nfs_path }}                       |                            from extra-vars.yml|
 
 
-``run the playbook - install_ldos-[version].yml:``
+``run the playbook - install_ldos-1.2.0.yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-[version].yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-1.2.0-.yml
 ```
-Note: This will take about 65mins to complete. Enter the [version] of LDOS you wish to install - 1.1.1 or 1.2.0
+Note: This will take about 65mins to complete. 
 
 ``verfify solution packages:``
 ```
