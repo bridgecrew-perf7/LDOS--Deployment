@@ -24,10 +24,10 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
-    env_file: /installers/LumadaDataOpsSuite-1.2.0/Lumada-DataOps-Suite-installer-1.2.0/installer/env.properties
+    env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
     ldos_home: /installers/LumadaDataOpsSuite-1.2.0
     ldos_archive: Lumada-DataOps-Suite-1.2.0.gz
-    installer_home: /installers/LumadaDataOpsSuite-1.2.0/Lumada-DataOps-Suite-installer-1.2.0
+    installer_home: /installers/LumadaDataOpsSuite-1.2.0
     installer_archive: Lumada-DataOps-Suite-installer-1.2.0.zip
     
     ansible_python_interpreter: /usr/bin/python3
