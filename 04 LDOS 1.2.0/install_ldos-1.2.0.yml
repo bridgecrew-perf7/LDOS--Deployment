@@ -83,7 +83,6 @@
       unarchive:
         src: "{{ ldos_home }}/{{ installer_archive }}"
         dest: "{{ ldos_home }}"
-        creates: "{{ ldos_home }}/installer"
       tags: [unpack]
 
     # Prepare env.properties
