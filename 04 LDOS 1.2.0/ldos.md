@@ -144,7 +144,7 @@ The install-ldos-1.2.0.yml playbook performs the following tasks.
 ``run the playbook - install_ldos-1.2.0.yml:``
 ```
 cd /etc/ansible/playbooks
-ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-1.2.0-.yml
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_ldos-1.2.0.yml
 ```
 Note: This will take about 65mins to complete. 
 
