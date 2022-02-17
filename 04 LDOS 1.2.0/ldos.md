@@ -38,7 +38,7 @@ The following playbooks are run:
 * Check NFS mounts
 * Show mounts   
 
-#### install_ldos-[version].yml
+#### install_ldos-1.2.0.yml
 * Install NFS utils
 * Create directories
 * Prepare env.properties
