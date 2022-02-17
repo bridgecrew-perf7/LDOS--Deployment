@@ -1,6 +1,9 @@
-## <font color='red'>Visualize and Monitoring your Mesh</font>  
 
+#### <font color='red'>Post-Installation Tasks</font>  
 
+The following post-installation tasks need to be completed:
+* Licenses for Lumada Data Integration
+* License for Lumada Data Catalog
 
 ---
 
