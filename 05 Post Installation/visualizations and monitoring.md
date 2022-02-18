@@ -9,6 +9,8 @@ The following services are exposed in the Foundry Platform.
 * Zipkin
 * Swagger
 
+* Kubernetes Dashboard
+
 To display a list of exposed services in the istio-system:
 
 ``list of istio services (Ansible Controller):``
@@ -159,7 +161,45 @@ The Swagger Editor is an open source editor to design, define and document RESTf
 
 > browse to: https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/swagger-ui/ui/doc/
 
-
 For further details: > https://github.com/swagger-api/swagger-editor
+
+---
+
+#### <font color='red'>Kubernetes Dashboard</font>
+Dashboard is a web-based Kubernetes user interface. You can use Dashboard to deploy containerized applications to a Kubernetes cluster, troubleshoot your containerized application, and manage the cluster resources. You can use Dashboard to get an overview of applications running on your cluster, as well as for creating or modifying individual Kubernetes resources (such as Deployments, Jobs, DaemonSets, etc).  
+
+``access dashboard:``
+```
+kubectl proxy
+```
+Note: Kubectl proxy is the recommended way of accessing the Kubernetes REST API. It uses http for the connection between localhost and the proxy server and https for the connection between the proxy and apiserver.  
+
+> browse to: http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+* select Token method of authentication.
+
+The token authentication method requires a service account for the Kubernetes dashboard. 
+* bind this service account to the cluster-admin role to gain access.
+* retrieve the secret for the role.
+* use the bearer token for the service account to log in to the dashboard.
+
+``create a service account:``
+```
+kubectl create serviceaccount dashboard-admin-sa
+```
+``bind the dashboard-admin-service-account service account to the cluster-admin role:``
+```
+kubectl create clusterrolebinding dashboard-admin-sa --clusterrole=cluster-admin --serviceaccount=default:dashboard-admin-sa
+```
+``retrieve the secret for the service account:``
+```
+kubectl get secrets (alias: kgsec)
+```
+Note: the secret will be in the format: dashboard-admin-sa-token-xxxx
+``describe the token:``
+```
+kubectl describe secret dashboard-admin-sa-token-xxxx
+```
+* copy the token over to the login page.
 
 ---
