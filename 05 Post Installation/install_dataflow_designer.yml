@@ -12,25 +12,7 @@
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
-    # Checks for the logs directory
-    - name: Check if 'logs' directory exists
-      stat:
-        path: "{{ logs_dir }}"
-      register: logs
-      tags: [info] 
 
-    - debug: 
-        msg: "logs directory exists: {{ logs.stat.exists }}"
-      tags: [info]           
-
-    # Create a logs directory - if required
-    - name: Creates 'logs' Directory
-      file:
-       path: "{{ logs_dir }}"
-       state: directory
-      when: logs.stat.exists == false
-      tags: [info, install]
-    
     # Check for Dataflow Designer directory
     - name: Check if the 'Dataflow Designer' directory exists
       stat:
@@ -96,7 +78,7 @@
     - name: Update Dataflow Designer Hostname
       shell: 
         chdir: "{{ designer_home }}"
-        cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
+        cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
       async: 2500
       poll: 30
       register: ret
@@ -107,7 +89,7 @@
     - name: Upload Dataflow Designer Solutions to Foundry
       shell: 
         chdir: "{{ designer_home }}/lumada-dataops-suite"
-        cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
+        cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
       async: 2500
       poll: 30
       register: ret
