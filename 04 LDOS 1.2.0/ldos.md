@@ -153,7 +153,7 @@ Note: This will take about 65mins to complete.
 kubectl get solutionpackage -n hitachi-solutions
 ```
 
-The script install the default users and roles. Please refer to documentation.
+The script installs the default users and roles. Please refer to documentation.
 
 ---
 
