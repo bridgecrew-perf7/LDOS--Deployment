@@ -165,7 +165,8 @@ For further details: > https://github.com/swagger-api/swagger-editor
 
 ---
 
-#### <font color='red'>Kubernetes Dashboard</font>
+#### <font color='red'>Kubernetes Dashboard</font>  
+
 Dashboard is a web-based Kubernetes user interface. You can use Dashboard to deploy containerized applications to a Kubernetes cluster, troubleshoot your containerized application, and manage the cluster resources. You can use Dashboard to get an overview of applications running on your cluster, as well as for creating or modifying individual Kubernetes resources (such as Deployments, Jobs, DaemonSets, etc).  
 
 ``access dashboard:``
