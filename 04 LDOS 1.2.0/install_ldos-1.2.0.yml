@@ -110,24 +110,12 @@
         sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
       tags: [env]
 
-    # Run apply-crds.sh
-    - name: Run Custom Resource Definitions Script
-      shell: 
-        chdir: "{{ ldos_home }}/lumada-dataops-suite"
-        cmd: ./control-plane/bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ logs_dir }}/install-ldos.log
-      async: 2500
-      poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [crds, ldos]
-    
-
     # Update Hostnames in HELM charts. Hostname is defined with {{placeholder}} in Helm Charts.  
     # Careful as once defined there's no going back..!
     - name: Update LDOS Hostname
       shell: 
         chdir: "{{ ldos_home }}"
-        cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
+        cmd: "./installer/update-hostname.sh -c=lumada-dataops-suite/charts -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-host-name.log"
       async: 2500
       poll: 30
       register: ret
@@ -138,7 +126,7 @@
     - name: Upload LDOS 1.2.0 Solutions to Registry
       shell: 
         chdir: "{{ ldos_home }}/lumada-dataops-suite"
-        cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ -D true 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
+        cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
       async: 2500
       poll: 30
       register: ret
