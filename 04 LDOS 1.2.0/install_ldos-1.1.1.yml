@@ -168,3 +168,4 @@
         - "     as cmoore/cmoore"
       tags: [ldos, info]
       failed_when: results.stdout is defined
+

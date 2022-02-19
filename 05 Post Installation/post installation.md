@@ -19,9 +19,12 @@ ensure you are on the HA Proxy server.
 
 ``copy Pentaho EE license file (HA Proxy):`` 
  ```
- cd Dowmloads
- sudo cp -rfp *.lic /data/pdi/
+ cd Downloads
+ sudo cp -rfp *.xml /data/pdi/.kettle/licenses/
 ```
+Note:
+"PENTAHO_INSTALLED_LICENSE_PATH=/home/di_user/.kettle/licenses/.installedLicenses.xml"
+
 Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
 
 ---
