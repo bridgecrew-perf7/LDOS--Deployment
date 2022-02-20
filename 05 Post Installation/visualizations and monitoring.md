@@ -161,7 +161,7 @@ The Swagger Editor is an open source editor to design, define and document RESTf
 
 > browse to: https://pentaho-server-1.skytap.example/hitachi-solutions/hscp-hitachi-solutions/swagger-ui/ui/doc/
 
-For further details: > https://github.com/swagger-api/swagger-editor
+> For further details: https://github.com/swagger-api/swagger-editor
 
 ---
 
@@ -202,5 +202,7 @@ Note: the secret will be in the format: dashboard-admin-sa-token-xxxx
 kubectl describe secret dashboard-admin-sa-token-xxxx
 ```
 * copy the token over to the login page.
+
+> For further details: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 
 ---
