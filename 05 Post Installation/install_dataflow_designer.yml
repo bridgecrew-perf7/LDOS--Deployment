@@ -4,7 +4,7 @@
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
-    env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
+    env_file: /installers/Dataflow-Designer-0.7.0/installer-ldd/env.properties
     designer_home: /installers/Dataflow-Designer-0.7.0
     designer_archive: dataflow-designer-0.7.0.tgz
     installer_archive: installer-ldd.zip
