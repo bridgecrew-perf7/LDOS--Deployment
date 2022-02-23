@@ -9,6 +9,7 @@
     designer_home: /installers/Dataflow-Designer-0.7.0
     designer_archive: dataflow-designer-0.7.0.tgz
     installer_archive: installer-ldd.zip
+    ldos_home: /installers/LumadaDataOpsSuite-1.2.0
     
     ansible_python_interpreter: /usr/bin/python3
     
@@ -38,7 +39,7 @@
       unarchive:
         src: "{{ designer_home }}/{{ designer_archive }}"
         dest: "{{ designer_home }}"
-        creates: "{{ designer_home }}/dataflow-designer"
+        creates: "{{ designer_home }}/dataflow-designer-0.7.0"
       tags: [unpack]  
 
     # Unarchive Dataflow-Designer-Installer-0.7.0.zip
@@ -46,7 +47,7 @@
       unarchive:
         src: "{{ designer_home }}/{{ installer_archive }}"
         dest: "{{ designer_home }}"
-        creates: "{{ designer_home }}/installer-lld"
+        creates: "{{ designer_home }}/installer-ldd"
       tags: [unpack]  
 
     # Prepare env.properties
@@ -79,18 +80,18 @@
     - name: Update Dataflow Designer Hostname
       shell: 
         chdir: "{{ designer_home }}"
-        cmd: "./installer-lld/update-hostname.sh -c=dataflow-designer/charts -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
+        cmd: "./update-hostname.sh -c=installer-lld -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
       async: 2500
       poll: 30
       register: ret
-      failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
+      failed_when: "ret.rc > 0 or 'not found' in ret.stdout" 
       tags: [update_hostname, designer]
 
     # Upload Dataflow Designer 0.7.0 solutions to Registry.
-    - name: Upload Dataflow Designer Solutions to Registry
+    - name: Upload LDOS 1.2.0 Solutions to Registry
       shell: 
-        chdir: "{{ designer_home }}/dataflow-designer"
-        cmd: "./control-plane/bin/upload-solutions.sh -C ./charts/ -I ./images/ 2>&1 | tee -a {{ logs_dir }}/upload-designer.log"
+        chdir: "{{ designer_home }}/dataflow-designer-0.7.0"
+        cmd: "./bin/upload-solutions.sh -C ./dataflow-designer-0.7.0/charts/ -I ./dataflow-designer-0.7.0/images/ 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
       async: 2500
       poll: 30
       register: ret
@@ -100,7 +101,7 @@
     # Install Dataflow Designer 0.7.0
     - name: Install Dataflow Designer 0.7.0
       shell: 
-        chdir: "{{ designer_home }}/installer-lld"
+        chdir: "{{ designer_home }}/installer-ldd"
         cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-designer.log"
       async: 1000
       poll: 30
