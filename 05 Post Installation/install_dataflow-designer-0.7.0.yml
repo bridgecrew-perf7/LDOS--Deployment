@@ -90,8 +90,8 @@
     # Upload Dataflow Designer 0.7.0 solutions to Registry.
     - name: Upload LDOS 1.2.0 Solutions to Registry
       shell: 
-        chdir: "{{ designer_home }}/dataflow-designer-0.7.0"
-        cmd: "./bin/upload-solutions.sh -C ./dataflow-designer-0.7.0/charts/ -I ./dataflow-designer-0.7.0/images/ 2>&1 | tee -a {{ logs_dir }}/upload-ldos-solution.log"
+        chdir: "{{ designer_home }}"
+        cmd: "./bin/upload-solutions.sh -C ./dataflow-designer-0.7.0/charts/ -I ./dataflow-designer-0.7.0/images/ 2>&1 | tee -a {{ logs_dir }}/upload-designer.log"
       async: 2500
       poll: 30
       register: ret
