@@ -1,5 +1,4 @@
-# Infrastructure Preflight
-# Run from: /etc/ansible/playbooks
+# Preflight - Infrastructure 
 - name: Configure Cluster Nodes
   hosts: "{{ groups['kube-node'] }}"
   become: true
