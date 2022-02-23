@@ -31,7 +31,7 @@ Note: When you start Dataflow Transformation Editor, you will need to add the pa
 
 <em>Lumada Data Catalog License</em>  
 
-The Lumada Data Catalog is by default a light version (some functions are disabled).
+The Lumada Data Catalog is by default a light version (some functions are disabled).  
 Please contact either your account manager or dstraining@hitachivantara.com
 
 ``upgrade the Catalog license (Ansible Controller):``
