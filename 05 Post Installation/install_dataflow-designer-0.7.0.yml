@@ -9,8 +9,8 @@
     designer_home: /installers/Dataflow-Designer-0.7.0
     designer_archive: dataflow-designer-0.7.0.tgz
     installer_archive: installer-ldd.zip
-    ldos_home: /installers/LumadaDataOpsSuite-1.2.0
-    
+    apiserver_loadbalancer_domain_name: pentaho-server-1.skytap.example
+        
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
@@ -80,7 +80,7 @@
     - name: Update Dataflow Designer Hostname
       shell: 
         chdir: "{{ designer_home }}"
-        cmd: "./update-hostname.sh -c=installer-lld -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
+        cmd: "./installer-ldd/update-hostname.sh -c=/dataflow-designer-0.7.0/charts -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
       async: 2500
       poll: 30
       register: ret
