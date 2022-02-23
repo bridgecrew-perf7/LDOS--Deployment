@@ -1,6 +1,5 @@
+# Installation of Dataflow Designer 0.7.0
 - name: Install Dataflow Designer 0.7.0
-
-
   become: false
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
