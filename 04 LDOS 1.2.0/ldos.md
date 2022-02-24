@@ -44,7 +44,6 @@ The following playbooks are run:
 * Prepare env.properties
 * Get foundry password
 * Populate env.properties template
-* Apply CRDs
 * Update Hostnames in Helm Charts
 * Install LDOS
 * Check Pods

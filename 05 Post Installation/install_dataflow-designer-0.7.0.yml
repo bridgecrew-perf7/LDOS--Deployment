@@ -35,12 +35,12 @@
       tags: [info]
 
     # Unarchive Dataflow Designer 0.7.0
-    - name: Unarchive {{ designer_archive }}
-      unarchive:
-        src: "{{ designer_home }}/{{ designer_archive }}"
-        dest: "{{ designer_home }}"
-        creates: "{{ designer_home }}/dataflow-designer-0.7.0"
-      tags: [unpack]  
+    #- name: Unarchive {{ designer_archive }}
+    #  unarchive:
+    #    src: "{{ designer_home }}/{{ designer_archive }}"
+    #    dest: "{{ designer_home }}"
+    #    creates: "{{ designer_home }}/dataflow-designer-0.7.0"
+    #  tags: [unpack]  
 
     # Unarchive Dataflow-Designer-Installer-0.7.0.zip
     - name: Unarchive {{ installer_archive }}
@@ -77,15 +77,15 @@
 
     # Update Hostnames in HELM charts. Hostname is defined with {{placeholder}} in Helm Charts.  
     # Careful as once defined there's no going back..!
-    - name: Update Dataflow Designer Hostname
-      shell: 
-        chdir: "{{ designer_home }}"
-        cmd: "./installer-ldd/update-hostname.sh -c=/dataflow-designer-0.7.0/charts -h={{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
-      async: 2500
-      poll: 30
-      register: ret
-      failed_when: "ret.rc > 0 or 'not found' in ret.stdout" 
-      tags: [update_hostname, designer]
+    #- name: Update Dataflow Designer Hostname
+    #  shell: 
+    #    chdir: "{{ designer_home }}"
+    #    cmd: "./installer-ldd/update-hostname.sh -c=/dataflow-designer-0.7.0/charts -h={{ apiserver_loadbalancer_domain_name }} -D true 2>&1 | tee -a {{ logs_dir }}/update-designer-hostname.log"
+    #  async: 2500
+    #  poll: 30
+    #  register: ret
+    #  failed_when: "ret.rc > 0 or 'not found' in ret.stdout" 
+    #  tags: [update_hostname, designer]
 
     # Upload Dataflow Designer 0.7.0 solutions to Registry.
     - name: Upload LDOS 1.2.0 Solutions to Registry

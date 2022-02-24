@@ -1,9 +1,11 @@
 
-#### <font color='red'>Post-Installation Tasks</font>  
+## <font color='red'>Post-Installation Tasks</font>  
 
 The following post-installation tasks need to be completed:
 * Licenses for Lumada Data Integration
 * License for Lumada Data Catalog
+
+* Installation of Dataflow Designer 0.7.0
 
 ---
 
@@ -55,4 +57,49 @@ Navigate to the Solution management UI -> Installed -> Lumada Data Catalog
  
  Click: Save and the Lumada Data Catalog will activate the license.
 
+Data Steward account credentials:
+user: mpayton
+password: mpayton
+
 ---
+
+## <font color='red'>Installation Dataflow Designer 0.7.0</font> 
+
+Ansible playbook install and configures Hitachi Vantara Foundry Platform.
+
+Prerequisites for the CentOS 7 machines:
+* A public key generated on your Ansible Controller
+* SSH passwordless access on Nodes with root permissions
+* Completed 01 Infrastructure section
+* Completed 02 Pre-flight section
+* Completed 03 Foundry Platform
+* Completed 04 LDOS
+
+The following playbook are run:  
+
+#### install_dataflow-designer-0.7.0.yml
+* Creates a Dataflow Designer directory
+* Unarchives Dataflow Designer-0.7.0
+* Prepare env.properties
+* Get foundry password
+* Populate env.properties template
+* Update Hostnames in Helm Charts
+* Install Dataflow Designer-0.7.0
+* Check Pods
+
+---
+
+#### <font color='red'>Install Dataflow Designer 0.7.0</font>
+
+``run the playbook - install_dataflow-designer-0.7.0.yml:``
+```
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_dataflow-designer-0.7.0.yml
+```
+Note: This will take about 65mins to complete. 
+
+``verfify solution packages:``
+```
+kubectl get solutionpackage -n hitachi-solutions
+```
+
