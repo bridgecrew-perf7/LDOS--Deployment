@@ -27,6 +27,10 @@ Note:
 
 Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
 
+Data Engineer account credentials:  
+user: bwayne
+password: bwayne
+
 ---
 
 <em>Lumada Data Catalog License</em>  
