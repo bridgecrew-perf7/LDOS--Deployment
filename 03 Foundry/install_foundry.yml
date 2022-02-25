@@ -135,7 +135,7 @@
     - name: Upload Metrics Add-On Solution
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{metrics_home }}/charts/ -I {{metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-metrics-add-on.log
+        cmd: ./bin/upload-solutions.sh -C {{ metrics_home }}/charts/ -I {{ metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-metrics-add-on.log
       async: 2500
       poll: 30
       register: ret
