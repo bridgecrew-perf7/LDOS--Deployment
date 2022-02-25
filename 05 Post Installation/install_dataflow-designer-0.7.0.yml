@@ -10,7 +10,6 @@
     designer_archive: dataflow-designer-0.7.0.tgz
     installer_archive: installer-ldd.zip
     foundry_home: /installers/Foundry-Control-Plane-2.2.1/Foundry
-    apiserver_loadbalancer_domain_name: pentaho-server-1.skytap.example
         
     ansible_python_interpreter: /usr/bin/python3
     
