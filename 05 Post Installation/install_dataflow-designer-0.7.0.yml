@@ -42,7 +42,7 @@
         creates: "{{ designer_home }}/dataflow-designer-0.7.0"
       tags: [unpack]  
 
-    # Unarchive Dataflow-Designer-Installer-0.7.0.zip
+    # Unarchive Dataflow Designer Installer-0.7.0.zip
     - name: Unarchive {{ installer_archive }}
       unarchive:
         src: "{{ designer_home }}/{{ installer_archive }}"
