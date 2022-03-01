@@ -31,3 +31,5 @@ The following workshop is intended to highlight an on-premise bare-metal install
 * Prometheus
 * Grafana
 * ElasticSearch & Kibana 
+* Jaeger
+* Kubernetes Dashboard
