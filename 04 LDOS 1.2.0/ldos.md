@@ -147,6 +147,59 @@ ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v instal
 ```
 Note: This will take about 65mins to complete. 
 
+<font color='red'>The current installation will fail to install the Dataflow Transformation Editor.  
+Allow the tokens to be reset.</font>
+
+#### <font color='red'>Troubleshooting Pods</font>
+So where do you start..?
+
+* Take a look at the Pod status
+
+``list the Pods in hitachi-solutions namespace:``
+```
+kgp -n hitachi-solutions
+```
+As suspected the status of data-transformation-editor pod:  CrashLoopBackOff
+
+If the container can't start, then Kubernetes shows the CrashLoopBackOff message as a status.
+Usually, a container can't start when:
+* There's an error in the application that prevents it from starting.
+* The container is misconfigured.
+* The Liveness probe failed too many times.
+You should try and retrieve the logs from that container to investigate why it failed.  
+
+``check the Pod:``
+```
+kdpo dataflow-transformation-editor-xxxx -n hitachi-solutions
+```
+Note: looks like theres an issue with the istio-proxy.  
+
+``list containers:``
+```
+kgpo dataflow-transflow-editor-xxxx -n hitachi-solutions -o jsonpath='{.spec.containers[*].name}'
+```
+``check the log for dataflow-transformation-editor istio-proxy:``
+```
+kubectl logs dataflow-transformation-editor-xxxx istio-proxy -n hitachi-solutions
+```
+Note: ``fatal	Missing JWT, can't authenticate with control plane.``  The problem is authentication..  so take a look at the templates/RBAC.yml
+
+automountServiceAccountToken: false
+
+You can access the API from inside a Pod using automatically mounted service account credentials, as described in Accessing the Cluster. The API permissions of the service account depend on the authorization plugin (JWT) and policy in use.
+
+In version 1.6+, you can opt out of automounting API credentials for a service account by setting ``automountServiceAccountToken: false`` on the service account:
+
+Solution:
+A new archived dataflow-tranformation-editor-0.9.51.tgz which has in  
+templates/RBAC.yml:
+``` 
+automountServiceAccountToken: true
+```
+``copy over upgraded package:``
+
+cd /installers/LDOS-Workshop/04
+
 ``verfify solution packages:``
 ```
 kubectl get solutionpackage -n hitachi-solutions
