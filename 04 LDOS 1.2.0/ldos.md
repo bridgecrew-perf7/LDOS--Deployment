@@ -177,7 +177,7 @@ Note: looks like theres an issue with the istio-proxy.
 
 ``list containers:``
 ```
-kgpo data-transflow-editor-xxxx -n hitachi-solutions -o jsonpath='{.spec.containers[*].name}'
+kgpo data-transformation-editor-xxxx -n hitachi-solutions -o jsonpath='{.spec.containers[*].name}'
 ```
 ``check the log for data-transformation-editor istio-proxy:``
 ```
