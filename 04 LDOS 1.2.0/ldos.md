@@ -185,11 +185,11 @@ kubectl logs data-transformation-editor-xxxx istio-proxy -n hitachi-solutions
 ```
 Note: ``fatal	Missing JWT, can't authenticate with control plane.``  The problem is authentication..  so take a look at the templates/RBAC.yml
 
-automountServiceAccountToken: false
+<font color='teal'>automountServiceAccountToken:</font><font color='red'> false</font>
 
 You can access the API from inside a Pod using automatically mounted service account credentials, as described in Accessing the Cluster. The API permissions of the service account depend on the authorization plugin (JWT) and policy in use.
 
-In version 1.6+, you can opt out of automounting API credentials for a service account by setting: <font color='teal'>automountServiceAccountToken: false</font> on the service account:
+In version 1.6+, you can opt out of automounting API credentials for a service account by setting: <font color='teal'>automountServiceAccountToken:</font><font color='red'> false</font> on the service account:
 
 Solution: 
 * copy:  /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
