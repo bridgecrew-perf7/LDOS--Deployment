@@ -195,26 +195,9 @@ Solution:
 * copy:  /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
 * rename original: data-transformation-editor-0.9.5.tgz.bak 
 * unarchive: /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
-* edit templates/RBAC.yml - <font color='teal'>automountServiceAccountToken: true </font>
-* check hostnames
-* archive and upload to Registry
-* run playbook with: -t ldos
-
-tar -cvf data-transformation-editor.tgz data-transformation-editor-0.9.5
-
-
-``export chart:``
-```
-export HELM_EXPERIMENTAL_OCI=1 helm chart save data-transformation-editor-0.9.5.tgz http://localhost:5000/data-transformation-editor:0.9.5
-helm chart push http://localhost:5000/data-transformation-editor:0.9.5
-```
-
-
-
-
-``copy over upgraded package:``
-
-cd /installers/LDOS-Workshop/04
+* edit templates/RBAC.yml - <font color='teal'>automountServiceAccountToken: true </font>  
+* uninstall current data-transformation-editor
+* re-run playbook
 
 ``verfify solution packages:``
 ```
