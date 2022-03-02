@@ -192,9 +192,7 @@ You can access the API from inside a Pod using automatically mounted service acc
 In version 1.6+, you can opt out of automounting API credentials for a service account by setting: <font color='teal'>automountServiceAccountToken:</font><font color='red'> false</font> on the service account:
 
 Solution: 
-* copy:  /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
-* rename original: data-transformation-editor-0.9.5.tgz.bak 
-* unarchive: /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
+* open:  /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
 * edit templates/RBAC.yml - <font color='teal'>automountServiceAccountToken: true </font>  
 * uninstall current data-transformation-editor
 * re-run playbook
@@ -204,7 +202,7 @@ Solution:
 kubectl get solutionpackage -n hitachi-solutions
 ```
 
-The script installs the default users and roles. Please refer to documentation.
+Please refer to documentation.
 
 ---
 
