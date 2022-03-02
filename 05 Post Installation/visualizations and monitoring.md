@@ -9,7 +9,12 @@ The following services are exposed in the Foundry Platform.
 * Zipkin
 * Swagger
 
+These following tools will help troubleshoot and monitor k8s deployment.
+
 * Kubernetes Dashboard
+* Portainer
+
+> For a list of useful Kubernetes tools: https://collabnix.github.io/kubetools/
 
 To display a list of exposed services in the istio-system:
 
@@ -204,5 +209,73 @@ kubectl describe secret dashboard-admin-sa-token-xxxx
 * copy the token over to the login page.
 
 > For further details: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+---
+
+#### <font color='red'>Portainer</font>
+
+Portainer is a lightweight UI manager for docker which can be used to manage different docker environments such as docker hosts or docker swarm clusters. 
+
+<em>Install via Helm</em>
+
+``add portainer helm chart:``
+```
+helm repo add portainer https://portainer.github.io/k8s/
+```
+``update helm repo:``
+```
+helm repo update
+```
+``install portainer:``
+```
+helm install --create namespace -n portainer portainer portainer/portainer  --set service.type=LoadBalancer
+```
+``run the commands to expose portainer:`` 
+```
+
+
+echo http://$SERVICE_IP:9000
+```
+``check the service:``
+```
+kgsvc -n portainer
+```
+
+> browse to: http://localhost:9000
+
+* create your initial username and password  
+  Username: portainer
+  Password: portainer
+
+* select & connect to the environment you wish to manage: Docker or Kubernetes
+
+---
+
+<em>YAML Manifest</em>
+
+``run portainer manifest:``
+```
+kubectl apply -n portainer -f httpS://raw.githubusercontent.com/portainer/k8s/master/deploy/manifests/portainer/portainer-lb.yaml
+```
+``check service:``
+```
+kgsvc -n portainer 
+```
+Note: Access Portainer on External IP address. Port 9000.
+
+---
+
+<em>Add a Docker endpoint</em>
+
+
+```
+sudo docker run -d -p 9001:9001 --name=portainer_agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes portainer/agent
+```
+* in Portainer UI --> Endpoints --> Agent
+* name: DockerOnly
+* URL: 10.x.x.x.
+* Add Endpoint
+
+You can now manage both Kubernetes and local Docker instance.
 
 ---

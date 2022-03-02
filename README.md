@@ -33,3 +33,4 @@ The following workshop is intended to highlight an on-premise bare-metal install
 * ElasticSearch & Kibana 
 * Jaeger
 * Kubernetes Dashboard
+* Portainer
