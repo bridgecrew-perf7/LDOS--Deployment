@@ -200,7 +200,7 @@ Solution:
 * archive and upload to Registry
 * run playbook with: -t ldos
 
-tar -czvf data-transformation-editor.tgz .
+tar -cvf data-transformation-editor.tgz data-transformation-editor-0.9.5
 
 
 ``export chart:``
