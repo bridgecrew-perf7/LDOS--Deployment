@@ -54,7 +54,7 @@ kubectl patch svc kiali -n istio-system -p '{"spec": {"type": "NodePort"}}'
 
 * You can visualize the services and their connections in a given namespace by clicking on the “Go To Graph” button.
 
-For further details: > https://kiali.io/docs/
+> For further details: https://kiali.io/docs/
 
 ---
 
@@ -74,7 +74,7 @@ kubectl port-forward -n istio-system  svc/prometheus 9090:9090
 
 * navigate to: Status --> Targets
 
-For further details: > https://prometheus.io/
+> For further details: https://prometheus.io/
 
 ---
 
@@ -119,7 +119,7 @@ Note: look for anything kibana
 
 You will need to 'Discover' your data and enter an 'Index pattern': ``hitachi-solutions.*`` 
 
-For further details: > https://www.elastic.co/kibana/
+> For further details: https://www.elastic.co/kibana/
 
 ---
 
@@ -139,7 +139,7 @@ kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
 
 > browse to: https://localhost:16686/jaeger/search
 
-For further details: > https://www.jaegertracing.io/
+> For further details: https://www.jaegertracing.io/
 
 ---
 
@@ -159,7 +159,7 @@ kubectl port-forward -n istio-system svc/zipkin 9411:9411
 
 > browse to: https://localhost:9411/jaeger/search
 
-For further details: > https://www.jaegertracing.io/
+> For further details: https://www.jaegertracing.io/
 
 ---
 
@@ -251,6 +251,8 @@ kgsvc -n portainer
   Password: portainer
 
 * select & connect to the environment you wish to manage: Docker or Kubernetes
+
+> For further details: https://www.portainer.io/
 
 ---
 
