@@ -32,7 +32,7 @@ Kiali is an observability console for Istio with service mesh configuration and 
 
 ``check Kiali service:``
 ```
-kubectl -n istio-system get svc kiali
+kubectl get svc kiali -n istio-system 
 ```
 Note: its exposed on the default port: 20001  
 
@@ -64,7 +64,7 @@ Prometheus is an open-source systems monitoring and alerting toolkit. Prometheus
 
 ``check Prometheus service:``
 ````
-kubectl -n istio-system get svc prometheus
+kubectl get svc prometheus -n istio-system 
 ````
 ``using kubectl to port-forward:``
 ```
@@ -148,7 +148,7 @@ kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
 Zipkin is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures.
 ``check Zipkin service:``
 ```
-kubectl -n istio-system get svc zipkin
+kubectl get svc zipkin -n istio-system
 ```
 Note: its exposed on the default port: 9411  
 
