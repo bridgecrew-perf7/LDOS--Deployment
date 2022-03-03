@@ -28,20 +28,21 @@ Note the ports.
 
 #### <font color='red'>Kiali</font>  
 
-Kiali is an observability console for Istio with service mesh configuration and validation capabilities.It helps you understand the structure and health of your service mesh by monitoring traffic flow to infer the topology and report errors. Kiali provides detailed metrics and a basic Grafana integration, which can be used for advanced queries. Distributed tracing is provided by integration with Jaeger.
+Kiali is an observability console for Istio with service mesh configuration and validation capabilities. It helps you understand the structure and health of your service mesh by monitoring traffic flow to infer the topology and report errors. Kiali provides detailed metrics and a basic Grafana integration, which can be used for advanced queries. Distributed tracing is provided by integration with Jaeger.
 
 ``check Kiali service:``
 ```
 kubectl -n istio-system get svc kiali
 ```
-Note: its exposed on the default port: 20001
+Note: its exposed on the default port: 20001  
+
 ``using kubectl to port-forward:``
 ```
 kubectl port-forward svc/kiali 20001:20001 -n istio-system
 ```
 > browse to: https://localhost:20001/ 
 
-User: admin
+User: admin  
 Password: admin
 
 Please note that this method exposes Kiali only to the local machine, no external users. You must have the necessary privileges to perform port forwarding.
@@ -84,7 +85,7 @@ Grafana connects with every possible data source, commonly referred to as databa
 
 ``check Grafana service:``
 ```
-kubectl -n hitachi-solutions get svc
+kubectl get svc -n hitachi-solutions 
 ```
 Note: look for anything grafana
 
@@ -110,7 +111,7 @@ Kibana is a visual interface tool that allows you to explore, visualize, and bui
 
 ``check Kibana service:``
 ```
-kubectl -n hitachi-solutions get svc
+kubectl get svc -n hitachi-solutions 
 ```
 Note: look for anything kibana
 
@@ -124,18 +125,19 @@ For further details: > https://www.elastic.co/kibana/
 
 #### <font color='red'>Jaeger</font>  
 
-The Jaeger tracing system is an open-source tracing system for microservices, and it supports the OpenTracing standard.
+Jaeger tracing system for microservices, and it supports the OpenTracing standard.
 ``check Jaeger service:``
 ```
-kubectl -n istio-system get svc jaeger-query
+kubectl get svc jaeger-query -n istio-system 
 ```
-Note: its exposed on the default port: 16686
+Note: its exposed on the default port: 16686  
+
 ``using kubectl to port-forward:``
 ```
 kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
 ```
 
-> browse to: https://localhost:9090/jaeger/search
+> browse to: https://localhost:16686/jaeger/search
 
 For further details: > https://www.jaegertracing.io/
 
@@ -148,7 +150,8 @@ Zipkin is a distributed tracing system. It helps gather timing data needed to tr
 ```
 kubectl -n istio-system get svc zipkin
 ```
-Note: its exposed on the default port: 9411
+Note: its exposed on the default port: 9411  
+
 ``using kubectl to port-forward:``
 ```
 kubectl port-forward -n istio-system svc/zipkin 9411:9411
@@ -201,7 +204,8 @@ kubectl create clusterrolebinding dashboard-admin-sa --clusterrole=cluster-admin
 ```
 kubectl get secrets (alias: kgsec)
 ```
-Note: the secret will be in the format: dashboard-admin-sa-token-xxxx
+Note: the secret will be in the format: dashboard-admin-sa-token-xxxx  
+
 ``describe the token:``
 ```
 kubectl describe secret dashboard-admin-sa-token-xxxx
@@ -232,7 +236,6 @@ helm install --create namespace -n portainer portainer portainer/portainer  --se
 ```
 ``run the commands to expose portainer:`` 
 ```
-
 
 echo http://$SERVICE_IP:9000
 ```
@@ -267,7 +270,9 @@ Note: Access Portainer on External IP address. Port 9000.
 
 <em>Add a Docker endpoint</em>
 
+This will enable you to manage your local docker deployment.
 
+``configure portainer_agent:``
 ```
 sudo docker run -d -p 9001:9001 --name=portainer_agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes portainer/agent
 ```
