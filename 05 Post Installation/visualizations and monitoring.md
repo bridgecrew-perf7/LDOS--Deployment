@@ -137,7 +137,7 @@ Note: its exposed on the default port: 16686
 kubectl port-forward -n istio-system svc/jaeger-query 16686:16686
 ```
 
-> browse to: https://localhost:16686/jaeger/search
+> browse to: http://localhost:16686/jaeger/search
 
 > For further details: https://www.jaegertracing.io/
 
@@ -232,11 +232,14 @@ helm repo update
 ```
 ``install portainer:``
 ```
-helm install --create namespace -n portainer portainer portainer/portainer  --set service.type=LoadBalancer
+helm install --create-namespace -n portainer portainer portainer/portainer  --set service.type=LoadBalancer
+```
+``to check the status:``
+```
+
 ```
 ``run the commands to expose portainer:`` 
 ```
-
 echo http://$SERVICE_IP:9000
 ```
 ``check the service:``
