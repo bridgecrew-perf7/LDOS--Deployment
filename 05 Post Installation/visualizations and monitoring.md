@@ -220,56 +220,43 @@ kubectl describe secret dashboard-admin-sa-token-xxxx
 
 Portainer is a lightweight UI manager for docker which can be used to manage different docker environments such as docker hosts or docker swarm clusters. 
 
-<em>Install via Helm</em>
 
-``add portainer helm chart:``
+<em>Helm</em>
+
+``check default StorageClass:`
+```
+kubectl get sc
+```
+``install repository:``
 ```
 helm repo add portainer https://portainer.github.io/k8s/
-```
-``update helm repo:``
-```
 helm repo update
 ```
 ``install portainer:``
 ```
-helm install --create-namespace -n portainer portainer portainer/portainer  --set service.type=LoadBalancer
+helm install --create-namespace -n portainer portainer portainer/portainer
 ```
-``to check the status:``
+``run the 3 commands:``
 ```
+export NODE_PORT=$(kubectl get --namespace portainer -o jsonpath="{.spec.ports[1].nodePort}" services portainer)
+export NODE_IP=$(kubectl get nodes --namespace portainer -o jsonpath="{.items[0].status.addresses[0].address}")
+echo https://$NODE_IP:$NODE_PORT
+```
+Note: Copy and paste the URL into your browser.
 
-```
-``run the commands to expose portainer:`` 
-```
-echo http://$SERVICE_IP:9000
-```
-``check the service:``
-```
-kgsvc -n portainer
-```
+> browse to: https://$NODE_IP:30779
 
-> browse to: http://localhost:9000
+``create initial administrator account:``
+* Username: portainer       
+* Password: lumada2022
 
-* create your initial username and password  
-  Username: portainer
-  Password: portainer
 
-* select & connect to the environment you wish to manage: Docker or Kubernetes
 
-> For further details: https://www.portainer.io/
 
----
 
-<em>YAML Manifest</em>
 
-``run portainer manifest:``
-```
-kubectl apply -n portainer -f httpS://raw.githubusercontent.com/portainer/k8s/master/deploy/manifests/portainer/portainer-lb.yaml
-```
-``check service:``
-```
-kgsvc -n portainer 
-```
-Note: Access Portainer on External IP address. Port 9000.
+Note: By default, Portainer generates and uses a self-signed SSL certificate to secure port 30779 or http on 30777. 
+
 
 ---
 
