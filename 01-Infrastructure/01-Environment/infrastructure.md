@@ -335,7 +335,8 @@ exit
 
 #### <font color='red'>Docker Registry Volume</font>  
 
-Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.  In this workshop a locally, self-certified Docker Registry will be created on ``/installers`` volume. 
+Installation of the Foundry Platform and LDOS requires that the images are uploaded to a Regsitry to maintain versioning.   
+In this workshop a locally, self-certified Docker Registry will be created on ``/installers`` volume. 
 
 ---
 
