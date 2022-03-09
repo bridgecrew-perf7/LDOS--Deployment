@@ -15,17 +15,20 @@ The following post-installation tasks need to be completed:
 
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
-The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.   
+The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.  
+
+Configure the path to the .installedLicenses.xml before you install LDOS.
 
 ensure you are on the HA Proxy server.
 
 ``copy Pentaho EE license file (HA Proxy):`` 
  ```
- cd Downloads
- sudo cp -rfp *.xml /data/pdi/.kettle/licenses/
+ cd Downloads (or directory where .installedLicenses.xml is located)
+ sudo mkdir /data/pdi/licenses
+ sudo cp -rfp *.xml /data/pdi/licenses/
 ```
 Note:
-"PENTAHO_INSTALLED_LICENSE_PATH=/home/di_user/.kettle/licenses/.installedLicenses.xml"
+LICENSE_PATH=/data/pdi/licenses/.installedLicenses.xml"
 
 Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
 

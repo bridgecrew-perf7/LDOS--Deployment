@@ -73,6 +73,10 @@ kubectl get namespaces -o wide (alias: kgno -o wide)
 kubectl get pods -n hitachi-solutions -o wide (alias: kgpo -n hitachi-solutions -o wide)
 ```
 
+<font color='teal'>Please ensure that the licenses have been installed and configured</font> <font color='red'>before</font><font color='teal'> you install LDOS.</font>  
+
+Data Integration:
+
 ---
 
 <em>Download and unpack the Metrics Add-On (Optional)</em>  
