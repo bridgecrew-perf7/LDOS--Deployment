@@ -431,7 +431,7 @@ sudo apt update && sudo apt upgrade -y
 
 ---
 
-<em>Configure HAProxy</em>
+<em>Configure HAProxy</em>  
 HAProxy is an open-source High availability proxy and load balancer that is popularly known for its efficiency and speed. Works for TCP and HTTP protocols, it is used to enhance the performance of a website by splitting up the load across multiple servers and to simplify the request processing tasks. 
 
 Configure HAProxy to load-balance across the cluster.
