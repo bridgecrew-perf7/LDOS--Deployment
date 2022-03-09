@@ -27,14 +27,18 @@ ensure you are on the HA Proxy server.
  sudo mkdir /data/pdi/licenses
  sudo cp -rfp *.xml /data/pdi/licenses/
 ```
-Note:
-LICENSE_PATH=/data/pdi/licenses/.installedLicenses.xml"
+Note: LICENSE_PATH=/data/pdi/licenses/.installedLicenses.xml"
 
 Note: When you start Dataflow Transformation Editor, you will need to add the path to licenses.
 
 Data Engineer account credentials:  
 user: bwayne
 password: bwayne
+
+If you forget to copy over the Pentaho License, before you install LDOS:  
+* uninstall DTE 
+* add the license to the path and 
+* re-install DTE.
 
 ---
 
