@@ -202,7 +202,7 @@ Solution:
 kubectl get solutionpackage -n hitachi-solutions
 ```
 
-Please refer to documentation.
+Please refer to documentation.  You may want to remove .ansible/tmp folder to free up space and ensure a clean installation.
 
 ---
 
