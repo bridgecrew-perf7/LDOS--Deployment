@@ -250,11 +250,6 @@ Note: Copy and paste the URL into your browser.
 * Username: portainer       
 * Password: lumada2022
 
-
-
-
-
-
 Note: By default, Portainer generates and uses a self-signed SSL certificate to secure port 30779 or http on 30777. 
 
 
