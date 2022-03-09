@@ -149,6 +149,13 @@ Note: This will take about 65mins to complete.
 
 <font color='teal'>The current installation will fail to install the Data Transformation Editor. Allow the tokens to be reset.</font>
 
+If you wish to install without troubleshooting:  
+Do not unpack the tar.gz.  
+* browse to: /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz/templates
+* double-click on: rabac.yml
+* change:  <font color='teal'>automountServiceAccountToken:</font><font color='red'> false</font> to <font color='green'> false</font>
+* update & save
+
 ---
 
 #### <font color='red'>Troubleshooting DTE Pod</font>
