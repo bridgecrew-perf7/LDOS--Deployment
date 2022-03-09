@@ -11,8 +11,6 @@ The following post-installation tasks need to be completed:
 
 <em>Lumada Data Integration Licenses</em>
 
-<font color='green'>The PDI EE licenses have been copied over.</font>
-
 The LDOS package doesn’t contain licenses.   
 Please contact Customer Success or Product Management on how to get a license.  
 The Data Transformation Editor and Dataflow Engine require a Pentaho EE license to run.  
@@ -39,6 +37,8 @@ If you forget to copy over the Pentaho License, before you install LDOS:
 * uninstall DTE 
 * add the license to the path and 
 * re-install DTE.
+
+<font color='green'>The PDI EE licenses have been copied over.</font>
 
 ---
 
