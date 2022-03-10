@@ -113,18 +113,18 @@
     - name: Install Foundry Solution Control Plane services
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/install-control-plane.log
+        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/install-control-plane-2.2.1.log
       async: 2500
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
       tags: [install, install_cp]
 
-    # Install Metrics-addon CRDs
+    # Install CRDs
     - name: Install CRDs
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ logs_dir }}/install-metrics-add-on.log
+        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ logs_dir }}/install-crds.log
       async: 2500
       poll: 30
       register: ret
@@ -135,7 +135,7 @@
     - name: Upload Metrics Add-On Solution
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{ metrics_home }}/charts/ -I {{ metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-metrics-add-on.log
+        cmd: ./bin/upload-solutions.sh -C {{ metrics_home }}/charts/ -I {{ metrics_home }}/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-metrics-add-on-1.0.0.log
       async: 2500
       poll: 30
       register: ret

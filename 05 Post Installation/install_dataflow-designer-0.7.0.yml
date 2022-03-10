@@ -79,7 +79,7 @@
     - name: Upload dataflow designer-0.7.0 to Registry
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{ designer_home }}/dataflow-designer-0.7.0/charts/ -I {{ designer_home }}/dataflow-designer-0.7.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-designer.log
+        cmd: ./bin/upload-solutions.sh -C {{ designer_home }}/dataflow-designer-0.7.0/charts/ -I {{ designer_home }}/dataflow-designer-0.7.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-designer-0.7.0.log
       async: 2500
       poll: 30
       register: ret
@@ -90,7 +90,7 @@
     - name: Install Dataflow Designer 0.7.0
       shell: 
         chdir: "{{ designer_home }}/installer-ldd"
-        cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-designer.log"
+        cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-designer-0.7.0.log"
       async: 1000
       poll: 30
       register: ret
