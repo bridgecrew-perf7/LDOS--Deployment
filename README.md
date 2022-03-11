@@ -1,10 +1,12 @@
-## <font color='red'>Lumada dataOps Suite 1.2.0: Installation & Configuration</font>
-The following workshop is intended to highlight an on-premise bare-metal installation and configuration of LDOS 1.2.0. The installation and configuration steps have been modified for a training environment and therefore are <font color='red'>NOT</font> to be used for a production environment.
+## <font color='red'>Lumada dataOps Suite 1.2.0: Dataflow Designer - 0.7.0</font>  
 
-#### <font color='red'>Module 01 - Infrastructure</font>
-* Configure SkyTap Lab
-* Ansible
-* HA Proxy
+Node-RED is a powerful tool for building Internet of Things (IoT) applications with a focus on simplifying the ‘wiring together’ of code blocks to carry out tasks. It uses a visual programming approach that allows developers to connect predefined code blocks, known as ‘nodes’, together to perform a task. The connected nodes, usually a combination of input nodes, processing nodes and output nodes, when wired together, make up a ‘flows’.
+
+#### <font color='red'>Module 01 - Introduction</font>
+* Brief overview
+* Building your first flow
+* Basic Nodes & Flows
+* Core Nodes
 
 #### <font color='red'>Module 02 - Pre-flight</font>
 * Download Kubespray 1.24
