@@ -20,11 +20,13 @@
       stat:
         path: "{{ designer_home }}"
       register: designer
-      tags: [info]
+      tags: 
+        - info
 
     - debug: 
         msg: "Dataflow Designer directory exists: {{ designer.stat.exists }}"
-      tags: [info]
+      tags: 
+        - info
 
     # Creates Dataflow Designer install directory - if required
     - name: Creates 'Dataflow Designer' directory
@@ -32,7 +34,8 @@
         path: "{{ designer_home }}"
         state: directory
       when: designer.stat.exists == false
-      tags: [info]
+      tags: 
+        - info
 
     # Unarchive Dataflow Designer 0.7.0
     - name: Unarchive {{ designer_archive }}
@@ -40,7 +43,8 @@
         src: "{{ designer_home }}/{{ designer_archive }}"
         dest: "{{ designer_home }}"
         creates: "{{ designer_home }}/dataflow-designer-0.7.0"
-      tags: [unpack]  
+      tags: 
+        - unpack  
 
     # Unarchive Dataflow Designer Installer-0.7.0.zip
     - name: Unarchive {{ installer_archive }}
@@ -48,19 +52,22 @@
         src: "{{ designer_home }}/{{ installer_archive }}"
         dest: "{{ designer_home }}"
         creates: "{{ designer_home }}/installer-ldd"
-      tags: [unpack]  
+      tags: 
+        - unpack
 
     # Prepare env.properties
     - name: get secret for solution-control-plane-sso-client
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
       register: scp_sso_client_secret
-      tags: [env]
+      tags: 
+        - env
 
     # Get the 'foundry' password 
     - name: get foundry password
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
       register: foundry
-      tags: [env]
+      tags: 
+        - env
     
     # Replace the variables in env.properties
     - name: Replace variables in {{ env_file }} before install
@@ -73,18 +80,22 @@
         sed -i 's|^password=*$|password={{ foundry.stdout }}|1' {{ env_file }}
         sed -i 's|^volume_host=*$|volume_host={{ nfs_host }}|1' {{ env_file }}
         sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
-      tags: [env]
+      tags: 
+        - env
 
     # Upload Dataflow Designer 0.7.0 solutions to Registry.
     - name: Upload dataflow designer-0.7.0 to Registry
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/upload-solutions.sh -C {{ designer_home }}/dataflow-designer-0.7.0/charts/ -I {{ designer_home }}/dataflow-designer-0.7.0/images/ -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-designer-0.7.0.log
+        cmd: ./bin/upload-solutions.sh -C {{ designer_home }}/dataflow-designer-0.7.0/charts/ 
+             -I {{ designer_home }}/dataflow-designer-0.7.0/images/ 
+             -k ~/.kube/config -n hitachi-solutions -D true 2>&1 | tee -a {{ logs_dir }}/upload-designer-0.7.0.log
       async: 2500
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, upload_designer]  
+      tags: 
+        - upload_designer  
 
     # Install Dataflow Designer 0.7.0
     - name: Install Dataflow Designer 0.7.0
@@ -95,17 +106,20 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [designer]
+      tags: 
+        - designer
 
     # Check for Running and Complete Pods
     - name: Confirm Install
       shell: "kubectl get pods -n hitachi-solutions | grep -i -e '[RC][uo][nm][np][il][ne]' | wc -l"
       register: designer_pods
-      tags: [designer, info]
+      tags: 
+       - designer
 
     #Check for Non-Running or Failing Pods
     - name: Confirm application status (URL or pods?)
       shell: "kubectl get pods -n hitachi-solutions | grep -iv -e '[RC][uo][nm][np][il][ne]'"
       register: results
-      tags: [designer, info]
+      tags: 
+        - designer
 
