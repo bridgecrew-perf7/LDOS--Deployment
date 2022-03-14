@@ -94,7 +94,7 @@ Note: This will take about 15mins to complete.
 
 ![Dataflow Designer](assets/dataflow-designer.png)
 
-Below is a very quick 2Hello World" flow that introduces the key concepts:  
+Below is a very quick "Hello World" flow that introduces the key concepts:  
 
 * Drag and drop an inject node on the flow editor. 
 * Then double click and set up the payload as string and write “Hello world”.
@@ -103,5 +103,7 @@ Below is a very quick 2Hello World" flow that introduces the key concepts:
 * Click on the “Deploy” button up in the right corner.
 * Select the debug option.
 * Click on the blue button just left of the inject node.
+
+Note: the payload format has been also changed to JSON.
 
 ---
