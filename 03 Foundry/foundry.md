@@ -36,7 +36,7 @@ The following playbooks are run:
 * Installs Cluster Services
 * Run Hitachi CRDs
 * Install Foundry Control Plane
-* Upload Foundry images
+* Upload Foundry charts & images
 * Install Metrics Addon
 * Upload Metrics image
 

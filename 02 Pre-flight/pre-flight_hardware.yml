@@ -36,7 +36,7 @@
 
    # Selinux must be forced to Python2 it does not work in Python3 state: latest
    - name: Disable SELinux
-     selinux:
+     ansible.posix.selinux:
        state: disabled
      register: selinux_status
      tags: [selinux]

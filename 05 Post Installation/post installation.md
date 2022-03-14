@@ -7,6 +7,15 @@ The following post-installation tasks need to be completed:
 
 * Installation of Dataflow Designer 0.7.0
 
+The following playbook is run:
+
+#### install_dataflow-designer-0.7.0.yml
+* Creates a Dataflow Designer directory
+* Unarchives Dataflow Designer 0.7.0
+* Prepares env.properties file
+* Upload Dataflow Designer charts & images
+* Install Dataflow Designer 0.7.0
+
 ---
 
 <em>Lumada Data Integration Licenses</em>
@@ -70,3 +79,28 @@ password: mpayton
 
 ---
 
+#### <font color='red'>Installation of Dataflow Designer - 0.7.0</font> 
+
+The Dataflow Designer is a variant of Node-RED, built on top of Node.js.  With Dataflow Designer you can add or remove Nodes, wire them together, in order to define Flows.  
+
+``run the playbook - install_dataflow-designer-0.7.0.yml:``
+```
+cd /etc/ansible/playbooks
+ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v install_dataflow-designer-0.7.0.yml
+```
+Note: This will take about 15mins to complete. 
+
+<em>Hello World Flow</em> 
+
+![Dataflow Designer](assets/dataflow-designer.png)
+
+Below is a very quick 2Hello World" flow that introduces the key concepts:  
+
+* Drag and drop an inject node on the flow editor. 
+* Then double click and set up the payload as string and write “Hello world”.
+* Drag and drop a debug node, the same way as you did with the inject one.
+* Wire them together.
+* Click on the “Deploy” button on the right corner.
+* Click on the blue button just left of the inject node.
+
+---
