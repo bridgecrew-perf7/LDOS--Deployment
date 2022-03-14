@@ -100,7 +100,8 @@ Below is a very quick 2Hello World" flow that introduces the key concepts:
 * Then double click and set up the payload as string and write “Hello world”.
 * Drag and drop a debug node, the same way as you did with the inject one.
 * Wire them together.
-* Click on the “Deploy” button on the right corner.
+* Click on the “Deploy” button up in the right corner.
+* Select the debug option.
 * Click on the blue button just left of the inject node.
 
 ---
