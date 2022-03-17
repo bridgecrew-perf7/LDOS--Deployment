@@ -16,6 +16,11 @@ all:
       ip: 10.0.0.103
       access_ip: 10.0.0.103
       ansible_user: k8s
+    pentaho-server-1.skytap.example:
+      ansible_host: 10.0.0.1
+      ip: 10.0.0.1
+      access_ip: 10.0.0.1
+      ansible_user: pentaho
     installer.skytap.example:
       ansible_host: localhost
       ip: 10.0.0.99
@@ -43,4 +48,7 @@ all:
       hosts: {}
     installer:
       hosts:
-        installer.skytap.example:                
+        installer.skytap.example:
+    pentaho:                    
+      hosts: 
+        pentaho-server-1.skytap.example:

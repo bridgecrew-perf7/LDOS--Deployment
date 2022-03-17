@@ -11,7 +11,7 @@
     ansible_ssh_private_key_file_name: "id_rsa"
     ansible_user: k8s
 
-  tasks:
+   tasks:
     # Check Nodes
     - name: Ping Nodes
       ping:
@@ -38,6 +38,9 @@
     # Install HA Proxy
     - name: install haproxy
       apt: 
-       name=haproxy 
-	     state=present
-	     update_cache=yes
+       name=haproxy
+       state=present
+       update_cache=yes
+      tags:
+       - haproxy
+       
