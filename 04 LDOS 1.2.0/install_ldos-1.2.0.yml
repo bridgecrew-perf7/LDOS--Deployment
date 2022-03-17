@@ -19,13 +19,14 @@
       when: ansible_distribution == "Ubuntu"
       tags: [prereq]
 
-- name: Install LDOS over running Foundry cluster
+# Install LDOS 1.2.0
+- name: Install LDOS over running Foundry Platform
   become: false
   gather_facts: true
   hosts: "{{ groups['installer'][0] }}"
   vars:
     logs_dir: /installers/logs
-    env_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
+    env_properties_file: /installers/LumadaDataOpsSuite-1.2.0/installer/env.properties
     ldos_home: /installers/LumadaDataOpsSuite-1.2.0
     ldos_archive: Lumada-DataOps-Suite-1.2.0.gz
     installer_archive: Lumada-DataOps-Suite-installer-1.2.0.zip
@@ -86,30 +87,40 @@
         dest: "{{ ldos_home }}"
       tags: [unpack]
 
-    # Prepare env.properties
-    - name: get secret for solution-control-plane-sso-client
+    # Get Foundry secret
+    - name: Get secret for solution-control-plane-sso-client
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
-      register: scp_sso_client_secret
+      register: foundry_client_secret
+
+      debug:
+        msg: Foundry Client Secret is {{ foundry_client_secret }}
       tags: [env]
 
     # Get the 'foundry' password 
     - name: get foundry password
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
-      register: foundry
+      register: foundry_user_password
+
+      debug:
+        msg: Foundry User Password is {{ foundry_user_password }}
       tags: [env]
     
     # Replace the variables in env.properties
-    - name: Replace variables in {{ env_file }} before install
-      shell: | 
-        cp {{ env_file }} {{ logs_dir }}/{{ env_file | basename }}.{{ 10000 | random }}.bak
-        sed -i 's|^hostname=*$|hostname={{ apiserver_loadbalancer_domain_name }}|1' {{ env_file }}
-        sed -i 's|^registry=*$|registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}|1' {{ env_file }}
-        sed -i 's|^foundry_client_secret=*$|foundry_client_secret={{ scp_sso_client_secret.stdout }}|1' {{ env_file }}
-        sed -i 's|^username=*$|username=foundry|1' {{ env_file }}
-        sed -i 's|^password=*$|password={{ foundry.stdout }}|1' {{ env_file }}
-        sed -i 's|^volume_host=*$|volume_host={{ nfs_host }}|1' {{ env_file }}
-        sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
-      tags: [env]
+    - name: Replace key=value pairs in env.properties file, add new values after the hostname line
+      lineinfile:
+        path: "{{ env_properties_file }}"
+        regexp: '^[# ]*{{ item.search }}\s*=\s*'
+        line: '{{ item.replace }}'
+        insertafter: '^[# ]*hostname\s*=\s*'
+        backup: yes
+      with_items:
+        - { search: 'hostname', replace: 'hostname={{ apiserver_loadbalancer_domain_name }}' }
+        - { search: 'registry', replace: 'registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}' }
+        - { search: 'username', replace: 'username=foundry' }
+        - { search: 'foundry_client_secret', replace: 'foundry_client_secret={{ foundry_client_secret }}' }
+        - { search: 'password', replace: 'password={{ foundry_user_password.stout }}' }
+        - { search: 'volume_host', replace: 'volume_host={{ nfs_host }}' }
+        - { search: 'volume_path', replace: 'volume_path={{ nfs_path }}' }
 
     # Update Hostnames in HELM charts. Hostname is defined with {{placeholder}} in Helm Charts.  
     # Careful as once defined there's no going back..!
