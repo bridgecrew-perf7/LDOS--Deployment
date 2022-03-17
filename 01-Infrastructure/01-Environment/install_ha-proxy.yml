@@ -16,28 +16,28 @@
     - name: Ping Nodes
       ping:
       tags: 
-        - info
+       - info
 		
-   # Update Packages
-   - name: Update apt repo and cache on HA Proxy
-     apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-     tags: 
+    # Update Packages
+    - name: Update apt repo and cache on HA Proxy
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+      tags: 
        - updates
 
-   # Upgrade Packages
-   - name: Upgrade all packages on servers
-     apt: upgrade=dist force_apt_get=yes
-     tags: 
+    # Upgrade Packages
+    - name: Upgrade all packages on servers
+      apt: upgrade=dist force_apt_get=yes
+      tags: 
        - updates
   
-   # Check if reboot is required
-   - name: Check if a reboot is needed on all servers
-     register: reboot_required_file
-     stat: path=/var/run/reboot-required get_md5=no 
+    # Check if reboot is required
+    - name: Check if a reboot is needed on all servers
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no 
 
-   # Install HA Proxy
-   - name: install haproxy
+    # Install HA Proxy
+    - name: install haproxy
       apt: 
-	   name=haproxy 
-	   state=latest
-	   update_cache=yes
+       name=haproxy 
+	     state=present
+	     update_cache=yes
