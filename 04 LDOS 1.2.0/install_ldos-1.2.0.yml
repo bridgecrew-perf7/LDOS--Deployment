@@ -12,12 +12,14 @@
     - name: Yum install nfs-utils
       raw: yum install -y nfs-utils
       when: ansible_distribution == "CentOS"
-      tags: [prereq]
+      tags: 
+      - prereq
 
     - name: apt install nfs-common
       raw: apt install -y nfs-common
       when: ansible_distribution == "Ubuntu"
-      tags: [prereq]
+      tags: 
+       - prereq
 
 # Install LDOS 1.2.0
 - name: Install LDOS over running Foundry Platform
@@ -39,11 +41,13 @@
       stat:
         path: "{{ logs_dir }}"
       register: logs
-      tags: [info] 
+      tags: 
+       - info
 
     - debug: 
         msg: "logs directory exists: {{ logs.stat.exists }}"
-      tags: [info]           
+      tags: 
+       - info           
 
     # Create a logs directory - if required
     - name: Creates 'logs' Directory
@@ -51,18 +55,22 @@
        path: "{{ logs_dir }}"
        state: directory
       when: logs.stat.exists == false
-      tags: [info, install]
+      tags: 
+       - info
+       - install
     
     # Check for LDOS 1.2.0 directory
     - name: Check for 'LDOS 1.2.0' directory exists
       stat:
         path: "{{ ldos_home }}"
       register: ldos
-      tags: [info]
+      tags: 
+       - info
 
     - debug: 
         msg: "LDOS 1.2.0 directory exists: {{ ldos.stat.exists }}"
-      tags: [info]
+      tags: 
+       - info
 
     # Creates LDOS 1.2.0 install directory - if required
     - name: Creates 'LDOS 1.2.0' directory
@@ -70,7 +78,8 @@
         path: "{{ ldos_home }}"
         state: directory
       when: ldos.stat.exists == false
-      tags: [info]
+      tags: 
+       - info
 
     # Unarchive Lumada-DataOps_suite-1.2.0.gz
     - name: Unarchive {{ ldos_archive }}
@@ -78,14 +87,16 @@
         src: "{{ ldos_home }}/{{ ldos_archive }}"
         dest: "{{ ldos_home }}"
         creates: "{{ ldos_home }}/lumada-dataops-suite"
-      tags: [unpack]  
+      tags: 
+       - unpack  
 
     # Unarchive Lumada-DataOps-Suite-Installer-1.2.0.zip
     - name: Unarchive {{ installer_archive }}
       unarchive:
         src: "{{ ldos_home }}/{{ installer_archive }}"
         dest: "{{ ldos_home }}"
-      tags: [unpack]
+      tags: 
+       - unpack
 
     # Get Foundry secret
     - name: Get secret for solution-control-plane-sso-client
@@ -94,7 +105,8 @@
 
       debug:
         msg: Foundry Client Secret is {{ foundry_client_secret }}
-      tags: [env]
+      tags: 
+       - env
 
     # Get the 'foundry' password 
     - name: get foundry password
@@ -103,7 +115,13 @@
 
       debug:
         msg: Foundry User Password is {{ foundry_user_password }}
-      tags: [env]
+      tags: 
+       - env
+
+    # Backup env.properties
+    - name: Backup env.properties
+      shell: | 
+        cp {{ env_properties_file }} {{ logs_dir }}/{{ env_properties_file | basename }}.{{ 10000 | random }}.bak  
     
     # Replace the variables in env.properties
     - name: Replace key=value pairs in env.properties file, add new values after the hostname line
@@ -132,7 +150,8 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [update_hostname, ldos]
+      tags: 
+       - ldos
 
     # Upload LDOS 1.2.0 solutions to Registry.
     - name: Upload LDOS 1.2.0 Solutions to Registry
@@ -143,7 +162,8 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, upload_ldos]
+      tags: 
+       - ldos
 
     # Install LDOS 1.2.0
     - name: Install LDOS 1.2.0
@@ -152,19 +172,22 @@
         cmd: "./install.sh 2>&1 | tee -a {{ logs_dir }}/install-ldos.log"
       async: 2500
       poll: 30
-      tags: [ldos]
+      tags: 
+       - ldos
 
     # Check for Running and Complete Pods
     - name: Confirm Install
       shell: "kubectl get pods -n hitachi-solutions | grep -i -e '[RC][uo][nm][np][il][ne]' | wc -l"
       register: foundry_pods
-      tags: [ldos, info]
+      tags: 
+       - ldos
 
     # Check for Non-Running or Failing Pods
     - name: Confirm application status (URL or pods?)
       shell: "kubectl get pods -n hitachi-solutions | grep -iv -e '[RC][uo][nm][np][il][ne]'"
       register: results
-      tags: [ldos, info]
+      tags: 
+       - ldos
 
     # Output URLs
     - name: LDOS URLs
@@ -177,5 +200,7 @@
         - ""
         - "URL: https://{{ apiserver_loadbalancer_domain_name }}/"
         - "     as cmoore/cmoore"
-      tags: [ldos, info]
       failed_when: results.stdout is defined
+      tags: 
+       - ldos
+      
