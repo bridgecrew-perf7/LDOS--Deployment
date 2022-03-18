@@ -32,7 +32,7 @@
       - software-properties-common
       - wget
 
-    ansible_python_interpreter: /usr/bin/python
+    ansible_python_interpreter: /usr/bin/python2
  
   tasks:
    # Ping Nodes
@@ -43,21 +43,13 @@
    
    # Update Packages
    - name: Update apt repo and cache on Cluster Nodes
-     apt: 
-      update_cache=yes 
-      force_apt_get=yes 
-      cache_valid_time=3600
+     yum: 
+      name: "*"
+      state: latest
+      update_cache: yes
      tags: 
        - updates
 
-   # Upgrade Packages
-   - name: Upgrade all packages on Cluster Nodes
-     apt: 
-      upgrade=dist 
-      force_apt_get=yes
-     tags: 
-       - updates
-  
    # Check if reboot is required
    - name: Check if a reboot is needed on all servers
      register: reboot_required_file
@@ -72,10 +64,11 @@
 
    # Selinux must be forced to Python2 it does not work in Python3 state: latest
    - name: Disable SELinux
-     ansible.posix.selinux:
+     selinux:
        state: disabled
      register: selinux_status
-     tags: [selinux]
+     tags: 
+      - selinux
 
    # Check Selinx status   
    - name: Check SELINUX Reboot Status
@@ -83,7 +76,8 @@
        msg:
        - "Status= => {{ selinux_status.state }}"
        - "Reboot? => {{ selinux_status.reboot_required }}"
-     tags: [selinux]
+     tags: 
+      - selinux
    
    # easy option :)  Otherwise open Master / Worker ports for network - Calico 
    - name: Turn off firewall for kubernetes Install
@@ -121,4 +115,5 @@
      async: 1
      poll: 0
      when: selinux_status.reboot_required == true or dhcp_update is defined
-     tags: [reboot]
+     tags:
+      - reboot
