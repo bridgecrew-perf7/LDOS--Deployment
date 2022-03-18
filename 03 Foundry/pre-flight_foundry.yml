@@ -10,26 +10,31 @@
     # Ping Nodes
     - name: Ping
       ping:
-      tags: [info]
+      tags: 
+       - info
 
     # Update all packages
     - name: Yum update
       raw: yum update -y
       when: ansible_distribution == "CentOS"
-      tags: [install]
+      tags: 
+       - install
 
     # Install extra packages
     - name: Yum install epel
       raw: yum install -y epel-release
       when: ansible_distribution == "CentOS"
-      tags: [install, never]
+      tags: 
+       - install
+       - never
     
     # Configure various Linux networking and system settings
     - name: Get /etc/sysctl.conf
       shell: cat /etc/sysctl.conf | grep max_map_count 
       ignore_errors: true
       register: max_map_count
-      tags: [elastic]
+      tags: 
+       - elastic
 
     # Elasticsearch requires a max map count > 262144
     # Details: https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
@@ -42,7 +47,8 @@
       when: 
         - max_map_count.stdout | int < 262144 
         # May need check if large enough 
-      tags: [elastic]
+      tags: 
+       - elastic
 
     # Retrieve sudoers path
     - name: Get sudoers secure_path
@@ -61,7 +67,8 @@
       shell: cat /etc/dhcp/dhclient.conf | grep domain-name-servers | grep {{ dns_server }}
       ignore_errors: true
       register: dhcp_nameserver_entry
-      tags: [dhcp]
+      tags: 
+       - dhcp
 
     # dhclient.conf will rebuild the /etc/resolv.conf file on reboot.
     # Leverage the private DNS lookup of the hosting provider
@@ -97,11 +104,13 @@
   gather_facts: false
 
   tasks:
+    # Check for Helm
     - name: Check Helm version
       shell: helm version
       register: helm_version
       ignore_errors: true
-      tags: [helm]
+      tags: 
+       - helm
 
     - name: Get Helm
       get_url:
@@ -109,12 +118,14 @@
          dest: ./get_helm.sh
          mode: 700
       when: helm_version.rc != 0
-      tags: [helm]
+      tags: 
+       - helm
        
     - name: Install Helm
       shell: ./get_helm.sh
       when: "'not found' in helm_version.stderr"
-      tags: [helm]
+      tags: 
+       - helm
 
 # Switch to Master Node 1
 # Configure kubeconfig on cluster for {{ ansible_user }}
@@ -168,7 +179,8 @@
       local_action: command echo $HOME
       register: local_home
       become: false
-      tags: [info]
+      tags: 
+       - info
 
     - name: Create ~/.kube directory (root on Ansible Controller)
       file:
@@ -235,13 +247,15 @@
       shell: which docker
       ignore_errors: true
       register: docker_exists
-      tags: [info]
+      tags: 
+       - info
       
     - name: Install Docker
       apt: 
         name: docker.io
       when: docker_exists is failed
-      tags: [install] 
+      tags: 
+       - install 
 
     - name: Stop docker if running
       shell: systemctl stop docker
@@ -262,7 +276,9 @@
          echo '{ "data-root" : "{{ docker_home }}" }' > /etc/docker/daemon.json
          mv /var/lib/docker /installers
       when: docker_exists is failed 
-      tags: [install, docker]
+      tags: 
+       - install
+       - docker
 
     - name: Non-root Docker directories
       shell: |
@@ -287,7 +303,9 @@
   become: false
   gather_facts: true
   any_errors_fatal: true
-  tags: [registry, continue]
+  tags: 
+   - registry
+   - continue
   vars:
     ansible_python_interpreter: /usr/bin/python3
   # Only when the Registry is installed on the installer node.
@@ -317,7 +335,9 @@
   hosts: "{{ groups['installer'][0] }}"
   become: false
   gather_facts: true
-  tags: [never, continue]
+  tags: 
+   - never
+   - continue
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
@@ -332,7 +352,8 @@
           # openssl 1.1.1
           openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN=dockerhost" -addext "subjectAltName=DNS:{{ groups['installer'][0] }}"
           # openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt -subj "/CN={{ groups['installer'][0] }}"
-        tags: [certs]
+        tags: 
+         - certs
 
       - name: Allow self-signed Registry
         shell: |
@@ -381,7 +402,9 @@
   become_user: root
   gather_facts: true
   any_errors_fatal: true
-  tags: [never, continue]
+  tags: 
+   - never
+   - continue
   # Only when the Registry is installed on the installer node.
   # Otherwise, its assumed the registry is external and already defined.
 
@@ -399,7 +422,9 @@
   gather_facts: false
   hosts:  "{{ groups['kube-node'] }}" 
   any_errors_fatal: true
-  tags: [never, continue]
+  tags: 
+   - never
+   - continue
   # Only when the Registry is installed on the installer node.
   # Otherwise, its assumed the registry is external and already defined.
 
@@ -473,9 +498,12 @@
   become_method: sudo
   become_user: root
   gather_facts: true
-  tags: [reset, never]
+  tags: 
+   - reset
+   - never
   tasks:
-    - name:  rm helm
+    # Remove Helm
+    - name:  Remove helm
       ignore_errors: true
       shell:
         cmd: "{{ item }}"
@@ -484,13 +512,16 @@
       - rm /usr/local/bin/helm;
       - rm -rf /etc/docker/certs.d/{{ groups['installer'][0] }} 
 
+# Reset: remove Docker
 - name: Installer Hosts Reset
   hosts: "{{ groups['installer'][0] }}"
   become: true
   become_method: sudo
   become_user: root
   gather_facts: true
-  tags: [reset, never]
+  tags: 
+   - reset
+   - never
   tasks:
     - name:  rm docker and kubectl
       ignore_errors: true
