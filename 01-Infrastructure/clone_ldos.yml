@@ -1,5 +1,6 @@
 ---
- - hosts: 
+ - hosts: "{{ groups['installer'][0] }}"
+   gather_facts: true
    tasks:
    - name: Clone a github repository
      git:
