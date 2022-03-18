@@ -17,23 +17,28 @@
   tasks:
     - name: Ping Nodes
       ping:
-      tags: ['info']
+      tags: 
+       - info
 
     - name: Update all packages
       yum:
        name: '*'
-      tags: [info, install] 
+      tags: 
+       - info
+       - install 
 
     # Checks for the logs directory
     - name: Check if 'logs' directory exists
       stat:
         path: "{{ logs_dir }}"
       register: logs
-      tags: [info] 
+      tags: 
+       - info 
 
     - debug: 
         msg: "logs directory exists: {{ logs.stat.exists }}"
-      tags: [info]           
+      tags: 
+       - info           
 
     # Create a log directory - if required
     - name: Creates 'logs' Directory
@@ -41,18 +46,22 @@
        path: "{{ logs_dir }}"
        state: directory
       when: logs.stat.exists == false
-      tags: [info, install]
+      tags: 
+       - info
+       - install
 
     # Check for Foundry directory
     - name: Check if the 'Foundry' directory exists
       stat:
         path: "{{ foundry_home }}"
       register: foundry
-      tags: [info]
+      tags: 
+       - info
 
     - debug: 
         msg: "foundry directory exists: {{ foundry.stat.exists }}"
-      tags: [info]
+      tags: 
+       - info
 
     # Creates Foundry install directory - if required
     - name: Creates 'Foundry' directory
@@ -60,32 +69,37 @@
         path: "{{ foundry_home }}"
         state: directory
       when: foundry.stat.exists == false
-      tags: [info]
+      tags: 
+       - info
 
     # Unarchive Foundry-Control-Plane-2.2.1.tgz
     - name: Unarchive {{ foundry_root }}.tgz
       unarchive:
         src: "{{ installer_home }}/{{ foundry_root }}.tgz"
         dest: "{{ foundry_home }}"
-      tags: [unpack] 
+      tags: 
+       - unpack 
 
     # Checks for the Metrics-addon-1.0.0. directory
     - name: Check for 'Metrics 1.0.0' directory
       stat:
         path: "{{ metrics_home }}"
       register: metrics
-      tags: [info] 
+      tags: 
+       - info 
 
     - debug: 
         msg: "metrics directory exists: {{ metrics.stat.exists }}"
-      tags: [info]     
+      tags: 
+       - info     
 
     # Unarchive Metrics-addon-1.0.0.
     - name: Unpack {{ metrics_root }}
       unarchive: 
         src: "{{ installer_home }}/{{ metrics_root }}.tgz"
         dest: "{{ installer_home }}"
-      tags: [unpack] 
+      tags: 
+       - unpack 
  
     # Foundry requires istio and cert-manager be installed
     - name: Install Cluster Services
@@ -96,7 +110,8 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install_cs]
+      tags: 
+       - install_cs
 
     # Install Hitachi Foundry CRDs
     - name: Run Custom Resource Definitions Script
@@ -107,7 +122,9 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, install_cs]
+      tags: 
+       - install
+       - install_cs
 
     # Install the Foundry Soluton Control Plane services
     - name: Install Foundry Solution Control Plane services
@@ -118,7 +135,9 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, install_cp]
+      tags: 
+       - install
+       - install_cp
 
     # Install CRDs
     - name: Install CRDs
@@ -129,7 +148,9 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, metrics]
+      tags: 
+       - install
+       - metrics
 
     # Upload Metrics addon
     - name: Upload Metrics Add-On Solution
@@ -140,15 +161,21 @@
       poll: 30
       register: ret
       failed_when: "ret.rc > 0 or 'no such file' in ret.stdout"
-      tags: [install, metrics]
+      tags: 
+       - install
+       - metrics
 
+    # Check hitachi-solutions pods
     - name: Confirm Foundry
       shell: "{{ item }}"
       with_items:
-        - "kubectl get all -n hitachi-solutions"
+        - "kubectl get pods -n hitachi-solutions"
       register: foundry_pods
-      tags: [install_cp, info]
+      tags: 
+      - install_cp
+      - info
 
+    # Foundry user password
     - name: Confirm Foundry User
       shell: echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
       register: foundry_pass
@@ -161,4 +188,6 @@
         - "          Logs can be found in {{ logs_dir }}"
         - "          URL: https://{{ apiserver_loadbalancer_domain_name }}/hitachi-solutions/hscp-hitachi-solutions/solution-control-plane/"
         - "          as foundry/{{ foundry_pass.stdout }}"
-      tags: [install_cp, info]
+      tags: 
+       - install_cp
+       - info
