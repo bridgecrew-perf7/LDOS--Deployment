@@ -92,14 +92,14 @@ systemctl restart docker
 
 <em>Run the playbook - pre-flight_foundry.yml</em>      
 This will update, install and configure the various required packages for the Foudry Platform.
-
-Before you run the playbook ensure that 
+ 
 
 ``run the playbook - pre-flight_foundry.yml:`` 
 ```
 cd /etc/ansible/playbooks
 ansible-playbook -i hosts-skytap.yml --extra-vars="@extra-vars.yml" -b -v pre-flight_foundry.yml
 ```
+Note: Run in OS Terminal. Do not run playbook in VSC Terminal. 
 
 ---
 
