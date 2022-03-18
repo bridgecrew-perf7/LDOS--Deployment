@@ -104,7 +104,7 @@
       shell: | 
         cp {{ env_file }} {{ logs_dir }}/{{ env_file | basename }}.{{ 10000 | random }}.bak
         sed -i 's|^hostname=*$|hostname={{ apiserver_loadbalancer_domain_name }}|1' {{ env_file }}
-        sed -i 's|^registry=*$|registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}|1' {{ env_file }}
+        sed -i 's|^registry=*$|registry={{ registry_domain }}:{{ registry_port }}|1' {{ env_file }}
         sed -i 's|^foundry_client_secret=*$|foundry_client_secret={{ scp_sso_client_secret.stdout }}|1' {{ env_file }}
         sed -i 's|^username=*$|username=foundry|1' {{ env_file }}
         sed -i 's|^password=*$|password={{ foundry.stdout }}|1' {{ env_file }}

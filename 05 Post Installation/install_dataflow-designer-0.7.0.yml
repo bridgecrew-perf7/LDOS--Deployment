@@ -69,19 +69,27 @@
       tags: 
         - env
     
-    # Replace the variables in env.properties
-    - name: Replace variables in {{ env_file }} before install
+    # Backup env.properties
+    - name: Backup env.properties
       shell: | 
-        cp {{ env_file }} {{ logs_dir }}/{{ env_file | basename }}.{{ 10000 | random }}.bak
-        sed -i 's|^hostname=*$|hostname={{ apiserver_loadbalancer_domain_name }}|1' {{ env_file }}
-        sed -i 's|^registry=*$|registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}|1' {{ env_file }}
-        sed -i 's|^foundry_client_secret=*$|foundry_client_secret={{ scp_sso_client_secret.stdout }}|1' {{ env_file }}
-        sed -i 's|^username=*$|username=foundry|1' {{ env_file }}
-        sed -i 's|^password=*$|password={{ foundry.stdout }}|1' {{ env_file }}
-        sed -i 's|^volume_host=*$|volume_host={{ nfs_host }}|1' {{ env_file }}
-        sed -i 's|^volume_path=*$|volume_path={{ nfs_path }}|1' {{ env_file }}
-      tags: 
-        - env
+        cp {{ env_properties_file }} {{ logs_dir }}/{{ env_properties_file | basename }}.{{ 10000 | random }}.bak  
+    
+    # Replace the variables in env.properties
+    - name: Replace key=value pairs in env.properties file, add new values after the hostname line
+      lineinfile:
+        path: "{{ env_properties_file }}"
+        regexp: '^[# ]*{{ item.search }}\s*=\s*'
+        line: '{{ item.replace }}'
+        insertafter: '^[# ]*hostname\s*=\s*'
+        backup: yes
+      with_items:
+        - { search: 'hostname', replace: 'hostname={{ apiserver_loadbalancer_domain_name }}' }
+        - { search: 'registry', replace: 'registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}' }
+        - { search: 'username', replace: 'username=foundry' }
+        - { search: 'foundry_client_secret', replace: 'foundry_client_secret={{ foundry_client_secret }}' }
+        - { search: 'password', replace: 'password={{ foundry_user_password.stout }}' }
+        - { search: 'volume_host', replace: 'volume_host={{ nfs_host }}' }
+        - { search: 'volume_path', replace: 'volume_path={{ nfs_path }}' }
 
     # Upload Dataflow Designer 0.7.0 solutions to Registry.
     - name: Upload dataflow designer-0.7.0 to Registry

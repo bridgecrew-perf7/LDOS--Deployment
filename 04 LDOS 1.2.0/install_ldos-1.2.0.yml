@@ -133,7 +133,7 @@
         backup: yes
       with_items:
         - { search: 'hostname', replace: 'hostname={{ apiserver_loadbalancer_domain_name }}' }
-        - { search: 'registry', replace: 'registry={{ master_node_for_registry }}:{{ master_node_for_registry_port }}' }
+        - { search: 'registry', replace: 'registry={{ registry_domain }}:{{ registry_port }}' }
         - { search: 'username', replace: 'username=foundry' }
         - { search: 'foundry_client_secret', replace: 'foundry_client_secret={{ foundry_client_secret }}' }
         - { search: 'password', replace: 'password={{ foundry_user_password.stout }}' }

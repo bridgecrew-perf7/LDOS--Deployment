@@ -9,31 +9,36 @@
   tasks:
     - name: Install NFS
       shell: yum install -y nfs-utils
-      tags: [ 'install' ]
+      tags: 
+       - install
 
     - name: Create /etc/exports file for {{ nfs_path }}
       shell: |
         mkdir -p {{ nfs_path }};
         touch {{ nfs_path }}/kettle.properties
         echo "{{ nfs_path }} *(rw,sync,no_subtree_check,insecure)" >> /etc/exports 
-      tags: [ 'install' ]
+      tags: 
+       - install
 
     - name: Start nfs 
       shell: |
         systemctl enable nfs-server;
         systemctl start nfs-server;
         exportfs -a;
-      tags: [ 'install' ]
-       
+      tags: 
+       - install
+
     - name: Check nfs mounts
       shell: "showmount -e {{ groups['nfs_host'][0] }}"
       register: mounts
-      tags: [ 'install' ]
+      tags: 
+       - install
    
     - name: Showmounts
       debug:
         msg: "{{ mounts.stdout }}"
-      tags: [ 'install' ]
+      tags: 
+       - install
       
 - name: Configure NFS export from installer (repeat from install as doublecheck)
   become: true
@@ -45,14 +50,17 @@
   tasks:
     - name: Install NFS
       shell: yum install -y nfs-utils
-      tags: [ 'install' ]
+      tags: 
+       - install
 
     - name: Check nfs mounts
       shell: "showmount -e {{ groups['nfs_host'][0] }}"
       register: mounts
-      tags: [ 'install' ]
+      tags: 
+       - install
    
     - name: Showmounts
       debug:
         msg: "{{ mounts.stdout }}"
-      tags: [ 'install' ]
+      tags:
+       - install

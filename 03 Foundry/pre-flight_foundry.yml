@@ -329,7 +329,7 @@
             - "or execute the command: sudo su - installer"
             - "then re-run adding the optional tag '-t continue'.  This will pick up the installation at 'Configure Regsitry'."  
         failed_when: '"(docker)" not in output.stdout_lines|string'
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+      when: '"{{ registry_domain }}" == "{{ groups[''installer''][0] }}"'
 
 - name: Configure Registry
   hosts: "{{ groups['installer'][0] }}"
@@ -391,7 +391,7 @@
           docker info | grep -i -a1 Insecure 
         register: docker_insecure
         failed_when: '"{{ groups[''installer''][0] }}" not in docker_insecure.stdout'
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+      when: '"{{ registry_domain }}" == "{{ groups[''installer''][0] }}"'
 
 # Switch to Nodes
 # Allow the nodes of the cluster to access the regsitry by certificate
@@ -415,7 +415,7 @@
 
       - name: Set ownership of cluster Docker cert directory to 'installer'
         shell: "chown -R {{ ansible_user }}:{{ ansible_user }} /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+      when: '"{{ registry_domain }}" == "{{ groups[''installer''][0] }}"'
 
 - name: Copy Docker cert from installer node to cluster
   become: false
@@ -449,7 +449,7 @@
       - name: Show filepath for new docker cert
         debug:
           msg: "{{ cert_path.stdout_lines }}"
-      when: '"{{ master_node_for_registry }}" == "{{ groups[''installer''][0] }}"'
+      when: '"{{ registry_domain }}" == "{{ groups[''installer''][0] }}"'
 
 - name: Install Storage Class - if required
   hosts: "{{ groups['installer'][0] }}"
