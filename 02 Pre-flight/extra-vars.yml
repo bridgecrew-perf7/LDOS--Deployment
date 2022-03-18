@@ -35,7 +35,7 @@ bin_ansible_callbacks: True
 #        not be accessible from the other nodes, or the UI.
 registry_domain: installer.skytap.example
 
-# master_node_for_registry: {{ groups['kube-master'][0] }}
+# Docker Registry port
 registry_port: 5000
 
 # external load balancer for k8s masters

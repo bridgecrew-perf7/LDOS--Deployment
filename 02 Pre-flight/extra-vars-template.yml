@@ -33,9 +33,10 @@ bin_ansible_callbacks: True
 #        This oftem means the cerificate must be created with the external DNS name.
 #        For example, "localhost" will install fine from the master node, but will
 #        not be accessible from the other nodes, or the UI.
-master_node_for_registry: PLACEHOLDER_INSTALLER_NODE_HOSTNAME
-# master_node_for_registry: {{ groups['kube-master'][0] }}
-master_node_for_registry_port: 5000
+registry_domain: PLACEHOLDER_INSTALLER_NODE_HOSTNAME
+
+# Docker Regsitry port
+registry_port: 5000
 
 # external load balancer for k8s masters
 apiserver_loadbalancer_domain_name: "PLACEHOLDER_CLUSTER_NODE_HOSTNAME"
