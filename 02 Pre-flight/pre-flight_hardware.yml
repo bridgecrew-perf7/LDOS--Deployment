@@ -13,23 +13,14 @@
     change_dns: true
     dns_server: 10.0.0.254 # SkyTap DNS
     packages:  # Kubespray requirements.txt
-      - apparmor
-      - aptitude
-      - apt-transport-https
-      - apt-utils
-      - aufs-tools
       - bash-completion
       - ca-certificates
       - conntrack
       - curl
-      - gnupg-agent
-      - libseccomp2
       - lvm2
       - net-tools
-      - python3-apt
       - python3-pip
       - python3-setuptools
-      - software-properties-common
       - wget
 
     ansible_python_interpreter: /usr/bin/python2
@@ -57,7 +48,7 @@
 
    # Install Commmon Packages
    - name: Install Common Packages
-     apt:
+     yum:
       name: "{{ packages }}"
       state: latest
       update_cache: yes
