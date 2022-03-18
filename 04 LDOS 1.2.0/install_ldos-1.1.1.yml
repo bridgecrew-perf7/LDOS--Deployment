@@ -12,12 +12,14 @@
     - name: Yum install nfs-utils
       raw: yum install -y nfs-utils
       when: ansible_distribution == "CentOS"
-      tags: [ prereq ]
+      tags: 
+       - prereq
 
     - name: apt install nfs-common
       raw: apt install -y nfs-common
       when: ansible_distribution == "Ubuntu"
-      tags: [ prereq ]
+      tags: 
+       - prereq
 
 - name: Install LDOS over running Foundry cluster
   become: false
@@ -38,11 +40,13 @@
       stat:
         path: "{{ logs_dir }}"
       register: logs
-      tags: [info] 
+      tags: 
+       - info 
 
     - debug: 
         msg: "logs directory exists: {{ logs.stat.exists }}"
-      tags: [info]           
+      tags: 
+       - info           
 
     # Create a logs directory - if required
     - name: Creates 'logs' Directory
@@ -50,18 +54,22 @@
        path: "{{ logs_dir }}"
        state: directory
       when: logs.stat.exists == false
-      tags: [info, install]
+      tags: 
+       - info
+       - install
     
     # Check for LDOS 1.1.1 directory
     - name: Check for 'LDOS 1.1.1' directory exists
       stat:
         path: "{{ ldos_home }}"
       register: ldos
-      tags: [info]
+      tags: 
+       - info
 
     - debug: 
         msg: "LDOS 1.1.1 directory exists: {{ ldos.stat.exists }}"
-      tags: [info]
+      tags: 
+       - info
 
     # Creates LDOS 1.1.1 install directory - if required
     - name: Creates 'LDOS 1.1.1' directory
@@ -69,7 +77,8 @@
         path: "{{ ldos_home }}"
         state: directory
       when: ldos.stat.exists == false
-      tags: [info]
+      tags: 
+       - info
 
     # Unarchive Lumada-DataOps_suite-1.1.1.gz
     - name: Unarchive {{ ldos_archive }}
@@ -77,7 +86,8 @@
         src: "{{ ldos_home }}/{{ ldos_archive }}"
         dest: "{{ ldos_home }}"
         creates: "{{ ldos_home }}/lumada-dataops-suite"
-      tags: [unpack]  
+      tags: 
+       - unpack  
 
     # Unarchive Lumada-DataOps-Suite-Installer-1.1.1.zip
     - name: Unarchive {{ installer_archive }}
@@ -100,7 +110,7 @@
       tags: [env]
     
     # Replace the variables in env.properties
-    - name: Replace variables in {{ env_file }} before install
+    - name: Replace variables in {{ env_properties_file }} before install
       shell: | 
         cp {{ env_file }} {{ logs_dir }}/{{ env_file | basename }}.{{ 10000 | random }}.bak
         sed -i 's|^hostname=*$|hostname={{ apiserver_loadbalancer_domain_name }}|1' {{ env_file }}
