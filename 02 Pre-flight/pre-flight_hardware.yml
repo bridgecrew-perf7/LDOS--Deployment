@@ -12,27 +12,63 @@
     ansible_user: k8s
     change_dns: true
     dns_server: 10.0.0.254 # SkyTap DNS
+    packages:  # Kubespray requirements.txt
+      - apparmor
+      - aptitude
+      - apt-transport-https
+      - apt-utils
+      - aufs-tools
+      - bash-completion
+      - ca-certificates
+      - conntrack
+      - curl
+      - gnupg-agent
+      - libseccomp2
+      - lvm2
+      - net-tools
+      - python3-apt
+      - python3-pip
+      - python3-setuptools
+      - software-properties-common
+      - wget
+
     ansible_python_interpreter: /usr/bin/python
  
   tasks:
-  # Ping Nodes
+   # Ping Nodes
    - name: Ping Nodes
      ping:
-     tags: [info]
+     tags: 
+       - info
+   
+   # Update Packages
+   - name: Update apt repo and cache on Cluster Nodes
+     apt: 
+      update_cache=yes 
+      force_apt_get=yes 
+      cache_valid_time=3600
+     tags: 
+       - updates
 
-  # Update packages
-   - name: Update all packages
-     yum:
-       name: '*'
-     tags: [install]  
+   # Upgrade Packages
+   - name: Upgrade all packages on Cluster Nodes
+     apt: 
+      upgrade=dist 
+      force_apt_get=yes
+     tags: 
+       - updates
+  
+   # Check if reboot is required
+   - name: Check if a reboot is needed on all servers
+     register: reboot_required_file
+     stat: path=/var/run/reboot-required get_md5=no  
 
-  # Install Utils
+   # Install Commmon Packages
    - name: Install Common Packages
-     package:
-      name: [net-tools,bash-completion,wget,curl,yum-utils,lvm2,device-mapper-persistent-data]
-      state: present
-     ignore_errors: True
-     tags: [install]
+     apt:
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
 
    # Selinux must be forced to Python2 it does not work in Python3 state: latest
    - name: Disable SELinux
@@ -49,32 +85,10 @@
        - "Reboot? => {{ selinux_status.reboot_required }}"
      tags: [selinux]
    
-   # Not really required as tasks carried out by Kubespray
-   - name: Disable SWAP (1/2)
-     shell: |
-      swapoff -a
-
-   - name: Disable SWAP in fstab (2/2)
-     replace:
-        path: /etc/fstab
-        regexp: '^([^#].*?\sswap\s+.*)$'
-        replace: '# \1'
-
    # easy option :)  Otherwise open Master / Worker ports for network - Calico 
    - name: Turn off firewall for kubernetes Install
      command: systemctl disable firewalld
 
-   # Uncomment if you havent manually edited
-   #- replace: wheel group no password
-   #   path: /etc/sudoers
-   #   regexp: '^#\s*%wheel\s*ALL=\(ALL\)\s*NOPASSWD:\s*ALL$'
-   #   replace: '%wheel        ALL=(ALL)       NOPASSWD: ALL'
-
-   #- replace: wheel group all commands
-   #  path: /etc/sudoers
-   #   regexp: '^%wheel\s*ALL=\(ALL\)\s*ALL$'
-   #   replace: '# %wheel  ALL=(ALL)       ALL'
-   
    # Writes out Hostnames to act as local DNS -  not really required as there's SkyTap DNS
    - lineinfile:
       path: /etc/sysconfig/network
