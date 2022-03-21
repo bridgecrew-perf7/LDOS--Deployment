@@ -50,7 +50,7 @@
        - info           
 
     # Create a logs directory - if required
-    - name: Creates 'logs' Directory
+    - name: Create 'logs' Directory
       file:
        path: "{{ logs_dir }}"
        state: directory
@@ -73,7 +73,7 @@
        - info
 
     # Creates LDOS 1.2.0 install directory - if required
-    - name: Creates 'LDOS 1.2.0' directory
+    - name: Create 'LDOS 1.2.0' directory
       file:
         path: "{{ ldos_home }}"
         state: directory
@@ -118,11 +118,6 @@
       tags: 
        - env
 
-    # Backup env.properties
-    - name: Backup env.properties
-      shell: | 
-        cp {{ env_properties_file }} {{ logs_dir }}/{{ env_properties_file | basename }}.{{ 10000 | random }}.bak  
-    
     # Replace the variables in env.properties
     - name: Replace key=value pairs in env.properties file, add new values after the hostname line
       lineinfile:
