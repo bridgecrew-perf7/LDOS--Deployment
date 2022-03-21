@@ -103,8 +103,8 @@
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
       register: foundry_client_secret
 
-      debug:
-        msg: Foundry Client Secret is {{ foundry_client_secret }}
+    - debug:
+        msg: Foundry User Password is {{ foundry_user_password }}
       tags: 
        - env
 
@@ -113,7 +113,7 @@
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
       register: foundry_user_password
 
-      debug:
+    - debug:
         msg: Foundry User Password is {{ foundry_user_password }}
       tags: 
        - env
