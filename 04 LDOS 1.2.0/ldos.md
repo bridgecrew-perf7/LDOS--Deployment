@@ -73,9 +73,9 @@ kubectl get namespaces -o wide (alias: kgno -o wide)
 kubectl get pods -n hitachi-solutions -o wide (alias: kgpo -n hitachi-solutions -o wide)
 ```
 
-<font color='teal'>Please ensure that the licenses have been installed and configured</font> <font color='red'>before</font><font color='teal'> you install LDOS.</font>  
+<font color='teal'>Please ensure that the Pentaho EE license has been copied into the correct mount path</font> <font color='red'>before</font><font color='teal'> you install LDOS.</font>  
 
-Data Integration:
+Pentaho EE License path: /data/pdi/licenses/.installedLicenses.xml on Pentaho server.
 
 ---
 
