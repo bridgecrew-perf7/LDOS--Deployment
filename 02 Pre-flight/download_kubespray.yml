@@ -81,7 +81,7 @@
     - name: Copy extra-vars.yml
       copy:
         src: "extra-vars.yml"
-        dest: "{{ installer_home }}/{{release}}/extra-vars.yml"
+        dest: "{{ installer_home }}/{{ release }}/extra-vars.yml"
       tags: 
        - install
 
@@ -89,22 +89,22 @@
     - name: Copy hosts-skytap.yml
       copy:
         src: "hosts-skytap.yml"
-        dest: "{{ installer_home }}/{{release}}/hosts-skytap.yml"
+        dest: "{{ installer_home }}/{{ release }}/hosts-skytap.yml"
       tags:
        - install
 
     - debug: 
-        msg: "Config files copied over: {{release}}"
+        msg: "Config files copied over: {{ release }}"
       tags: 
        - install
       
     # Run the kubespray playbook on the hosts
-    # - include: "{{ installer_home }}/{{release}}/cluster.yml"
+    # - include: "{{ installer_home }}/{{ release }}/cluster.yml"
 
     - debug:
         msg:
-          - "kubespray is available in {{ installer_home }}/{{release}}"
-          - "cd {{ installer_home }}/{{release}}"
+          - "kubespray is available in {{ installer_home }}/{{ release }}"
+          - "cd {{ installer_home }}/{{ release }}"
           - "ansible-playbook -b -v -i hosts-skytap.yml --extra-vars='@extra-vars.yml' cluster.yml"
       when: kubespray.stat.exists == false
       tags: 
