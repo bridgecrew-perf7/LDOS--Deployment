@@ -105,7 +105,7 @@
     - name: Install Cluster Services
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/install-cluster-services.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true 2>&1 | tee -a {{ logs_dir }}/install-cluster-services.log
+        cmd: ./bin/install-cluster-services.sh -I -r {{ registry_domain }}:{{ registry_port }} -D true 2>&1 | tee -a {{ logs_dir }}/install-cluster-services.log
       async: 2500
       poll: 30
       register: ret
@@ -117,7 +117,7 @@
     - name: Run Custom Resource Definitions Script
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/apply-crds.sh -e -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} --insecure -D true 2>&1 | tee -a {{ logs_dir }}/apply-crds.log
+        cmd: ./bin/apply-crds.sh -e -r {{ registry_domain }}:{{ registry_port }} --insecure -D true 2>&1 | tee -a {{ logs_dir }}/apply-crds.log
       async: 2500
       poll: 30
       register: ret
@@ -130,7 +130,7 @@
     - name: Install Foundry Solution Control Plane services
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/install-control-plane.sh -I -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/install-control-plane-2.2.1.log
+        cmd: ./bin/install-control-plane.sh -I -r {{ registry_domain }}:{{ registry_port }} -D true -c https://{{ apiserver_loadbalancer_domain_name }} 2>&1 | tee -a {{ logs_dir }}/install-control-plane-2.2.1.log
       async: 2500
       poll: 30
       register: ret
@@ -143,7 +143,7 @@
     - name: Install CRDs
       shell: 
         chdir: "{{ foundry_home }}"
-        cmd: ./bin/apply-crds.sh -r {{ master_node_for_registry }}:{{ master_node_for_registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ logs_dir }}/install-crds.log
+        cmd: ./bin/apply-crds.sh -r {{ registry_domain }}:{{ registry_port }} -C {{ metrics_home }}/crd-charts/ -k ~/.kube/config --insecure -x -D true 2>&1 | tee -a {{ logs_dir }}/install-crds.log
       async: 2500
       poll: 30
       register: ret
