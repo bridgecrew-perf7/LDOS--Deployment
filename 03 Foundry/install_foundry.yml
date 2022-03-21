@@ -41,7 +41,7 @@
        - info           
 
     # Create a log directory - if required
-    - name: Creates 'logs' Directory
+    - name: Create 'logs' Directory
       file:
        path: "{{ logs_dir }}"
        state: directory
@@ -63,8 +63,8 @@
       tags: 
        - info
 
-    # Creates Foundry install directory - if required
-    - name: Creates 'Foundry' directory
+    # Create Foundry install directory - if required
+    - name: Create 'Foundry' directory
       file:
         path: "{{ foundry_home }}"
         state: directory
