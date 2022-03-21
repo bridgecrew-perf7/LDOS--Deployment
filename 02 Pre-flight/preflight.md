@@ -13,7 +13,6 @@ The following playbooks are run:
 * Update packages
 * Install common packages
 * Disable SELinux
-* Disable SWAP
 * Turn off firewall
 * Set hostname
 * Reboot Nodes
