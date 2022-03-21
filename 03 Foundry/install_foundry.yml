@@ -179,7 +179,9 @@
     - name: Confirm Foundry User
       shell: echo $(kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath="{.spec.user.credentials[0].value}")
       register: foundry_pass
-      tags: [install_cp, info]
+      tags: 
+        - install_cp
+        - info
 
     - name: Foundry URLs
       debug:
