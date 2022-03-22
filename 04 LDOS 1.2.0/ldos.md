@@ -204,7 +204,7 @@ In version 1.6+, you can opt out of automounting API credentials for a service a
 
 Solution: 
 * open:  /lumada-dataops-suite/charts/data-transformation-editor-0.9.5.tgz
-* edit templates/RBAC.yml - <font color='teal'>automountServiceAccountToken: true </font>  
+* edit templates/RBAC.yml - <font color='teal'>automountServiceAccountToken:</font> <font color='green'>true </font>  
 * uninstall current data-transformation-editor
 * re-run playbook
 
