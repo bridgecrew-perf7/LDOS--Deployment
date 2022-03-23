@@ -136,8 +136,8 @@ The install-ldos-1.2.0.yml playbook performs the following tasks.
     |Variable|Value|From|
     |-|-|-|
     | hostname|{{ apiserver_loadbalancer_domain_name }}|                            from extra-vars.yml|
-    | registry|{{ master_node_for_registry }}:{{ master_node_for_registry_port }}|  from extra-vars.yml|
-    | foundry_client_secret|{{ scp_client_secret }}    |                            extracted from the installation|
+    | registry|{{ registry_domain }}:{{ registry_port }}|  from extra-vars.yml|
+    | foundry_client_secret|{{ client_secret }}        |                            extracted from the installation|
     | username|foundry                                 |                            hardcoded|
     | password|{{ foundry_password }}                  |                            extracted from the installation|
     | volume_host|{{ nfs_host }}                       |                            from extra-vars.yml|
