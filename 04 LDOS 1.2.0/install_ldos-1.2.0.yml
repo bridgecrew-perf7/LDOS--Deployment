@@ -101,17 +101,23 @@
     # Get Foundry secret
     - name: Get secret for solution-control-plane-sso-client
       shell: 'kubectl get secrets keycloak-client-secret-solution-control-plane-sso-client -n hitachi-solutions --template=\{\{.data.CLIENT_SECRET\}\} | base64 --decode'
-      register: foundry_client_secret
+      register: foundry_client_secret_obj
+
+    - set_fact:
+        foundry_client_secret={{ foundry_client_secret_obj.stdout_lines[0] }}  
 
     - debug:
-        msg: Foundry User Password is {{ foundry_user_password }}
+        msg: Foundry Client Secret is {{ foundry_client_secret }}
       tags: 
        - env
 
     # Get the 'foundry' password 
     - name: get foundry password
       shell: "kubectl get keycloakusers -n hitachi-solutions keycloak-user -o jsonpath='{.spec.user.credentials[0].value}'"
-      register: foundry_user_password
+      register: foundry_user_password_obj
+
+    - set_fact:
+        foundry_user_password={{ foundry_user_password_obj.stdout_lines[0] }}  
 
     - debug:
         msg: Foundry User Password is {{ foundry_user_password }}
@@ -131,7 +137,7 @@
         - { search: 'registry', replace: 'registry={{ registry_domain }}:{{ registry_port }}' }
         - { search: 'username', replace: 'username=foundry' }
         - { search: 'foundry_client_secret', replace: 'foundry_client_secret={{ foundry_client_secret }}' }
-        - { search: 'password', replace: 'password={{ foundry_user_password.stout }}' }
+        - { search: 'password', replace: 'password={{ foundry_user_password }}' }
         - { search: 'volume_host', replace: 'volume_host={{ nfs_host }}' }
         - { search: 'volume_path', replace: 'volume_path={{ nfs_path }}' }
 
