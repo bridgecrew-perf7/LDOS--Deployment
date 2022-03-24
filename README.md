@@ -41,4 +41,14 @@ DataOps unlocks business value by operationalizing data management with automati
 * Kubernetes Dashboard
 
 
-<font color='teal'>For the latest updates execute the following script: ~/Latest Workshop ./clone_latest_workshop.sh </font>
+<font color='teal'>For the latest updates execute the following script: ~/Latest--Workshop ./clone_latest_workshop.sh </font>
+
+#### <em> Changelog </em>
+
+| Artifact                   | Date     |  
+| ---------------------------| ---------| 
+| Added Licenses             | 25/02/22 | 
+| Visualizations             | 25/02/22 |     
+| Dataflow Designer Playbook | 11/03/22 | 
+| GitHub clone script        | 22/03/22 |                           |          | 
+|
