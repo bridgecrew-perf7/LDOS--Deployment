@@ -1,6 +1,9 @@
 ## <font color='red'>Lumada DataOps Suite 1.2.0</font>  
 
-
+DataOps unlocks business value by operationalizing data management with automation and collaboration. Lumada DataOps helps you build your DataOps practice for more business agility with an intelligent data operations platform.
+* Drive actionable insights faster with Lumada DataOps: Fully automate scaling your data operations for increased agility and lower cost for automated data integration.
+* Accelerate business innovation with Lumada DataOps: Increase flexibility, reduce risk, and speed time to value for managing data on premises and across multiple clouds.
+* Drive data analytics modernization with Lumada DataOps: Empower your business with self-service access, low-code blending, and publishing to accelerate innovation.
 
 #### <font color='red'>Module 01 - Introduction</font>
 * Brief overview
@@ -38,3 +41,4 @@
 * Kubernetes Dashboard
 
 
+<font color='teal'>For the latest updates execute the following script: ~/Latest Workshop ./clone_latest_workshop.sh </font>
