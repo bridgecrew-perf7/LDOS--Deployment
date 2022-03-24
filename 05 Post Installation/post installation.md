@@ -81,7 +81,7 @@ password: mpayton
 
 #### <font color='red'>Installation of Dataflow Designer - 0.7.0</font> 
 
-The Dataflow Designer is a variant of Node-RED, built on top of Node.js.  With Dataflow Designer you can add or remove Nodes, wire them together, in order to define Flows.  
+The Dataflow Designer is a variant of Node-RED, a powerful tool for building Internet of Things (IoT) applications with a focus on simplifying the ‘wiring together’ of code blocks to carry out tasks. It uses a visual programming approach that allows developers to connect predefined code blocks, known as ‘nodes’, together to perform a task. The connected nodes, usually a combination of input nodes, processing nodes and output nodes, when wired together, make up a ‘flows’. 
 
 ``run the playbook - install_dataflow-designer-0.7.0.yml:``
 ```

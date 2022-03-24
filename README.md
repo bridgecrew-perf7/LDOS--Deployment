@@ -1,6 +1,6 @@
 ## <font color='red'>Lumada DataOps Suite 1.2.0</font>  
 
-Node-RED is a powerful tool for building Internet of Things (IoT) applications with a focus on simplifying the ‘wiring together’ of code blocks to carry out tasks. It uses a visual programming approach that allows developers to connect predefined code blocks, known as ‘nodes’, together to perform a task. The connected nodes, usually a combination of input nodes, processing nodes and output nodes, when wired together, make up a ‘flows’.
+
 
 #### <font color='red'>Module 01 - Introduction</font>
 * Brief overview
@@ -36,3 +36,5 @@ Node-RED is a powerful tool for building Internet of Things (IoT) applications w
 * ElasticSearch & Kibana 
 * Jaeger
 * Kubernetes Dashboard
+
+
