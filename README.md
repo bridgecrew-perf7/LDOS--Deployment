@@ -48,7 +48,6 @@ DataOps unlocks business value by operationalizing data management with automati
 | Artifact                   | Date     |  
 | ---------------------------| ---------| 
 | Added Licenses             | 25/02/22 | 
-| Visualizations             | 25/02/22 |     
 | Dataflow Designer Playbook | 11/03/22 | 
-| GitHub clone script        | 22/03/22 |                           |          | 
+| GitHub clone script        | 22/03/22 |               
 |
