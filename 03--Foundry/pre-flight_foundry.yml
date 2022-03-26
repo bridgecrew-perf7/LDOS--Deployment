@@ -198,6 +198,7 @@
         path: ~/.kube
         state: directory
 
+    # Copy over Kube/config to home/installer
     - name: Copy config from root to home
       shell: "cp {{ local_home.stdout }}/.kube/config ~/.kube"
 
@@ -221,7 +222,6 @@
     - name: Show output from command --> kubectl get pods -n kube-system
       debug:
         msg: "{{ pods.stdout_lines }}"
-
 
 # Install Docker locally
 # Best practice not to run Docker as root, so 'installer' is added to docker group
