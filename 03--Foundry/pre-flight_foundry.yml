@@ -410,7 +410,7 @@
 
   tasks:
     - block:
-      - name: Create Docker cert directory on cluster
+      - name: Create Docker cert directory on Docker Registry server - Ansible Controller
         shell: "mkdir -p /etc/docker/certs.d/{{ groups['installer'][0] }}:5000"
 
       - name: Set ownership of cluster Docker cert directory to 'installer'
